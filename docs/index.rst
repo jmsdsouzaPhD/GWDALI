@@ -116,7 +116,7 @@ API
 
 	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD']. To use the approximants 'TaylorF2_lal', 'IMRPhenomP' or 'IMRPhenomD' you need to have installed the `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
 	:param dali_method: DALI method ['Fisher_Sampling', 'Doublet', 'Triplet'] or only 'Fisher' for a simple numerical matrix inversion.
-	:param sampler_method: Method used for DALI (the same ones available in `bilby <https://lscsoft.docs.ligo.org/bilby/>`_ package)
+	:param sampler_method: Method used for DALI (the same ones available in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_)
 	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where <index> is the integer argument bellow
 	:param save_cov: Save the Covariance Matrix in a file named 'Covariance_<index>.txt'
 	:param plot_corner: Make a corner plot when using DALI methods.
@@ -171,7 +171,7 @@ Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matri
 About the Author
 =================================
 
-* `**Josiel Mendonça Soares de Souza** <https://github.com/jmsdsouzaPhD>`_
+* **`Josiel Mendonça Soares de Souza <https://github.com/jmsdsouzaPhD>`_**
 	* PhD in Physics by Universidade Federal do Rio Grande do Norte, Brazil
 	* Research Field: Gravitation, Cosmology and Gravitational Waves
 
