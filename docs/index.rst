@@ -136,13 +136,20 @@ API
 	:type r_cond: float
 	:type npoints: int
 
-	:return: Return a Dictionary with the following keys::
+	:return: Return a Dictionary with the following keys
+
 		- ``Samples``: array_like with shape (len(FreeParams) , number of samples points)
+	
 		- ``Fisher``: array_like with shape (len(FreeParams),len(FreeParams))
+	
 		- ``CovFisher``: array_like with shape (len(FreeParams),len(FreeParams))
+	
 		- ``Covariance``: array_like with shape (len(FreeParams),len(FreeParams))
+	
 		- ``Recovery``: list of recovered parameters (when using DALI methods)
+	
 		- ``Error``: list of uncertainties parameters (CL=60%)
+	
 		- ``SNR``: value of the GW source signal to noise ratio (float)
 
 =================================  
@@ -166,7 +173,7 @@ About the Author
 Collaborator:
 
 * **Riccardo Sturani**
-	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade do Estado de São Paulo (UNESP)
+	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade Estadual Paulista (UNESP), Brazil
 
 
 =================================
