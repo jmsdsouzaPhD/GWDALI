@@ -153,7 +153,7 @@ API
 	
 		- ``Recovery``: list of recovered parameters (when using DALI methods)
 	
-		- ``Error``: list of uncertainties parameters (Confidence Level = 60%)
+		- ``Error``: list of parameters uncertainties (Confidence Level = 60%)
 	
 		- ``SNR``: value of the GW source signal to noise ratio (float)
 
