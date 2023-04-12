@@ -2,7 +2,7 @@
 GWDALI Software
 =================================
 
-A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix, *Finn & Chernoff (1993)*. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the ``Derivative Approximation for Likelihoods`` algorithm proposed in *Sellentin, Quartin & Amendola (2014)* and applied to gravitational waves in *Wang, Zhao & Shao (2022)* whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
+A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix, *Finn & Chernoff (1993)*. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the **Derivative Approximation for Likelihoods** algorithm proposed in *Sellentin, Quartin & Amendola (2014)* and applied to gravitational waves in *Wang, Zhao & Shao (2022)* whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 
 Installation
 ---------
@@ -159,9 +159,15 @@ Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matri
 About the Author
 =================================
 
-- Josiel Mendonça Soares de Souza (https://github.com/jmsdsouzaPhD)
-- PhD in Physics by Universidade Federal do Rio Grande do Norte, Brazil
-- Research Field: Gravitation, Cosmology and Gravitational Waves
+* **Josiel Mendonça Soares de Souza** (https://github.com/jmsdsouzaPhD)
+	* PhD in Physics by Universidade Federal do Rio Grande do Norte, Brazil
+	* Research Field: Gravitation, Cosmology and Gravitational Waves
+
+Collaborator:
+
+* **Riccardo Sturani**
+	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade do Estado de São Paulo (UNESP)
+
 
 =================================
 License
