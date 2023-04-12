@@ -124,17 +124,26 @@ API
 	:type Detection_Dict: dict
 	:type FreeParams: list
 	:type detectors: list
-	:type approximant: string
-	:type dali_method: string
-	:type sampler_method: string
-	:type save_fisher: boolean
-	:type save_cov: boolean
-	:type plot_corner: boolean
-	:type save_samples: boolean
-	:type hide_info: boolean
-	:type index: integer
+	:type approximant: str
+	:type dali_method: str
+	:type sampler_method: str
+	:type save_fisher: bool
+	:type save_cov: bool
+	:type plot_corner: bool
+	:type save_samples: bool
+	:type hide_info: bool
+	:type index: int
 	:type r_cond: float
-	:type npoints: integer
+	:type npoints: int
+
+	:return: Return a Dictionary with the following keys::
+		- ``Samples``: array_like with shape (len(FreeParams) , number of samples points)
+		- ``Fisher``: array_like with shape (len(FreeParams),len(FreeParams))
+		- ``CovFisher``: array_like with shape (len(FreeParams),len(FreeParams))
+		- ``Covariance``: array_like with shape (len(FreeParams),len(FreeParams))
+		- ``Recovery``: list of recovered parameters (when using DALI methods)
+		- ``Error``: list of uncertainties parameters (CL=60%)
+		- ``SNR``: value of the GW source signal to noise ratio (float)
 
 =================================  
 References
