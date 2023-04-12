@@ -171,7 +171,7 @@ Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matri
 About the Author
 =================================
 
-* **`Josiel Mendonça Soares de Souza <https://github.com/jmsdsouzaPhD>`_**
+* **Josiel Mendonça Soares de Souza** (`github profile <https://github.com/jmsdsouzaPhD>`_)
 	* PhD in Physics by Universidade Federal do Rio Grande do Norte, Brazil
 	* Research Field: Gravitation, Cosmology and Gravitational Waves
 
