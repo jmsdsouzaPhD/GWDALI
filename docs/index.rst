@@ -2,7 +2,7 @@
 GWDALI Software
 =================================
 
-A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix :ref:`refs` [1]. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the **Derivative Approximation for Likelihoods** algorithm proposed in :ref:`[2]` and applied to gravitational waves in :ref:`[3]` whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
+A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[1]**. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the **Derivative Approximation for Likelihoods** algorithm proposed in **[2]** and applied to gravitational waves in **[3]** whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 
 Installation
 ---------
@@ -157,16 +157,15 @@ API
 	
 		- ``SNR``: value of the GW source signal to noise ratio (float)
 
-.. _refs:
 =================================  
 References
 =================================
 
-	[1] L. S. Finn and D. F. Chernoff, “Observing binary inspiral in gravitational radiation: One interferometer,” Phys. Rev. D, vol. 47, pp. 2198–2219, 1993.
+	**[1]** L. S. Finn and D. F. Chernoff, “Observing binary inspiral in gravitational radiation: One interferometer,” Phys. Rev. D, vol. 47, pp. 2198–2219, 1993.
 
-	[2] E. Sellentin, M. Quartin, and L. Amendola, “Breaking the spell of gaussianity: forecasting with higher order fisher matrices,” Monthly Notices of the Royal Astronomical Society, vol. 441, no. 2, pp. 1831–1840, 2014.
+	**[2]** E. Sellentin, M. Quartin, and L. Amendola, “Breaking the spell of gaussianity: forecasting with higher order fisher matrices,” Monthly Notices of the Royal Astronomical Society, vol. 441, no. 2, pp. 1831–1840, 2014.
 
-	[3] Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matrix in gravitational-wave data analysis,” arXiv preprint arXiv:2203.02670, 2022.
+	**[3]** Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matrix in gravitational-wave data analysis,” arXiv preprint arXiv:2203.02670, 2022.
 
 =================================  
 About the Author
