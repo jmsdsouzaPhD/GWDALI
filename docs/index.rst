@@ -100,31 +100,32 @@ Usage [example]
 API
 =================================
 
-.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples==True, hide_info=False, index=1, r_cond=1.e-4, npoints=300)
+.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, r_cond=1.e-4, npoints=300)
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
 	:param Detection_Dict: A dictionary of GW parameters;
-	:param FreeParams: list of free parameters among the available (m1, m2, RA, Dec, DL, iota, psi, t_coal, phi_coal, sx1, sy1, sz1, sx2, sy2, sz2)
-	:param detectors: list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration). Each dictionary have to be the following keys:
+	:param FreeParams: list of free parameters among the available ['m1', 'm2', 'RA', 'Dec', 'DL', 'iota', 'psi', 't_coal', 'phi_coal', 'sx1', 'sy1', 'sz1', 'sx2', 'sy2', 'sz2']
+	:param detectors: list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration). Each detector dictionary needs to have the following keys:
 
-		* ``name``: (str) The detector name for which the *Noise Power Spectral Density* will be choose. Available detectors: ['aLIGO', 'aVirgo', 'KAGRA', 'ET', 'CE'];
+		* ``name``: (str) The detector name for which the *Noise Power Spectral Density* will be chosen. Available detectors: ['aLIGO', 'aVirgo', 'KAGRA', 'ET', 'CE'];
 		* ``lon``: (float) The detector longitude (degrees);
 		* ``lon``: (float) The detector latitude (degrees);
 		* ``rot``: (float) X-arm detector orientation starting from North-South direction (degrees);
 		* ``shape``: (float) Opening angle between arms interferometer (degrees);
 
-	:param approximant: GW approximant among the available ('Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD')
-	:param dali_method: DALI method ('Fisher_Sampling', 'Doublet', 'Triplet') or only 'Fisher' for a simple numerical matrix inversion.
-	:param sampler_method: Method used for DALI (the same ones available in bilby package)
+	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD'].
+	To use the approximants 'TaylorF2_lal', 'IMRPhenomP' or 'IMRPhenomD' you need to have installed the `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>` in your machine.
+	:param dali_method: DALI method ['Fisher_Sampling', 'Doublet', 'Triplet'] or only 'Fisher' for a simple numerical matrix inversion.
+	:param sampler_method: Method used for DALI (the same ones available in `bilby <https://lscsoft.docs.ligo.org/bilby/>` package)
 	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where <index> is the integer argument bellow
 	:param save_cov: Save the Covariance Matrix in a file named 'Covariance_<index>.txt'
 	:param plot_corner: Make a corner plot when using DALI methods.
 	:param save_samples: Save GW samples in a file named 'samples_<index>.txt' where each column correspond to the samples of one free parameter specified above;
 	:param hide_info: Hide software outputs in the screen
-	:param index: Interger argument used in the save .txt files; 
+	:param index: Integer argument used in the saved .txt files; 
 	:param r_cond: Same as r_cond in numpy.pinv;
-	:param npoints: Same as npoints, nsteps, nwalkers in bilby package;
+	:param npoints: Same as npoints, nsteps, nwalkers in `bilby <https://lscsoft.docs.ligo.org/bilby/>` package;
 	
 	:type Detection_Dict: dict
 	:type FreeParams: list
@@ -179,7 +180,6 @@ Collaborator:
 
 * **Riccardo Sturani**
 	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade Estadual Paulista (UNESP), Brazil
-
 
 =================================
 License
