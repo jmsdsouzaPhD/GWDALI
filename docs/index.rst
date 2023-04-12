@@ -2,10 +2,12 @@
 GWDALI Software
 =================================
 
+A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix, *Finn & Chernoff (1993)*. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the ``Derivative Approximation for Likelihoods`` algorithm proposed in *Sellentin, Quartin & Amendola (2014)* and applied to gravitational waves in *Wang, Zhao & Shao (2022)* whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
+
 Installation
 ---------
 
-Here is the console command:
+To install the software run the command below:
 
 .. code-block:: console
 
@@ -15,6 +17,7 @@ Usage [example]
 ---------
 
 .. code:: python
+
 	import numpy as np
 	#-------------------
 	import GWDALI as gw
@@ -84,7 +87,7 @@ Usage [example]
 			 save_samples   = False,
 			 hide_info      = True,
 			 index          = 1,
-			 r_cond		= 1.e-4,
+			 r_cond			= 1.e-4,
 			 npoints=300) # points for "nested sampling" or steps/walkers for "MCMC"
 
 	Samples = res['Samples']
@@ -103,21 +106,45 @@ API
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
-	:param Detection_Dict: A dictinary of GW parameters;
-	:param FreeParams: list
-	:param detectors: list
-	:param approximant: string
-	:param dali_method: string
-	:param sampler_method: string
-	:param save_fisher: boolean
-	:param save_cov: boolean
-	:param plot_corner: boolean
-	:param save_samples: boolean
-	:param hide_info: boolean
-	:param index: integer
-	:param r_cond: float
-	:param npoints: integer
+	:param Detection_Dict: A dictionary of GW parameters;
+	:param FreeParams: list of free parameters among the available (m1, m2, RA, Dec, DL, iota, psi, t_coal, phi_coal, sx1, sy1, sz1, sx2, sy2, sz2)
+	:param detectors: list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration).
+	:param approximant: GW approximant among the available ('TaylorF2', 'IMRPhenomP', 'IMRPhenomD')
+	:param dali_method: DALI method ('Fisher_Sampling', 'Doublet', 'Triplet') or only 'Fisher' for a simple numerical matrix inversion.
+	:param sampler_method: Method used for DALI (the same ones available in bilby package)
+	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where <index> is the integer argument bellow
+	:param save_cov: Save the Covariance Matrix in a file named 'Covariance_<index>.txt'
+	:param plot_corner: Make a corner plot when using DALI methods.
+	:param save_samples: Save GW samples in a file named 'samples_<index>.txt' where each column correspond to the samples of one free parameter specified above;
+	:param hide_info: Hide software outputs in the screen
+	:param index: Interger argument used in the save .txt files; 
+	:param r_cond: Same as r_cond in numpy.pinv;
+	:param npoints: Same as npoints, nsteps, nwalkers in bilby package;
+	
 	:type Detection_Dict: dict
+	:type FreeParams: list
+	:type detectors: list
+	:type approximant: string
+	:type dali_method: string
+	:type sampler_method: string
+	:type save_fisher: boolean
+	:type save_cov: boolean
+	:type plot_corner: boolean
+	:type save_samples: boolean
+	:type hide_info: boolean
+	:type index: integer
+	:type r_cond: float
+	:type npoints: integer
+
+=================================  
+References
+=================================
+
+L. S. Finn and D. F. Chernoff, “Observing binary inspiral in gravitational radiation: One interferometer,” Phys. Rev. D, vol. 47, pp. 2198–2219, 1993.
+
+E. Sellentin, M. Quartin, and L. Amendola, “Breaking the spell of gaussianity: forecasting with higher order fisher matrices,” Monthly Notices of the Royal Astronomical Society, vol. 441, no. 2, pp. 1831–1840, 2014.
+
+Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matrix in gravitational-wave data analysis,” arXiv preprint arXiv:2203.02670, 2022.
 
 =================================  
 About the Author
