@@ -43,24 +43,22 @@ Usage [example]
 	# Setting Injections (Single detection)
 	#------------------------------------------------------
 	z = 0.1 # Redshift
+	
+	m1 = 1.5*(1+z) # mass of the first object
+	m2 = 1.5*(1+z) # mass of the second object
+
 	params = {}
-	m1 = 1.5*(1+z)
-	m2 = 1.5*(1+z)
-
-	M = m1+m2 ; M2 = M*M 	# Total mass
-	eta = m1*m2/M2 		# Symetric mass ratio
-	Mc  = eta**(3./5)*M 	# Chirp Mass
-
 	params['m1']  = m1
 	params['m2']  = m2
 	params['z']   = z
 	params['RA']       = np.random.uniform(-180,180)
 	params['Dec']      = (np.pi/2-np.arccos(np.random.uniform(-1,1)))*deg
 	params['DL']       = cosmo.luminosity_distance(z).value/1.e3 # Gpc
-	params['iota']     = np.random.uniform(0,np.pi) #np.pi/18 # 10 deg
-	params['psi']      = np.random.uniform(-np.pi,np.pi)
-	params['t_coal']   = 0
-	params['phi_coal'] = 0
+	params['iota']     = np.random.uniform(0,np.pi) 	 # Inclination angle (rad)
+	params['psi']      = np.random.uniform(-np.pi,np.pi) # Polarization angle (rad)
+	params['t_coal']   = 0  # Coalescence time
+	params['phi_coal'] = 0  # Coalescence phase
+	# Spins:
 	params['sx1'] = 0 
 	params['sy1'] = 0
 	params['sz1'] = 0
@@ -102,14 +100,21 @@ Usage [example]
 API
 =================================
 
-.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant, dali_method, samplet_method, save_fisher, save_cov, plot_corner, save_samples, hide_info, index, r_cond, npoints)
+.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples==True, hide_info=False, index=1, r_cond=1.e-4, npoints=300)
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
 	:param Detection_Dict: A dictionary of GW parameters;
 	:param FreeParams: list of free parameters among the available (m1, m2, RA, Dec, DL, iota, psi, t_coal, phi_coal, sx1, sy1, sz1, sx2, sy2, sz2)
-	:param detectors: list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration).
-	:param approximant: GW approximant among the available ('TaylorF2', 'IMRPhenomP', 'IMRPhenomD')
+	:param detectors: list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration). Each dictionary have to be the following keys:
+
+		* ``name``: (str) The detector name for which the *Noise Power Spectral Density* will be choose. Available detectors: ['aLIGO', 'aVirgo', 'KAGRA', 'ET', 'CE'];
+		* ``lon``: (float) The detector longitude (degrees);
+		* ``lon``: (float) The detector latitude (degrees);
+		* ``rot``: (float) X-arm detector orientation starting from North-South direction (degrees);
+		* ``shape``: (float) Opening angle between arms interferometer (degrees);
+
+	:param approximant: GW approximant among the available ('Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD')
 	:param dali_method: DALI method ('Fisher_Sampling', 'Doublet', 'Triplet') or only 'Fisher' for a simple numerical matrix inversion.
 	:param sampler_method: Method used for DALI (the same ones available in bilby package)
 	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where <index> is the integer argument bellow
@@ -136,7 +141,7 @@ API
 	:type r_cond: float
 	:type npoints: int
 
-	:return: Return a Dictionary with the following keys
+	:return: Return a dictionary with the following keys
 
 		- ``Samples``: array_like with shape (len(FreeParams) , number of samples points)
 	
@@ -148,7 +153,7 @@ API
 	
 		- ``Recovery``: list of recovered parameters (when using DALI methods)
 	
-		- ``Error``: list of uncertainties parameters (CL=60%)
+		- ``Error``: list of uncertainties parameters (Confidence Level = 60%)
 	
 		- ``SNR``: value of the GW source signal to noise ratio (float)
 
