@@ -123,7 +123,7 @@ API
 	:param save_samples: Save GW samples in a file named 'samples_<index>.txt' where each column correspond to the samples of one free parameter specified above;
 	:param hide_info: Hide software outputs in the screen
 	:param index: Integer argument used in the saved .txt files; 
-	:param r_cond: Same as r_cond in numpy.pinv;
+	:param r_cond: Same as r_cond in `numpy.linalg.pinv <https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html>`_;
 	:param npoints: Same as npoints, nsteps, nwalkers in `bilby <https://lscsoft.docs.ligo.org/bilby/>`_ package;
 	
 	:type Detection_Dict: dict
