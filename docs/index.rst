@@ -2,7 +2,7 @@
 GWDALI Software
 =================================
 
-A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[1]**. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the `Derivative Approximation for LIkelihoods <https://arxiv.org/abs/2203.02670>`_ (DALI) algorithm proposed in **[2]** and applied to gravitational waves in **[3]** whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
+A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[1]**. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the `Derivative Approximation for LIkelihoods <https://arxiv.org/abs/1401.6892>`_ (DALI) algorithm proposed in **[2]** and applied to gravitational waves in **[3]** whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 
 Installation
 ---------
@@ -112,9 +112,9 @@ API
 		* ``shape``: (float) Opening angle between arms interferometer (degrees);
 
 	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD']. To use the approximants 'TaylorF2_lal', 'IMRPhenomP' or 'IMRPhenomD' you need to have installed the `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
-	:param fmin: initial frequency value to the GW signal be evaluated;
-	:param fmax: final frequency value to the GW signal be evaluated;
-	:param fsize: number of frequency points;
+	:param fmin: initial frequency value to the GW signal be evaluated.
+	:param fmax: final frequency value to the GW signal be evaluated.
+	:param fsize: number of frequency points.
 	:param dali_method: DALI method ['Fisher_Sampling', 'Doublet', 'Triplet'] or only 'Fisher' for a simple numerical matrix inversion.
 	:param sampler_method: Method used for DALI (the same ones available in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_)
 	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where <index> is the integer argument bellow
@@ -175,7 +175,8 @@ About the Author
 =================================
 
 * **Josiel Mendonça Soares de Souza**
-	* PhD in Physics by Universidade Federal do Rio Grande do Norte, Brazil
+	* PhD student in Physics
+	* Departamento de Física Teórica e Experimental, Universidade Federal do Rio Grande do Norte, Rio Grande do Norte, Brazil
 	* Research Field: Gravitation, Cosmology and Gravitational Waves
 	* `github profile <https://github.com/jmsdsouzaPhD>`_
 	* `ORCID <https://orcid.org/0000-0003-1552-0095>`_
@@ -183,7 +184,7 @@ About the Author
 Collaborator:
 
 * **Riccardo Sturani**
-	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade Estadual Paulista (UNESP), Brazil
+	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade Estadual Paulista (UNESP), São Paulo, Brazil
 
 =================================
 License
