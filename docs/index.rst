@@ -2,7 +2,7 @@
 GWDALI Software
 =================================
 
-A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[1]**. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the **Derivative Approximation for Likelihoods** algorithm proposed in **[2]** and applied to gravitational waves in **[3]** whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
+A software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is the related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[1]**. GWDALI also deals with not-so-infrequent case of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the `Derivative Approximation for LIkelihoods <https://arxiv.org/abs/2203.02670>`_ (DALI) algorithm proposed in **[2]** and applied to gravitational waves in **[3]** whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 
 Installation
 ---------
@@ -33,23 +33,20 @@ Usage [example]
 	FreeParams = ['DL','iota','psi','phi_coal']
 
 	# Cosmic Explorer:
-	det0 = {'name':'CE','lon':45,'lat':45,'rot':0,'shape':90}
+	det0 = {"name":"CE","lon":-119,"lat":46,"rot":45,"shape":90}
 	# Einstein Telescope:
-	det1 = {'name':'ET','lon':45,'lat':45,'rot':0,'shape':60}
-	det2 = {'name':'ET','lon':45,'lat':45,'rot':120,'shape':60}
-	det3 = {'name':'ET','lon':45,'lat':45,'rot':-120,'shape':60}
+	det1 = {"name":"ET","lon":10,"lat":43,"rot":0,"shape":60}
+	det2 = {"name":"ET","lon":10,"lat":43,"rot":120,"shape":60}
+	det3 = {"name":"ET","lon":10,"lat":43,"rot":-120,"shape":60}
 
 	#------------------------------------------------------
 	# Setting Injections (Single detection)
 	#------------------------------------------------------
 	z = 0.1 # Redshift
-	
-	m1 = 1.5*(1+z) # mass of the first object
-	m2 = 1.5*(1+z) # mass of the second object
 
 	params = {}
-	params['m1']  = m1
-	params['m2']  = m2
+	params['m1']  = 1.3*(1+z) # mass of the first object [solar mass]
+	params['m2']  = 1.5*(1+z) # mass of the second object [solar mass]
 	params['z']   = z
 	params['RA']       = np.random.uniform(-180,180)
 	params['Dec']      = (np.pi/2-np.arccos(np.random.uniform(-1,1)))*deg
@@ -76,7 +73,7 @@ Usage [example]
 	res = gw.GWDALI( Detection_Dict = params, 
 			 FreeParams     = FreeParams, 
 			 detectors      = [det0,det1,det2,det3], # Einstein Telescope + Cosmic Explorer
-			 approximant    = "TaylorF2",
+			 approximant    = 'TaylorF2',
 			 dali_method    = 'Fisher',
 			 sampler_method = 'nestle', # Same as Bilby sampling method
 			 save_fisher    = False,
@@ -100,7 +97,7 @@ Usage [example]
 API
 =================================
 
-.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, r_cond=1.e-4, npoints=300)
+.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, r_cond=1.e-4, npoints=300)
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
@@ -115,6 +112,9 @@ API
 		* ``shape``: (float) Opening angle between arms interferometer (degrees);
 
 	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD']. To use the approximants 'TaylorF2_lal', 'IMRPhenomP' or 'IMRPhenomD' you need to have installed the `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
+	:param fmin: initial frequency value to the GW signal be evaluated;
+	:param fmax: final frequency value to the GW signal be evaluated;
+	:param fsize: number of frequency points;
 	:param dali_method: DALI method ['Fisher_Sampling', 'Doublet', 'Triplet'] or only 'Fisher' for a simple numerical matrix inversion.
 	:param sampler_method: Method used for DALI (the same ones available in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_)
 	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where <index> is the integer argument bellow
@@ -124,12 +124,15 @@ API
 	:param hide_info: Hide software outputs in the screen
 	:param index: Integer argument used in the saved .txt files; 
 	:param r_cond: Same as r_cond in `numpy.linalg.pinv <https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html>`_;
-	:param npoints: Same as npoints, nsteps, nwalkers in `bilby <https://lscsoft.docs.ligo.org/bilby/>`_ package;
+	:param npoints: Same as npoints, nsteps, nwalkers in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_;
 	
 	:type Detection_Dict: dict
 	:type FreeParams: list
 	:type detectors: list
 	:type approximant: str
+	:type fmin: float
+	:type fmax: float
+	:type fsize: float
 	:type dali_method: str
 	:type sampler_method: str
 	:type save_fisher: bool
@@ -171,9 +174,11 @@ References
 About the Author
 =================================
 
-* **Josiel Mendonça Soares de Souza** (`github profile <https://github.com/jmsdsouzaPhD>`_)
+* **Josiel Mendonça Soares de Souza**
 	* PhD in Physics by Universidade Federal do Rio Grande do Norte, Brazil
 	* Research Field: Gravitation, Cosmology and Gravitational Waves
+	* `github profile <https://github.com/jmsdsouzaPhD>`_
+	* `ORCID <https://orcid.org/0000-0003-1552-0095>`_
 
 Collaborator:
 
