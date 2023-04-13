@@ -82,7 +82,7 @@ Usage [example]
 			 save_samples   = False,
 			 hide_info      = True,
 			 index          = 1,
-			 rcond			= 1.e-4,
+			 rcond          = 1.e-4,
 			 npoints=300) # points for "nested sampling" or steps/walkers for "MCMC"
 
 	Samples = res['Samples']
