@@ -82,7 +82,7 @@ Usage [example]
 			 save_samples   = False,
 			 hide_info      = True,
 			 index          = 1,
-			 r_cond			= 1.e-4,
+			 rcond			= 1.e-4,
 			 npoints=300) # points for "nested sampling" or steps/walkers for "MCMC"
 
 	Samples = res['Samples']
@@ -97,7 +97,7 @@ Usage [example]
 API
 =================================
 
-.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, r_cond=1.e-4, npoints=300)
+.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, rcond=1.e-4, npoints=300)
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
@@ -123,7 +123,7 @@ API
 	:param save_samples: Save GW samples in a file named 'samples_<index>.txt' where each column correspond to the samples of one free parameter specified above;
 	:param hide_info: Hide software outputs in the screen
 	:param index: Integer argument used in the saved .txt files; 
-	:param r_cond: Same as r_cond in `numpy.linalg.pinv <https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html>`_;
+	:param rcond: Same as rcond in `numpy.linalg.pinv <https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html>`_;
 	:param npoints: Same as npoints, nsteps, nwalkers in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_;
 	
 	:type Detection_Dict: dict
@@ -141,7 +141,7 @@ API
 	:type save_samples: bool
 	:type hide_info: bool
 	:type index: int
-	:type r_cond: float
+	:type rcond: float
 	:type npoints: int
 
 	:return: Return a dictionary with the following keys
