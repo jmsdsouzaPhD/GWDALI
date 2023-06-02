@@ -192,3 +192,7 @@ License
 
 MIT License
 
+.. figure:: ./logo1.png
+   :alt: GWDALI logo
+   :align: center
+
