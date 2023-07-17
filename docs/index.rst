@@ -111,7 +111,7 @@ API
 		* ``rot``: (float) X-arm detector orientation starting from North-South direction (degrees);
 		* ``shape``: (float) Opening angle between arms interferometer (degrees);
 
-	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2'_py, ...] (or another approximant provided by lal). To use the lal approximants you need to have installed `lal<https://lscsoft.docs.ligo.org/lalsuite/lal/index.html>`_ as well as `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
+	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2'_py, ...] (or another approximant provided by lal). To use the lal approximants you need to have installed `lal/lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
 	:param fmin: initial frequency value to the GW signal be evaluated.
 	:param fmax: final frequency value to the GW signal be evaluated.
 	:param fsize: number of frequency points.
