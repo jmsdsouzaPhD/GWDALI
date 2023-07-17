@@ -2,23 +2,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 from pathlib import Path
 
-import GWDALI.lib.Waveforms as wf
-
-#------------------------------------------------------
-# PATTERN FUNCTIONS AND WAVEFORMS
-#------------------------------------------------------
-
 dets = ['ET','CE','aLIGO','aVirgo','KAGRA']
-
-Waveforms = {}
-Waveforms['Leading_Order'] = wf.Waveform_Simple
-Waveforms['TaylorF2']      = wf.Waveform_TaylorF2
-try:
-	Waveforms['TaylorF2_lal']  = wf.Waveform_TaylorF2_lal
-	Waveforms['IMRPhenomD']    = wf.Waveform_IMRPhenomD
-	Waveforms['IMRPhenomP']    = wf.Waveform_IMRPhenomP
-except:
-	pass
 
 #------------------------------------------------------
 # DETECTORS SENSITIVITY
@@ -94,6 +78,6 @@ labels_tex['RA']  = '$RA$ [deg]'
 labels_tex['Dec'] = '$Dec$ [deg]'
 
 def Load_Dictionaries():
-	return Waveforms, PSD, labels_tex
+	return PSD, labels_tex
 
 #------------------------------------------------------

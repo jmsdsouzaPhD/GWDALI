@@ -28,7 +28,7 @@ cosmo = FlatLambdaCDM(70,0.3)
 
 #-------------------------------------------------
 # From Dictionaries.py
-Waveforms, PSD, labels_tex = gwdict.Load_Dictionaries()
+PSD, labels_tex = gwdict.Load_Dictionaries()
 #-------------------------------------------------
 freq0 = 10**np.linspace(0,4,4000)
 
@@ -63,7 +63,7 @@ def get_strain_snr(gw_prms,detectors,approximant='TaylorF2',fmin=1.,fmax=1.e4,fs
 		h 	  = gwfunc.Signal(gw_prms, det, approximant)
 		SNR2  = gwfunc.ScalarProduct(det['freq'], det['Sn'],h,h)
 		rho2 += SNR2
-
+		print('#####'*10)
 		Strains.append(h)
 		SNR.append(np.sqrt(SNR2))
 
@@ -76,7 +76,7 @@ def get_strain_snr(gw_prms,detectors,approximant='TaylorF2',fmin=1.,fmax=1.e4,fs
 def GWDALI( Detection_Dict, 
 			FreeParams, 
 			detectors, 
-			approximant = 'TaylorF2',
+			approximant = 'TaylorF2_py',
 			fmin  = 1., 
 			fmax  = 1.e4, 
 			fsize = 3000, 

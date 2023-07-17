@@ -1,4 +1,5 @@
 import numpy as np
+import GWDALI.lib.Waveforms as wf
 import GWDALI.lib.Angles_lib as geo
 import GWDALI.lib.Dictionaries as gwdict
 
@@ -8,16 +9,18 @@ deg = 1./rad
 c = 3.e8
 R_earth = 6371.e3
 
-Waveforms, PSD, labels_tex = gwdict.Load_Dictionaries()
+PSD, labels_tex = gwdict.Load_Dictionaries()
 
 def Pattern_Func(alpha,beta,psi,shape): # signs fixed
 	Coeff = np.sin(shape) #np.sqrt(3.)/2
-	fp = Coeff*( 0.5*(1+np.cos(beta)**2)*np.cos(2*alpha) )
-	fx = -Coeff*( np.cos(beta)*np.sin(2*alpha) )
+	fp = Coeff*( 0.5*(1.+np.cos(beta)**2)*np.cos(2.*alpha) )
+	fx = -Coeff*( np.cos(beta)*np.sin(2.*alpha) )
 	
-	Fp =  fp*np.cos(2*psi) + fx*np.sin(2*psi)
-	Fx = -fp*np.sin(2*psi) + fx*np.cos(2*psi)
-	
+	Fp =  fp*np.cos(2.*psi) + fx*np.sin(2.*psi)
+	Fx = -fp*np.sin(2.*psi) + fx*np.cos(2.*psi)
+	#print('alpha,beta,psi:%.2f, %.2f, %.2f'% (alpha,beta,psi), end='\t')
+	#print('\nFp, Fx:', Fp, Fx,'\tFp^2+Fx^2',Fp**2+Fx**2,'\t psi_det:',psi,'\n')
+	#print('Fp^2+Fx^2:%.2f' % (Fp**2+Fx**2) , ' ; Fp, Fx: %.2f, %.2f' %(Fp, Fx))
 	return Fp, Fx
 
 #-------------------------------------------------
@@ -61,7 +64,7 @@ def GW_Polarizations(params, freq, approximant):
 	s1 = [sx1, sy1, sz1]
 	s2 = [sx2, sy2, sz2]
 
-	hp, hx, _ = Waveforms[approximant](m1,m2,iota,DL,s1,s2,freq)
+	hp, hx, _ = wf.Waveforms(m1,m2,iota,DL,s1,s2,freq, approx=approximant)
 
 	return hp, hx
 
@@ -84,6 +87,7 @@ def Signal(params, detector, approximant):
 
 	alpha_obs, beta_obs = geo.AngTransf(alpha,beta,theta,phi,rot)
 	psi_obs             = geo.poll_ang(alpha,beta,iota,psi,theta,phi,rot)
+	#psi_obs = psi # Adding by hand!!!
 
 	t_delay = -np.cos(beta_obs)*R_earth/c
 

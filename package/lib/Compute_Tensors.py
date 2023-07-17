@@ -1,6 +1,5 @@
 import os, sys
 import numpy as np
-import GWDALI.lib.Waveforms as wf
 import GWDALI.lib.Angles_lib as geo
 import GWDALI.lib.Dictionaries as gwdict
 import GWDALI.lib.Derivatives_Tensors as gwfunc
@@ -11,7 +10,7 @@ from tqdm import trange
 
 deg2rad = np.pi/180
 
-Waveforms, PSD, labels_tex = gwdict.Load_Dictionaries()
+PSD, labels_tex = gwdict.Load_Dictionaries()
 
 def get_idx(idxs,Np):
 	n = len(idxs)-1 ; IdxP = 0

@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.interpolate import interp1d
+from scipy.interpolate import interp1d, CubicSpline
 
 wrn =\
 '''
@@ -51,7 +51,7 @@ def Waveform_lal(m1, m2, iota, DL, s1, s2, freq, approx):
 	
 	func_hp = interp1d(freqWF, hp, fill_value=0, kind='linear', bounds_error=False)
 	func_hc = interp1d(freqWF, hc, fill_value=0, kind='linear', bounds_error=False)
-	
+
 	Hp = func_hp(freq)
 	Hx = func_hc(freq)
 
@@ -67,15 +67,6 @@ def Waveform_lal(m1, m2, iota, DL, s1, s2, freq, approx):
 	Hx = hx1 +1.j*hx2
 	
 	return Hp, Hx, freq
-
-def Waveform_TaylorF2_lal(m1, m2, iota, DL, s1, s2, freq):
-	return Waveform_lal(m1, m2, iota, DL, s1, s2, freq, 'TaylorF2')
-
-def Waveform_IMRPhenomD(m1, m2, iota, DL, s1, s2, freq):	
-	return Waveform_lal(m1, m2, iota, DL, s1, s2, freq, 'IMRPhenomD')
-
-def Waveform_IMRPhenomP(m1, m2, iota, DL, s1, s2, freq):
-	return Waveform_lal(m1, m2, iota, DL, s1, s2, freq, 'IMRPhenomP')
 
 #==============================================================================================
 # PYTHON WAVEFORMS ( Leading Order and TaylorF2(3.5PN) )
@@ -126,7 +117,9 @@ def GW_Phase_TaylorF2(m1,m2,freq):
 	phase = 2*np.pi*freq*t_coal + phi_coal + add
 
 	return phase
-	
+
+#-----------------------------------------------------------------------------------------------
+
 def Waveform_TaylorF2(m1, m2, iota, DL, s1, s2, freq): # Sathyaprakash-Schutz(2009)
 	Amp   = GW_Amplitude(m1,m2,DL,freq)
 	phase = GW_Phase_TaylorF2(m1,m2,freq)
@@ -149,3 +142,13 @@ def Waveform_Simple(m1, m2, iota, DL, s1, s2, freq):
 	Hplus  = Gp*Amp*np.exp(1.j*(phase-np.pi/4))
 	Hcross = Gx*Amp*np.exp(1.j*(phase+np.pi/4))
 	return Hplus, Hcross, freq
+
+#-----------------------------------------------------------------------------------------------
+
+def Waveforms(m1, m2, iota, DL, s1, s2, freq, approx):
+	if approx == 'Leading_Order':
+		return Waveform_Simple(m1, m2, iota, DL, s1, s2, freq)
+	elif approx == 'TaylorF2_py':
+		return Waveform_TaylorF2(m1, m2, iota, DL, s1, s2, freq)
+	else:
+		return Waveform_lal(m1, m2, iota, DL, s1, s2, freq, approx)
