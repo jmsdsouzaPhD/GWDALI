@@ -65,7 +65,7 @@ Usage [example]
 
 	#----------------------------------------------------------------------
 	# "approximant" options: 
-	#		[Leading_Order, TaylorF2, TaylorF2_lal, IMRPhenomP, IMRPhenomD]
+	#		[Leading_Order, TaylorF2_py, ...] or any lal approximant
 	#----------------------------------------------------------------------
 	# "dali_method" options:
 	#		[Fisher, Fisher_Sampling, Doublet, Triplet, Standard]
@@ -73,7 +73,7 @@ Usage [example]
 	res = gw.GWDALI( Detection_Dict = params, 
 			 FreeParams     = FreeParams, 
 			 detectors      = [det0,det1,det2,det3], # Einstein Telescope + Cosmic Explorer
-			 approximant    = 'TaylorF2',
+			 approximant    = 'TaylorF2_py',
 			 dali_method    = 'Doublet',
 			 sampler_method = 'nestle', # Same as Bilby sampling method
 			 save_fisher    = False,
@@ -111,7 +111,7 @@ API
 		* ``rot``: (float) X-arm detector orientation starting from North-South direction (degrees);
 		* ``shape``: (float) Opening angle between arms interferometer (degrees);
 
-	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2', 'TaylorF2_lal', 'IMRPhenomP', 'IMRPhenomD']. To use the approximants 'TaylorF2_lal', 'IMRPhenomP' or 'IMRPhenomD' you need to have installed the `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
+	:param approximant: GW approximant among the available ['Leading_Order', 'TaylorF2'_py, ...] (or another approximant provided by lal). To use the lal approximants you need to have installed `lal<https://lscsoft.docs.ligo.org/lalsuite/lal/index.html>`_ as well as `lalsuite <https://lscsoft.docs.ligo.org/lalsuite/lalsuite/index.html>`_ in your machine.
 	:param fmin: initial frequency value to the GW signal be evaluated.
 	:param fmax: final frequency value to the GW signal be evaluated.
 	:param fsize: number of frequency points.
@@ -175,7 +175,7 @@ About the Author
 =================================
 
 * **Josiel Mendonça Soares de Souza**
-	* PhD student in Physics
+	* PhD in Physics
 	* Departamento de Física Teórica e Experimental, Universidade Federal do Rio Grande do Norte, Rio Grande do Norte, Brazil
 	* Research Field: Gravitation, Cosmology and Gravitational Waves
 	* `github profile <https://github.com/jmsdsouzaPhD>`_

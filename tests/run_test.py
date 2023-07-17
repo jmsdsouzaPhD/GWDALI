@@ -12,11 +12,16 @@ rad = np.pi/180 ; deg = 1./rad
 #--------------------------------------------
 FreeParams = ['DL','iota','psi']
 
-det0 = {"name":"aLIGO","lon":np.random.uniform(-180,180),"lat":np.random.uniform(-90,90),"rot":np.random.uniform(0,90),"shape":90}
-det1 = {"name":"aVirgo","lon":np.random.uniform(-180,180),"lat":np.random.uniform(-90,90),"rot":np.random.uniform(0,90),"shape":90}
-det2 = {"name":"KAGRA","lon":np.random.uniform(-180,180),"lat":np.random.uniform(-90,90),"rot":np.random.uniform(0,90),"shape":90}
-det3 = {"name":"ET","lon":np.random.uniform(-180,180),"lat":np.random.uniform(-90,90),"rot":np.random.uniform(0,90),"shape":60}
-det4 = {"name":"CE","lon":np.random.uniform(-180,180),"lat":np.random.uniform(-90,90),"rot":np.random.uniform(0,90),"shape":90}
+
+rot_LHO = 180+36
+rot_LLO = 270+18
+rot_Virgo = 180-19
+rot_KAGRA = 90+28.31
+
+det1 = {"name":"aLIGO","lon":-119.4073,"lat":46.4554,"rot":rot_LHO,"shape":90} # Hanford
+det2 = {"name":"aLIGO","lon":-90.7740,"lat":30.5629,"rot":rot_LLO,"shape":90} # Livingston
+det3 = {"name":"aVirgo","lon":10.5024,"lat":43.6279,"rot":rot_Virgo,"shape":90}
+det4 = {"name":"KAGRA","lon":137.1761,"lat":36.2539,"rot":rot_KAGRA,"shape":90}
 
 #------------------------------------------------------
 # Setting Injections (Single detection)
@@ -44,15 +49,15 @@ params['sz2'] = 0
 
 #----------------------------------------------------------------------
 # "approximant" options:
-#               [Leading_Order, TaylorF2, TaylorF2_lal, IMRPhenomP, IMRPhenomD]
+#               [Leading_Order, TaylorF2_py] or any lal approximant
 #----------------------------------------------------------------------
 # "dali_method" options:
 #               [Fisher, Fisher_Sampling, Doublet, Triplet, Standard]
 #----------------------------------------------------------------------
 res = gw.GWDALI( Detection_Dict = params,
                  FreeParams     = FreeParams,
-                 detectors      = [det0,det1,det2,det3], # Einstein Telescope + Cosmic Explorer
-                 approximant    = 'TaylorF2',
+                 detectors      = [det1,det2,det3,det4], # LIGO-H, LIGO-L, Virgo and KAGRA
+                 approximant    = 'TaylorF2_py',
                  dali_method    = 'Fisher_Sampling',
                  sampler_method = 'nestle', # Same as Bilby sampling method
                  save_fisher    = True,
