@@ -25,6 +25,7 @@ Contents
 .. toctree::
     :maxdepth: 1
     :caption: Contents:
+    
     usage
     api
     dali
