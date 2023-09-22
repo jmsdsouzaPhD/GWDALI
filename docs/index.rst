@@ -1,3 +1,9 @@
+.. toctree::
+	:maxdepth: 1
+	:caption: Contents:
+
+	Detectors
+
 =================================
 GWDALI Software
 =================================
@@ -52,7 +58,7 @@ Usage [example]
 	params['Dec']      = (np.pi/2-np.arccos(np.random.uniform(-1,1)))*deg
 	params['DL']       = cosmo.luminosity_distance(z).value/1.e3 # Gpc
 	params['iota']     = np.random.uniform(0,np.pi) 	 # Inclination angle (rad)
-	params['psi']      = np.random.uniform(-np.pi,np.pi) # Polarization angle (rad)
+	params['psi']      = np.random.uniform(0,np.pi) # Polarization angle (rad)
 	params['t_coal']   = 0  # Coalescence time
 	params['phi_coal'] = 0  # Coalescence phase
 	# Spins:
