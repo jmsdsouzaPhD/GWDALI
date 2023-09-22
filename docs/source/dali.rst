@@ -17,4 +17,9 @@ Derivative Approximation for LIkelihood (DALI)
 		\right] \\
 	& +\mathcal{O}(\partial^{4})
 
-where :math:`\Delta\theta^i = \theta^i-\theta_0` , :math:`\Delta\theta^{ij}=\Delta\theta^i\Delta\theta^j` , :math:`\Delta\theta^{ij..m}=\Delta\theta^{i}\Delta\theta^j\cdots\Delta\theta^m`.
+where 
+	..math::	
+
+		`\Delta\theta^i =& \theta^i-\theta_0^i`  \\ 
+		`\Delta\theta^{ij} =& \Delta\theta^i\cdot\Delta\theta^j`  \\ 
+		`\Delta\theta^{ij..m} =& \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m`.
