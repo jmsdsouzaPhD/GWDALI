@@ -19,7 +19,7 @@ Derivative Approximation for LIkelihood (DALI)
 
 where,
 
-..math::
+.. math::
 
 	\Delta\theta^i =& \theta^i-\theta_0^i  \\ 
 	\Delta\theta^{ij} =& \Delta\theta^i\cdot\Delta\theta^j  \\ 
