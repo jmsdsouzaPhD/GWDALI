@@ -16,3 +16,5 @@ Derivative Approximation for LIkelihood (DALI)
 		+\frac{1}{72}\sum_{i,\cdots, n}\left\langle \partial_{i}\partial_{j}\partial_{k}h|\partial_{l}\partial_{m}\partial_{n}h\right\rangle \Delta\theta^{ijklmn}
 		\right] \\
 	& +\mathcal{O}(\partial^{4})
+
+where :math:`\Delta\theta^i = \theta^i-\theta_0` , :math:`\Delta\theta^{ij}=\Delta\theta^i\Delta\theta^j` , :math:`\Delta\theta^{ij..m}=\Delta\theta^{i}\Delta\theta^j\cdots\Delta\theta^m`.

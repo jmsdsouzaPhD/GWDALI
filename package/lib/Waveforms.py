@@ -17,7 +17,7 @@ except:
 
 M_sun = 1.98e30
 G = 6.673e-11
-c = 3.e8
+c = 299792458 # m/s
 
 def integ(x,y): # Integral [Trapezoid Method]
 	n = len(x) ; I = 0
@@ -39,34 +39,17 @@ def Waveform_lal(m1, m2, iota, DL, s1, s2, freq, approx):
 	f_ref = 0.
 
 	DL *= 3.086e22
-	hp,hc=lalsim.SimInspiralChooseFDWaveform(m1*M_sun,m2*M_sun, sx1, sy1, sz1, sx2, xy2, sz2, DL,
+	hp,hx=lalsim.SimInspiralChooseFDWaveform(m1*M_sun,m2*M_sun, sx1, sy1, sz1, sx2, xy2, sz2, DL,
 											iota, phi_ref, 0., 0., 0., dF, f_low, f_max, f_ref, None,
 											lalsim.GetApproximantFromString(approx))
 	
-	hp = hp.data.data
-	hc = hc.data.data
-	
+	hp = hp.data.data ; hp[np.isnan(hp)] = 0
+	hx = hx.data.data ; hx[np.isnan(hx)] = 0
+
 	N = len(hp)
-	freqWF = np.linspace(0,dF*(N-1),N)
-	
-	func_hp = interp1d(freqWF, hp, fill_value=0, kind='linear', bounds_error=False)
-	func_hc = interp1d(freqWF, hc, fill_value=0, kind='linear', bounds_error=False)
+	freq0 = np.linspace(0,dF*(N-1),N)
 
-	Hp = func_hp(freq)
-	Hx = func_hc(freq)
-
-	hp1 , hp2 = Hp.real, Hp.imag
-	hx1 , hx2 = Hx.real, Hp.imag
-
-	hp1 = np.nan_to_num(hp1)
-	hx1 = np.nan_to_num(hp2)
-	hp2 = np.nan_to_num(hx1)
-	hx2 = np.nan_to_num(hx2)
-
-	Hp = hp1 +1.j*hp2
-	Hx = hx1 +1.j*hx2
-	
-	return Hp, Hx, freq
+	return hp, hx, freq0
 
 #==============================================================================================
 # PYTHON WAVEFORMS ( Leading Order and TaylorF2(3.5PN) )
@@ -88,8 +71,7 @@ def GW_Phase_Simple(m1,m2,freq):
 	eta = m1*m2/M**2   # Symmetric Mass Ratio
 	M *= M_sun
 	GM_c3 = G*M/c**3
-	t_coal, phi_coal = 0, 0
-	phase = 2*np.pi*freq*t_coal - phi_coal + (3./(128*eta))/(np.pi*GM_c3*freq)**(5./3)
+	phase = (3./(128*eta))/(np.pi*GM_c3*freq)**(5./3)
 	return phase
 	
 def GW_Phase_TaylorF2(m1,m2,freq):
@@ -108,13 +90,10 @@ def GW_Phase_TaylorF2(m1,m2,freq):
 	A[6] = (11583231236531./4694215680) - (640*np.pi**2/3) - (6848*np.euler_gamma/21) + (-(15737765635./3048192)+(2255*np.pi**2/12))*eta + (76055*eta**2/1728) - (127825*eta**3/1296) - (6848./63)*np.log(64*np.pi*GM_c3*freq)
 	A[7] = np.pi*((77096675./254016) + (378515*eta/1512) - (74045*eta**2/756))
 
-	add = np.zeros(len(freq))  # 3.5PN Corrections from idx>0
+	phase = np.zeros(len(freq))  # 3.5PN Corrections from idx>0
 	for idx in range(0,8):
-		add += A[idx]*(np.pi*GM_c3*freq)**((idx-5)/3)
-	add *= 3./(128*eta)
-
-	t_coal, phi_coal = 0, 0
-	phase = 2*np.pi*freq*t_coal + phi_coal + add
+		phase += A[idx]*(np.pi*GM_c3*freq)**((idx-5)/3)
+	phase *= 3./(128*eta)
 
 	return phase
 

@@ -36,11 +36,14 @@ class GW_likelihood(bilby.Likelihood):
 			
 		loglike = 0 ; ndet = 0
 		detectors, approximant = self.DetAp 
+
 		for det in detectors:
 			h = gwfunc.Signal(params, det, approximant)
-			loglike += -gwfunc.ScalarProduct(det['freq'],det['Sn'],self.Data[ndet]-h,self.Data[ndet]-h)
-			ndet += 1 
-		if(np.isnan(loglike)): loglike = -np.inf
+			diff = self.Data[ndet]-h
+			loglike -= 0.5*gwfunc.ScalarProduct(det['freq'],det['Sn'],diff,diff)
+			ndet += 1
+			
+		if(np.isnan(loglike) or np.isinf(loglike)): loglike = -1.e10
 		return loglike
 #--------------------------------------------------
 
@@ -71,49 +74,25 @@ class DALI_likelihood(bilby.Likelihood):
 
 		Fisher , Doublet , Triplet = self.Tensors
 
-		Fisher_vec = Fisher.ravel() # convert 2D matrix to 1D array
+		Fisher_vec = Fisher.ravel() # ravel() used to convert n-dimensional matrix to 1D array
 		Doublet3, Doublet4 = Doublet
 		Triplet4, Triplet5, Triplet6 = Triplet
 
-		# dX_ijk:  Tensor rank 3
-		# dX_ijkl: Tensor rank 4
+		dX2 = np.outer(dT,dT)
+		dX3 = np.outer(dX2,dT)
+		dX4 = np.outer(dX3,dT)
+		dX5 = np.outer(dX4,dT)
+		dX6 = np.outer(dX5,dT)
 
-		dX2 = np.zeros(Np*Np)
-		if(self.dali_method in ['Doublet','Triplet']):
-			dX3 = np.zeros(Np**3)
-			dX4 = np.zeros(Np**4)
-			if(self.dali_method == 'Triplet'):
-				dX5 = np.zeros(Np**5)
-				dX6 = np.zeros(Np**6)
+		dX2 = dX2.ravel()
+		dX3 = dX3.ravel()
+		dX4 = dX4.ravel()
+		dX5 = dX5.ravel()
+		dX6 = dX6.ravel()
 
-		#-------------------------------------------------------------
-		# For Fisher
-		#-------------------------------------------------------------
-		for i in range(Np):
-			for j in range(Np):
-				idx2 = Np*i + j
-				dX2[idx2] = dT[i]*dT[j]
-				#-------------------------------------------------------------
-				# For Doublet
-				#-------------------------------------------------------------
-				if(self.dali_method in ['Doublet','Triplet']):
-					for k in range(Np):
-						idx3 = i*Np**2 + j*Np + k
-						dX3[idx3] = dT[i]*dT[j]*dT[k]
-						for l in range(Np):
-							idx4 = i*Np**3 + j*Np**2 + k*Np + l
-							dX4[idx4] = dT[i]*dT[j]*dT[k]*dT[l]
-							#-------------------------------------------------------------
-							# For Triplet
-							#-------------------------------------------------------------
-							if(self.dali_method == 'Triplet'):
-								for m in range(Np):
-									idx5 = i*Np**4 + j*Np**3 + k*Np**2 + l*Np + m
-									dX5[idx5] = dT[i]*dT[j]*dT[k]*dT[l]*dT[m]
-									for n in range(Np):
-										idx6 = i*Np**5 + j*Np**4 + k*Np**3 + l*Np**2 + m*Np + n
-										dX6[idx6] = dT[i]*dT[j]*dT[k]*dT[l]*dT[m]*dT[n]
-		#-------------------------------------------------------------
+		# From arXiv:2203.02670
+		# logL = logL0 - (1/2)Fisher * dTheta_ij - [ (1/2)Doublet3 * dTheta_ijk  + (1/8) * dTheta_ijkl ]
+		#        - [ (1/6)Triplet4 * dTheta_ijkl + (1/12) * dTheta_ijklm + (1/72) * dTheta_ijklmn ] + ...
 
 		loglike = - sum(Fisher_vec*dX2)/2.
 		if(self.dali_method in ['Doublet','Triplet']):
@@ -197,7 +176,7 @@ def get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, Detec
 	#----------------------------
 	# Running Sampler
 	#----------------------------
-	
+	print("\t >> Method:", dali_method)
 	res = bilby.run_sampler(likelihood=likelihood, priors=Priors,
 							sampler=sampler_method, npoints=npoints, 
 							nsteps=npoints, nwalkers=npoints, 

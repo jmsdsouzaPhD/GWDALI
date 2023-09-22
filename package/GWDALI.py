@@ -35,15 +35,16 @@ freq0 = 10**np.linspace(0,4,4000)
 #-------------------------------------------------------------------------------
 #	"Compute the (Moore-Penrose) pseudo-inverse of a matrix"
 #-------------------------------------------------------------------------------
-def invert_matrix(matrix, rcond): 
+def invert_matrix(matrix, rcond):
 
     dm = np.sqrt(np.diag(matrix))
     norm = np.outer(dm, dm)
     M_norm = matrix / norm
 
-    M_inv = np.linalg.pinv(M_norm,rcond=rcond)
+    try: M_inv = np.linalg.pinv(M_norm,rcond=rcond) / norm
+    except: M_inv = np.linalg.pinv(matrix,rcond=rcond)
 
-    return M_inv / norm
+    return M_inv
 #-------------------------------------------------------
 # Get Waveforms and SNR
 #-------------------------------------------------------
@@ -124,7 +125,7 @@ def GWDALI( Detection_Dict,
 		func_Sn = interp1d(freq0, Sn0, fill_value=np.inf, bounds_error=False)
 		detectors[idx]['freq'] = freq
 		detectors[idx]['Sn']   = func_Sn(freq)
-
+		
 	t_init = now()
 	#-----------------------------------------------------------------------------------
 	
@@ -163,8 +164,9 @@ def GWDALI( Detection_Dict,
 	# Invert Fisher Matrix
 	#------------------------------------------------------
 	
-	Cov = invert_matrix(Fisher, rcond) # from numpy.linalg.pinv
-
+	try: Cov = invert_matrix(Fisher, rcond) # from numpy.linalg.pinv
+	except: Cov = np.ones([Np,Np])*np.nan
+	
 	Result['Fisher']    = Fisher
 	Result['CovFisher'] = Cov
 

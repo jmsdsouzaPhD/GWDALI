@@ -12,12 +12,6 @@ deg2rad = np.pi/180
 
 PSD, labels_tex = gwdict.Load_Dictionaries()
 
-def get_idx(idxs,Np):
-	n = len(idxs)-1 ; IdxP = 0
-	for i in range(len(idxs)): 
-		IdxP += idxs[i]*Np**n ; n-=1
-	return IdxP
-
 def pmt(vec):
 	x, y = [ list(xx) for xx in list(permutations(vec)) ] , []
 	for a in x:
@@ -26,17 +20,15 @@ def pmt(vec):
 
 def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approximant, hide_info):
 	
-	#if(hide_info): sys.stdout = open(os.devnull, 'w')
-
 	Np = len(FreeParams)
 	rho2 = 0
 
 	Fisher   = np.zeros([Np, Np])
-	Doublet3 = np.zeros(Np**3)
-	Doublet4 = np.zeros(Np**4)
-	Triplet4 = np.zeros(Np**4)
-	Triplet5 = np.zeros(Np**5)
-	Triplet6 = np.zeros(Np**6)
+	Doublet3 = np.zeros([Np, Np, Np])
+	Doublet4 = np.zeros([Np, Np, Np, Np])
+	Triplet4 = np.zeros([Np, Np, Np, Np])
+	Triplet5 = np.zeros([Np, Np, Np, Np, Np])
+	Triplet6 = np.zeros([Np, Np, Np, Np, Np, Np])
 
 	num_det = 1
 	GwData = [] ; SNR = []
@@ -66,7 +58,7 @@ def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approximant, hide_i
 				if(i!=j): Fisher[j][i] += Fij
 
 		#------------------------------------------------------
-		# Computing Doublet/Triplet
+		# Computing Doublet/Triplet (arXiv:2203.02670)
 		#------------------------------------------------------
 		
 		idxs_doub, idxs_trip = sym.get_indep_indexies(Np)
@@ -78,14 +70,17 @@ def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approximant, hide_i
 				i, j, k = Idx2
 				value = gwfunc.func_doublet3(*[FreeParams[ii] for ii in Idx2],gw_prms,det,approximant)
 				for p in pmt([j,k]):
-					Doublet3[get_idx([i]+p,Np)] += value
+					jj, kk = p
+					Doublet3[i][jj][kk] += value
 			# --------------Doublet(2,2)--------------
 			for Idx2 in indepD_22:
 				i, j, k, l = Idx2
 				value = gwfunc.func_doublet4(*[FreeParams[ii] for ii in Idx2],gw_prms,det,approximant)
 				for p1 in pmt([i,j]):
+					ii, jj = p1
 					for p2 in pmt([k,l]):
-						Doublet4[get_idx(p1+p2,Np)] += value
+						kk, ll = p2
+						Doublet4[ii][jj][kk][ll] += value
 			#*****************************#*****************************#*****************************
 			if(dali_method == 'Triplet'):
 				indepT_13, indepT_23, indepT_33 = idxs_trip
@@ -94,31 +89,35 @@ def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approximant, hide_i
 					i, j, k, l = Idx3
 					value = gwfunc.func_triplet4(*[FreeParams[ii] for ii in Idx3],gw_prms,det,approximant)
 					for p in pmt([j,k,l]):
-						Triplet4[get_idx([i]+p,Np)] += value
+						jj, kk, ll = p
+						Triplet4[i][jj][kk][ll] += value
 				# --------------Triplet(2,3)--------------
 				for Idx3 in indepT_23:
 					i, j, k, l, m = Idx3
 					value = gwfunc.func_triplet5(*[FreeParams[ii] for ii in Idx3],gw_prms,det,approximant)
 					for p1 in pmt([i,j]):
+						ii, jj = p1
 						for p2 in pmt([k,l,m]):
-							Triplet5[get_idx(p1+p2,Np)] += value
+							kk, ll, mm = p2
+							Triplet5[ii][jj][kk][ll][mm] += value
 				# --------------Triplet(3,3)--------------
 				for Idx3 in indepT_33:
 					i, j, k, l, m, n = Idx3
 					value = gwfunc.func_triplet6(*[FreeParams[ii] for ii in Idx3],gw_prms,det,approximant)
 					for p1 in pmt([i,j,k]):
+						ii, jj, kk = p1
 						for p2 in pmt([l,m,n]):
-							Triplet6[get_idx(p1+p2,Np)] += value
+							ll, mm, nn = p2
+							Triplet6[ii][jj][kk][ll][mm][nn] += value
 							print('(%s) [Sym] Triplet: '%det['name'], i, j, k, l, m, n,'...'*10, end='\r')
 		# --------------# --------------# --------------					
-	Doublet = [Doublet3, Doublet4]
-	Triplet = [Triplet4, Triplet5, Triplet6]
+
 	SNR_sum = np.sqrt(rho2)
 	if(not hide_info):
 		print("\n >> SNR = ", SNR_sum)
 		print(" >> 100/SNR = %.2e" % (100/SNR_sum) + '%\n')
 
-	Doublet = [Doublet3, Doublet4]
-	Triplet = [Triplet4, Triplet5, Triplet6]
+	Doublet = [Doublet3.ravel(), Doublet4.ravel()]
+	Triplet = [Triplet4.ravel(), Triplet5.ravel(), Triplet6.ravel()]
 
 	return [SNR, GwData, Fisher , Doublet, Triplet]

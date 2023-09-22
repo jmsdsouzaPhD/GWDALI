@@ -2,25 +2,24 @@ import numpy as np
 import GWDALI.lib.Waveforms as wf
 import GWDALI.lib.Angles_lib as geo
 import GWDALI.lib.Dictionaries as gwdict
+from scipy.interpolate import interp1d
 
 rad = np.pi/180
 deg = 1./rad
 
-c = 3.e8
-R_earth = 6371.e3
+c = 299792458 # m/s
+R_earth = 6371.e3 # meters
 
 PSD, labels_tex = gwdict.Load_Dictionaries()
 
-def Pattern_Func(alpha,beta,psi,shape): # signs fixed
-	Coeff = np.sin(shape) #np.sqrt(3.)/2
+def Pattern_Func(alpha,beta,psi,shape):
+	Coeff = np.sin(shape)
 	fp = Coeff*( 0.5*(1.+np.cos(beta)**2)*np.cos(2.*alpha) )
 	fx = -Coeff*( np.cos(beta)*np.sin(2.*alpha) )
 	
 	Fp =  fp*np.cos(2.*psi) + fx*np.sin(2.*psi)
 	Fx = -fp*np.sin(2.*psi) + fx*np.cos(2.*psi)
-	#print('alpha,beta,psi:%.2f, %.2f, %.2f'% (alpha,beta,psi), end='\t')
-	#print('\nFp, Fx:', Fp, Fx,'\tFp^2+Fx^2',Fp**2+Fx**2,'\t psi_det:',psi,'\n')
-	#print('Fp^2+Fx^2:%.2f' % (Fp**2+Fx**2) , ' ; Fp, Fx: %.2f, %.2f' %(Fp, Fx))
+
 	return Fp, Fx
 
 #-------------------------------------------------
@@ -64,9 +63,9 @@ def GW_Polarizations(params, freq, approximant):
 	s1 = [sx1, sy1, sz1]
 	s2 = [sx2, sy2, sz2]
 
-	hp, hx, _ = wf.Waveforms(m1,m2,iota,DL,s1,s2,freq, approx=approximant)
+	hp, hx, freq0 = wf.Waveforms(m1,m2,iota,DL,s1,s2,freq, approx=approximant)
 
-	return hp, hx
+	return hp, hx, freq0
 
 def Signal(params, detector, approximant):
 	alpha    = params['RA']*rad       # rad
@@ -80,49 +79,46 @@ def Signal(params, detector, approximant):
 	freq  = detector['freq'].copy()
 	lon   = detector['lon'] # deg
 	lat   = detector['lat'] # deg
-	rot   = detector['rot']*rad # rad
+	rot   = detector['rot'] # deg
 
-	phi   = lon*rad
-	theta = (90-lat)*rad
+	alpha_obs, beta_obs, psi_obs = geo.ObsAngles(alpha,beta,iota,psi,lon,lat,rot)
 
-	alpha_obs, beta_obs = geo.AngTransf(alpha,beta,theta,phi,rot)
-	psi_obs             = geo.poll_ang(alpha,beta,iota,psi,theta,phi,rot)
-	#psi_obs = psi # Adding by hand!!!
-
-	t_delay = -np.cos(beta_obs)*R_earth/c
+	t_delay = -np.cos(beta_obs)*R_earth/c # time delay between detector and center of Earth
 
 	Fp, Fx = Pattern_Func(alpha_obs,beta_obs,psi_obs,detector['shape']*rad)
-	hp, hx = GW_Polarizations(params, freq, approximant)
+	hp, hx, freq0 = GW_Polarizations(params, freq, approximant)
 
-	exp2 = np.exp(-1.j*phi_coal)
-
-	h = Fp*hp + Fx*hx
+	Phase = 2*np.pi*freq0*(t_coal+t_delay) - phi_coal
+	H = (Fp*hp + Fx*hx)*np.exp(1.j*Phase)
 	
-	return h * exp2	
+	gw_signal = interp1d(freq0,H,bounds_error=False,fill_value='extrapolate')
+	h = gw_signal(freq)
+
+	return h	
 
 #-------------------------------------------------
 
 eps = 1.e-6
 def split_prms(params,x):
 	p = params[x]
-	dx = np.max([1.e-10,eps*p])
+	dx = np.max([eps,eps*p])
 	P1 = params.copy() ; P1[x] = p - dx/2
 	P2 = params.copy() ; P2[x] = p + dx/2
 	return P1, P2, dx
 
-def Diff1(x,params , detector, approximant):
+def Diff1(x, params, detector, approximant):
 	P1, P2, dx = split_prms(params,x)
 	y2 = Signal(P2, detector, approximant)
 	y1 = Signal(P1, detector, approximant)
 	return (y2-y1)/dx
 
-def Diff2(xi,xj,params , detector, approximant):
+def Diff2(xi, xj, params, detector, approximant):
 	P1, P2, dx = split_prms(params,xi)
 	y2 = Diff1(xj, P2, detector, approximant)
 	y1 = Diff1(xj, P1, detector, approximant)
 	return (y2-y1)/dx
 
-def Diff3(xi,xj,xk,params , detector, approximant):
+def Diff3(xi, xj, xk, params, detector, approximant):
 	P1, P2, dx = split_prms(params,xi)
 	y2 = Diff2(xj,xk, P2, detector, approximant)
 	y1 = Diff2(xj,xk, P1, detector, approximant)
