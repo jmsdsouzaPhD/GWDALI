@@ -18,13 +18,16 @@ To install the software run the command below:
 .. code-block:: console
 
     $ pip install gwdali
-    
+
 Contents
 --------
 
 .. toctree::
     usage
     api
+    dali
+    priors
+    detectors
     license
     author
 
