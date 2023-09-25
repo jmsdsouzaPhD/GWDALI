@@ -7,7 +7,7 @@ copyright = '2023, Josiel'
 author = 'Josiel Mendonça Soares de Souza'
 
 release = '0.0'
-version = '0.0.8'
+version = '0.0.9'
 
 # -- General configuration
 
