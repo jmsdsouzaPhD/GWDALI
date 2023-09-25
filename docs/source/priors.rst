@@ -58,3 +58,35 @@ Priors
 .. figure:: ./fig_priors.png
    :alt: priors
    :align: center
+
+=================================  
+Make your own prior
+=================================
+
+To redefine your priors define a dictionary as bellow:
+
+.. code:: python
+
+	# Defining a new prior only for the luminosity distance:
+
+	x = np.linspace(1,5,1000) # dL values
+	y = x**2 # prior as power-law
+
+	new_priors = {}
+	new_priors['DL'] = x, y
+
+	res = gw.GWDALI( Detection_Dict = params, 
+             FreeParams     = FreeParams, 
+             detectors      = [det0,det1,det2,det3], # Einstein Telescope + Cosmic Explorer
+             approximant    = 'TaylorF2_py',
+             dali_method    = 'Doublet',
+             sampler_method = 'nestle', # Same as Bilby sampling method
+             new_priors     = new_priors,
+             save_fisher    = False,
+             save_cov       = False,
+             plot_corner    = False,
+             save_samples   = False,
+             hide_info      = True,
+             index          = 1,
+             rcond          = 1.e-4,
+             npoints=300) # points for "nested sampling" or steps/walkers for "MCMC"

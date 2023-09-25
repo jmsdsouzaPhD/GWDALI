@@ -2,7 +2,7 @@
 API
 =================================
 
-.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, rcond=1.e-4, npoints=300)
+.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', new_priors = None, save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, rcond=1.e-4, npoints=300)
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
@@ -22,6 +22,7 @@ API
 	:param fsize: number of frequency points.
 	:param dali_method: DALI method [``'Fisher_Sampling'``, ``'Doublet'``, ``'Triplet'``, ``'Standard'``] or only ``'Fisher'`` for a simple numerical matrix inversion. The 'Standard' method use the complete GW likelihood (with no approximation).
 	:param sampler_method: Method used for DALI (the same ones available in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_)
+	:param new_priors: Redefine your priors
 	:param save_fisher: Save the Fisher Matrix in a file named 'Fisher_Matrix_<index>.txt' where ``index`` is the integer argument bellow
 	:param save_cov: Save the Covariance Matrix in a file named 'Covariance_<index>.txt'.
 	:param plot_corner: Make a corner plot when using DALI methods.
@@ -40,6 +41,7 @@ API
 	:type fsize: float
 	:type dali_method: str
 	:type sampler_method: str
+	:type new_priors: dict
 	:type save_fisher: bool
 	:type save_cov: bool
 	:type plot_corner: bool
