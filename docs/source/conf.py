@@ -3,7 +3,7 @@
 # -- Project information
 
 project = 'GWDALI'
-copyright = '2023, Josiel'
+copyright = '2024, Josiel'
 author = 'Josiel Mendonça Soares de Souza'
 
 release = '0.0'

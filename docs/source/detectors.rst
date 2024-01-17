@@ -1,5 +1,5 @@
 =================================  
-Detectors
+Detectors (Position/Orientation/Shape)
 =================================
 
 .. code:: python
@@ -9,7 +9,13 @@ Detectors
 .. figure:: ./Coords.png
    :alt: detectors
    :align: center
+   :scale: 50%
 
-.. figure:: ./Coords.png
+=================================  
+Detectors Sensitivity
+=================================
+
+.. figure:: ./Sensitivity.png
    :alt: sensitivity
    :align: center
+   :scale: 50%
