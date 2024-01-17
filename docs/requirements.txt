@@ -1,2 +1,2 @@
 sphinx==7.2.6
-sphinx-alabaster-theme==0.7.16
+sphinx-groundwork-theme==1.1.1
