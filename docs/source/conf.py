@@ -9,6 +9,8 @@ author = 'Josiel Mendonça Soares de Souza'
 release = '0.0'
 version = '0.0.9'
 
+master_doc = 'index'
+
 # -- General configuration
 
 extensions = [
