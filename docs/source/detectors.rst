@@ -9,3 +9,7 @@ Detectors
 .. figure:: ./Coords.png
    :alt: detectors
    :align: center
+
+.. figure:: ./Coords.png
+   :alt: sensitivity
+   :align: center
