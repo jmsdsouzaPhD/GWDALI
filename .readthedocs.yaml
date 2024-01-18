@@ -13,9 +13,9 @@ build:
     # nodejs: "20"
     # rust: "1.70"
     # golang: "1.20"
-	dependencies:
-		- Sphinx
-		- sphinx_pdj_theme
+  dependencies:
+    - Sphinx
+    - sphinx_pdj_theme
 
 
 # Build documentation in the "docs/" directory with Sphinx
