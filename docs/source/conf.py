@@ -33,7 +33,7 @@ templates_path = ['_templates']
 
 import sphinx_pdj_theme
 html_theme = 'sphinx_pdj_theme'
-html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
+html_theme_path = ['sphinx_pdj_theme.get_html_theme_path()']
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
