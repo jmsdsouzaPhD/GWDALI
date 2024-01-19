@@ -7,7 +7,7 @@ copyright = '2024, Josiel'
 author = 'Josiel Mendonça Soares de Souza'
 
 release = '0.0'
-version = '0.0.9'
+version = '0.1.0'
 
 master_doc = 'index'
 
@@ -31,7 +31,7 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'groundwork'
+html_theme = 'sphinx_rtd_theme'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
