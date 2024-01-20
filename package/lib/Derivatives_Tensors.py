@@ -133,6 +133,7 @@ def Fisher_ij(xi,xj, params, detector, approximant): # [1,1]
 	return ScalarProduct(detector['freq'], detector['Sn'], diff_xi, diff_xj )
 
 #-------------------------------------------------#-------------------------------------------------
+# (arXiv:2203.02670)
 
 def func_doublet3(xi,xj,xk, params, detector, approximant): # [1,2]
 	diff_xi    = Diff1(xi,params , detector, approximant)

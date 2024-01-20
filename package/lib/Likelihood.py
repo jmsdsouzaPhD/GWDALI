@@ -32,7 +32,6 @@ class GW_likelihood(bilby.Likelihood):
 		params = self.GWparams.copy()
 		for fp in self.FreeParams:
 			params[fp] = self.parameters[fp]
-			if(fp=='Dec'): params[fp] *= 180/np.pi
 			
 		loglike = 0 ; ndet = 0
 		detectors, approximant = self.DetAp 
@@ -103,24 +102,24 @@ class DALI_likelihood(bilby.Likelihood):
 		if(np.isnan(loglike) or np.isnan(loglike)): loglike = -1.e10
 		return loglike
 
-#----------------------------------------
-# Prior(DL): dVc/dz
-#----------------------------------------
-x = np.linspace(1.e-3,10,1000)
-d = cosmo.luminosity_distance(x).value
-H = cosmo.H(x).value
-Rc = d/(1+x)
-priorD = 4*np.pi*Rc**2/H
-xx = d/1.e3
-yy = priorD/sum(priorD)
-#----------------------------------------
-
 def get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, Detectors, Tensors, dali_method, sampler_method, npoints,new_priors):
 	Dict = {}
-	DL0 = Detection_Dict['DL']
 	d1 = cosmo.luminosity_distance(0.001).value / 1.e3 # Gpc
 	d2 = cosmo.luminosity_distance(5.0).value / 1.e3   # Gpc
 	#----------------------------#----------------------------#----------------------------
+	
+	#----------------------------------------
+	# Prior(DL): dVc/dz
+	#----------------------------------------
+	x = np.linspace(1.e-3,10,1000)
+	d = cosmo.luminosity_distance(x).value
+	H = cosmo.H(x).value
+	Rc = d/(1+x)
+	priorD = 4*np.pi*Rc**2/H
+	xx = d/1.e3
+	yy = priorD/sum(priorD)
+	#----------------------------------------
+
 	Dict['DL']    = bilby.core.prior.Interped(name='DL',xx=xx,yy=yy,minimum=d1, maximum=d2)
 	Dict['iota']  = bilby.core.prior.Sine(name='iota', minimum=0, maximum=np.pi)
 	Dict['psi']   = bilby.core.prior.Uniform(name='psi',minimum=0, maximum=np.pi)
@@ -128,8 +127,11 @@ def get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, Detec
 	Dict['alpha'] = bilby.core.prior.Uniform(name='alpha',minimum=-np.pi, maximum=np.pi)
 	Dict['beta']  = bilby.core.prior.Sine(name='beta',minimum=0, maximum=np.pi)
 	#----------------------------#----------------------------#----------------------------
+	xx = np.linspace(-90,90,1000)
+	yy = np.cos(xx*np.pi/180)
+	yy/=sum(yy)
 	Dict['RA']    = bilby.core.prior.Uniform(name='RA',minimum=-180, maximum=180) # deg unit
-	Dict['Dec']   = bilby.core.prior.Cosine(name='Dec',minimum=-np.pi/2, maximum=np.pi/2) # rad unit
+	Dict['Dec']   = bilby.core.prior.Interped(name='Dec',xx=xx,yy=yy,minimum=-90, maximum=90) # deg unit
 	#----------------------------#----------------------------#----------------------------
 	Dict['m1']    = bilby.core.prior.Uniform(name='m1',minimum=0.1, maximum=100)
 	Dict['m2']    = bilby.core.prior.Uniform(name='m2',minimum=0.1, maximum=100)
