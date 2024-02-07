@@ -91,6 +91,9 @@ def GWDALI( Detection_Dict,
 			save_fisher  = False,
 			plot_corner  = False,
 			hide_info    = False,
+			step_size	 = 1.e-6,
+			diff_order	 = 2,
+			run_sampler  = True,
 			index		 = 1):
 
 	if(not hide_info):
@@ -148,7 +151,7 @@ def GWDALI( Detection_Dict,
 	#-----------------------------------------------------------------------------------
 	# From Compute_Tensors.py (looping in detectors)
 	#-----------------------------------------------------------------------------------
-	SNR , GwData, Fisher , Doublet , Triplet = Get_Tensors(FreeParams, Detection_Dict, detectors, dali_method, approximant,hide_info)
+	SNR , GwData, Fisher , Doublet , Triplet = Get_Tensors(FreeParams, Detection_Dict, detectors, dali_method, approximant, step_size, diff_order, hide_info)
 	Tensors = [Fisher , Doublet , Triplet]
 	#-----------------------------------------------------------------------------------
 	t2 = now()
@@ -202,28 +205,35 @@ def GWDALI( Detection_Dict,
 	#------------------------------------------------------
 	if(dali_method != 'Fisher'):
 		# allowed only for Fisher_Sampling and Doublet
-		if(not hide_info): print("Running Sampler ...\n")
-		#------------------------------------------------------#------------------------------------------------------
-		M = get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, detectors, Tensors, dali_method, sampler_method, npoints, new_priors)
-		#------------------------------------------------------#------------------------------------------------------
-		Cov2 = np.matrix( np.cov(np.transpose(M)) )
-		header3 = header + '\n' + line + '\nRecovery:\n'
-		for i in range(len(FreeParams)): header3 += '%e\t' % np.average(M[:,i])
-		header3 += '\n' + line
-		if(save_cov): np.savetxt(path+'Covariance_Matrix_%d.txt'%(index),Cov2,fmt='%e',delimiter='\t',header=header3)
+		if(run_sampler):
+			if(not hide_info): print("Running Sampler ...\n")
+			#------------------------------------------------------#------------------------------------------------------
+			M = get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, detectors, Tensors, dali_method, sampler_method, npoints, new_priors)
+			#------------------------------------------------------#------------------------------------------------------
+			Cov2 = np.matrix( np.cov(np.transpose(M)) )
+			header3 = header + '\n' + line + '\nRecovery:\n'
+			for i in range(len(FreeParams)): header3 += '%e\t' % np.average(M[:,i])
+			header3 += '\n' + line
+			if(save_cov): np.savetxt(path+'Covariance_Matrix_%d.txt'%(index),Cov2,fmt='%e',delimiter='\t',header=header3)
 
-		qs = [0.2,0.5,0.8] # CL = 60%
-		Error, Recovery = [], []
-		for m in M.T:
-			q = np.quantile(m,qs)
-			Recovery.append(q[1])
-			Error.append(0.5*(q[2]-q[0]))
+			qs = [0.2,0.5,0.8] # CL = 60%
+			Error, Recovery = [], []
+			for m in M.T:
+				q = np.quantile(m,qs)
+				Recovery.append(q[1])
+				Error.append(0.5*(q[2]-q[0]))
+		else:
+			print("run_sampler (disabled)!")
+			Cov2, M, Error, Recovery = [],[],[],[]
 
 		Result['Covariance'] = Cov2
 		Result['Samples']    = M
 		Result['Error']      = Error
 		Result['Recovery']   = Recovery
-	Result['SNR']		 = SNR
+	
+	Result['SNR']	  = SNR
+	Result['Tensors'] = Tensors
+
 	#------------------------------------------------------
 	# Save Samples
 	#------------------------------------------------------

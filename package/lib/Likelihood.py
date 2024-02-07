@@ -52,116 +52,103 @@ class DALI_likelihood(bilby.Likelihood):
 		self.Theta0      = args[1]
 		self.Tensors     = args[2]
 		self.dali_method = args[3]
-
 		aux = {}
-		for f in args[0]:
-			aux[f] = 0
-
-		self.it = 0
-		bilby.Likelihood.__init__(self, aux)
-		pass
+		for f in args[0]: aux[f] = None
+		super().__init__(aux)
 
 	def log_likelihood(self):
-		Theta = [] ; Np = len(self.FreeParams)
+		dX = [] ; i = 0
+		Np = len(self.FreeParams)
 		for fp in self.FreeParams:
-			prm = self.parameters[fp]
-			if(fp=='Dec'): prm *= 180/np.pi
-			Theta.append(prm)
+			Theta  = self.parameters[fp]
+			Theta0 = self.Theta0[i] ; i += 1
+			dX.append(Theta-Theta0) # Fixed!!!
 
-		Theta  = np.array(Theta)
-		dT = np.array( self.Theta0 - Theta )
+		Fij , Doublet , Triplet = self.Tensors
+		Db3, Db4 = Doublet
+		Tp4, Tp5, Tp6 = Triplet
 
-		Fisher , Doublet , Triplet = self.Tensors
+		dX  = np.array(dX)
+		dX2 = np.outer(dX,dX)
+		dX3 = np.outer(dX2,dX)
+		dX4 = np.outer(dX3,dX)
+		dX5 = np.outer(dX4,dX)
+		dX6 = np.outer(dX5,dX)
 
-		Fisher_vec = Fisher.ravel() # ravel() used to convert n-dimensional matrix to 1D array
-		Doublet3, Doublet4 = Doublet
-		Triplet4, Triplet5, Triplet6 = Triplet
-
-		dX2 = np.outer(dT,dT)
-		dX3 = np.outer(dX2,dT)
-		dX4 = np.outer(dX3,dT)
-		dX5 = np.outer(dX4,dT)
-		dX6 = np.outer(dX5,dT)
-
-		dX2 = dX2.ravel()
-		dX3 = dX3.ravel()
-		dX4 = dX4.ravel()
-		dX5 = dX5.ravel()
-		dX6 = dX6.ravel()
+		dX2 = np.ravel(dX2)
+		dX3 = np.ravel(dX3)
+		dX4 = np.ravel(dX4)
+		dX5 = np.ravel(dX5)
+		dX6 = np.ravel(dX6)
 
 		# From arXiv:2203.02670
-		# logL = logL0 - (1/2)Fisher * dTheta_ij - [ (1/2)Doublet3 * dTheta_ijk  + (1/8) * dTheta_ijkl ]
-		#        - [ (1/6)Triplet4 * dTheta_ijkl + (1/12) * dTheta_ijklm + (1/72) * dTheta_ijklmn ] + ...
+		# logL = logL0 - (1/2)Fisher * dTheta_ij - [ (1/2)Db3 * dTheta_ijk  + (1/8) * dTheta_ijkl ]
+		#        - [ (1/6)Tp4 * dTheta_ijkl + (1/12) * dTheta_ijklm + (1/72) * dTheta_ijklmn ] + ...
+		
+		loglike = -np.sum(Fij*dX2)/2
+		loglike -= np.sum(Db3*dX3)/2 + np.sum(Db4*dX4)/8
+		loglike -= np.sum(Tp4*dX4)/6 + np.sum(Tp5*dX5)/12 + np.sum(Tp6*dX6)/72
 
-		loglike = - sum(Fisher_vec*dX2)/2.
-		if(self.dali_method in ['Doublet','Triplet']):
-			loglike -= (  sum(Doublet3*dX3)/2. + sum(Doublet4*dX4)/8. )
-			if(self.dali_method == 'Triplet'):
-				loglike -= ( sum(Triplet4*dX4)/6. + sum(Triplet5*dX5)/12. + sum(Triplet6*dX6)/72. )
+		if(np.isnan(loglike) or np.isnan(loglike)): return -1.e9
+		else: return loglike
 
-		if(np.isnan(loglike) or np.isnan(loglike)): loglike = -1.e10
-		return loglike
+#----------------------------------------
+# Prior(DL): dVc/dz
+#---------------------------------------- 
+z      = np.linspace(1.e-3,10,1000) ; dz = z[1]-z[0]# redshift
+Vc     = cosmo.comoving_volume(z).value
+priorD = np.diff(Vc)/np.diff(z)
+z   = z[1:]-dz/2
+XdL = cosmo.luminosity_distance(z).value / 1.e3 # dL in Gpc
+YdL = priorD/sum(priorD)
+#----------------------------------------
+d1 = cosmo.luminosity_distance(1.e-3).value / 1.e3 # Gpc
+d2 = cosmo.luminosity_distance(5.0).value / 1.e3   # Gpc
+#----------------------------------------
+# Pior(Dec): cos(Dec[degrees])
+Xdec = np.linspace(-90,90,1000)
+Ydec = np.cos(Xdec*np.pi/180)
+Ydec/=sum(Ydec)
+#----------------------------------------
 
 def get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, Detectors, Tensors, dali_method, sampler_method, npoints,new_priors):
-	Dict = {}
-	d1 = cosmo.luminosity_distance(0.001).value / 1.e3 # Gpc
-	d2 = cosmo.luminosity_distance(5.0).value / 1.e3   # Gpc
+	Priors_std = {}
+	Priors_std['DL']   = bilby.core.prior.Interped(name='DL',xx=XdL,yy=YdL,minimum=d1, maximum=d2) # Gpc
+	Priors_std['iota']  = bilby.core.prior.Sine(name='iota', minimum=0, maximum=np.pi) # radians
+	Priors_std['psi']   = bilby.core.prior.Uniform(name='psi',minimum=0, maximum=np.pi) # radians
 	#----------------------------#----------------------------#----------------------------
-	
-	#----------------------------------------
-	# Prior(DL): dVc/dz
-	#----------------------------------------
-	x = np.linspace(1.e-3,10,1000)
-	d = cosmo.luminosity_distance(x).value
-	H = cosmo.H(x).value
-	Rc = d/(1+x)
-	priorD = 4*np.pi*Rc**2/H
-	xx = d/1.e3
-	yy = priorD/sum(priorD)
-	#----------------------------------------
-
-	Dict['DL']    = bilby.core.prior.Interped(name='DL',xx=xx,yy=yy,minimum=d1, maximum=d2)
-	Dict['iota']  = bilby.core.prior.Sine(name='iota', minimum=0, maximum=np.pi)
-	Dict['psi']   = bilby.core.prior.Uniform(name='psi',minimum=0, maximum=np.pi)
+	Priors_std['alpha'] = bilby.core.prior.Uniform(name='alpha',minimum=-np.pi, maximum=np.pi) # radians
+	Priors_std['beta']  = bilby.core.prior.Sine(name='beta',minimum=0, maximum=np.pi) # radians
 	#----------------------------#----------------------------#----------------------------
-	Dict['alpha'] = bilby.core.prior.Uniform(name='alpha',minimum=-np.pi, maximum=np.pi)
-	Dict['beta']  = bilby.core.prior.Sine(name='beta',minimum=0, maximum=np.pi)
+	Priors_std['RA']    = bilby.core.prior.Uniform(name='RA',minimum=-180, maximum=180) # degrees
+	Priors_std['Dec']   = bilby.core.prior.Interped(name='Dec',xx=Xdec,yy=Ydec,minimum=-90, maximum=90) # degrees
 	#----------------------------#----------------------------#----------------------------
-	xx = np.linspace(-90,90,1000)
-	yy = np.cos(xx*np.pi/180)
-	yy/=sum(yy)
-	Dict['RA']    = bilby.core.prior.Uniform(name='RA',minimum=-180, maximum=180) # deg unit
-	Dict['Dec']   = bilby.core.prior.Interped(name='Dec',xx=xx,yy=yy,minimum=-90, maximum=90) # deg unit
+	Priors_std['m1']    = bilby.core.prior.Uniform(name='m1',minimum=0.1, maximum=100) # solar mass
+	Priors_std['m2']    = bilby.core.prior.Uniform(name='m2',minimum=0.1, maximum=100) # solar mass
 	#----------------------------#----------------------------#----------------------------
-	Dict['m1']    = bilby.core.prior.Uniform(name='m1',minimum=0.1, maximum=100)
-	Dict['m2']    = bilby.core.prior.Uniform(name='m2',minimum=0.1, maximum=100)
+	Priors_std['Mc']    = bilby.core.prior.Uniform(name='Mc',minimum=0.1, maximum=100) # solar mass
+	Priors_std['eta']   = bilby.core.prior.Uniform(name='eta',minimum=1.e-3, maximum=1./4)
+	Priors_std['q']     = bilby.core.prior.Uniform(name='q',minimum=1.e-3, maximum=1.0)
 	#----------------------------#----------------------------#----------------------------
-	Dict['Mc']    = bilby.core.prior.Uniform(name='Mc',minimum=0.1, maximum=100)
-	Dict['eta']   = bilby.core.prior.Uniform(name='eta',minimum=1.e-3, maximum=1./4)
-	Dict['q']     = bilby.core.prior.Uniform(name='q',minimum=1.e-3, maximum=1.0)
+	Priors_std['sx1']    = bilby.core.prior.Uniform(name='sx1',minimum=0, maximum=1.0)
+	Priors_std['sy1']    = bilby.core.prior.Uniform(name='sy1',minimum=0, maximum=1.0)
+	Priors_std['sz1']    = bilby.core.prior.Uniform(name='sz1',minimum=0, maximum=1.0)
+	Priors_std['sx2']    = bilby.core.prior.Uniform(name='sx2',minimum=0, maximum=1.0)
+	Priors_std['sy2']    = bilby.core.prior.Uniform(name='sy2',minimum=0, maximum=1.0)
+	Priors_std['sz2']    = bilby.core.prior.Uniform(name='sz2',minimum=0, maximum=1.0)
 	#----------------------------#----------------------------#----------------------------
-	Dict['sx1']    = bilby.core.prior.Uniform(name='sx1',minimum=0, maximum=1.0)
-	Dict['sy1']    = bilby.core.prior.Uniform(name='sy1',minimum=0, maximum=1.0)
-	Dict['sz1']    = bilby.core.prior.Uniform(name='sz1',minimum=0, maximum=1.0)
-	Dict['sx2']    = bilby.core.prior.Uniform(name='sx2',minimum=0, maximum=1.0)
-	Dict['sy2']    = bilby.core.prior.Uniform(name='sy2',minimum=0, maximum=1.0)
-	Dict['sz2']    = bilby.core.prior.Uniform(name='sz2',minimum=0, maximum=1.0)
-	#----------------------------#----------------------------#----------------------------
-	Dict['phi_coal']  = bilby.core.prior.Uniform(name='phi_coal',minimum=0, maximum=2*np.pi)
-	Dict['t_coal']    = bilby.core.prior.Uniform(name='t_coal',minimum=0, maximum=3600) # 1 hour
+	Priors_std['phi_coal']  = bilby.core.prior.Uniform(name='phi_coal',minimum=0, maximum=2*np.pi) # radians
+	Priors_std['t_coal']    = bilby.core.prior.Uniform(name='t_coal',minimum=0, maximum=3600) # seconds
 	#----------------------------#----------------------------#----------------------------
 
 	Priors = {}
-	for fp in FreeParams:
-		if(new_priors == None):
-			Priors[fp] = Dict[fp]
-		elif(not (fp in new_priors.keys()) ):
-			Priors[fp] = Dict[fp]
-		else:
+	for fp in FreeParams: Priors[fp] = Priors_std[fp]
+	if(new_priors!=None):
+		for fp in new_priors.keys():
 			try:
-				x, y = new_priors[fp]
-				y /= sum(y)
-				Priors[fp] = bilby.core.prior.Interped(name=fp,xx=x,yy=y,minimum=min(x),maximum=max(x))
+				Xval, Yval = new_priors[fp]
+				Yval /= sum(Yval)
+				Priors[fp] = bilby.core.prior.Interped(name=fp,xx=Xval,yy=Yval,minimum=min(Xval),maximum=max(Xval))
 			except:
 				print('\n>> Invalid key/argment in new_priors dictionay!\n')
 				quit()
@@ -169,6 +156,11 @@ def get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, Detec
 	if(dali_method=='Standard'):
 		likelihood = GW_likelihood([FreeParams, GwData, Detection_Dict, [Detectors,approximant] ])
 	else:
+		Fisher, Doublet, Triplet = Tensors
+		Fisher = np.ravel(Fisher)
+		Doublet = [np.ravel(Doublet[i]) for i in range(2)]
+		Triplet = [np.ravel(Triplet[i]) for i in range(3)]
+		Tensors = [Fisher,Doublet,Triplet]
 		likelihood = DALI_likelihood([FreeParams, Theta0, Tensors, dali_method])
 
 	outdir = 'outdir_%s_%d/' % (dali_method, int(np.random.uniform(0,300))  )
@@ -182,14 +174,9 @@ def get_posterior(FreeParams, Theta0, Detection_Dict, GwData, approximant, Detec
 	res = bilby.run_sampler(likelihood=likelihood, priors=Priors,
 							sampler=sampler_method, npoints=npoints, 
 							nsteps=npoints, nwalkers=npoints, 
-							nburn=int(0.8*npoints), outdir=outdir)
+							nburn=int(0.2*npoints), outdir=outdir)
 	shutil.rmtree(outdir)
 
 	#----------------------------
-
-	M = []
-	for fp in FreeParams:
-		M.append(res.posterior[fp])
-	M = np.transpose(np.array(M))
-
-	return M
+	M = [res.posterior[fp] for fp in FreeParams]
+	return np.transpose(np.array(M))
