@@ -1,4 +1,4 @@
-# GWDALI (0.1.1)
+# GWDALI (0.1.2)
 A Fisher-Based Software for Parameter Estimation from Gravitational Waves
 
 ![Logo](https://github.com/jmsdsouzaPhD/GWDALI/blob/main/docs/source/logo_gwdali.png)
