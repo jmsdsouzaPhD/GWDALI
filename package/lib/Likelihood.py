@@ -3,7 +3,7 @@ import numpy as np
 import bilby, os, shutil, sys
 from time import time as now
 
-import GWDALI.lib.Derivatives_Tensors as gwfunc
+import GWDALI.lib.Diff_Signal_Tensors as gwfunc
 from astropy.cosmology import FlatLambdaCDM
 cosmo = FlatLambdaCDM(70,0.3)
 
@@ -23,9 +23,8 @@ class GW_likelihood(bilby.Likelihood):
 		self.Data       = args[1]
 		self.GWparams   = args[2]
 		self.DetAp		= args[3]
-		for f in args[0]: aux[f] = 0
-		bilby.Likelihood.__init__(self, aux)
-		pass
+		for f in args[0]: aux[f] = None
+		super().__init__(aux)
 
 	def log_likelihood(self):
 		Np = len(self.FreeParams)
@@ -42,7 +41,7 @@ class GW_likelihood(bilby.Likelihood):
 			loglike -= 0.5*gwfunc.ScalarProduct(det['freq'],det['Sn'],diff,diff)
 			ndet += 1
 			
-		if(np.isnan(loglike) or np.isinf(loglike)): loglike = -1.e10
+		if(np.isnan(loglike) or np.isinf(loglike)): loglike = -1.e9
 		return loglike
 #--------------------------------------------------
 

@@ -3,6 +3,8 @@ import GWDALI.lib.Waveforms as wf
 import GWDALI.lib.Angles_lib as geo
 import GWDALI.lib.Dictionaries as gwdict
 from scipy.interpolate import interp1d
+from scipy.integrate import trapezoid
+from scipy.optimize import root
 
 rad = np.pi/180
 deg = 1./rad
@@ -12,6 +14,83 @@ R_earth = 6371.e3 # meters
 
 PSD, labels_tex = gwdict.Load_Dictionaries()
 
+#----------------------------------------------
+# m1(m2,Mc) or m2(m1,Mc)
+def func_mMc(x,args):
+	m, Mc = args
+	return x**3 - (Mc**5/m**3)*x - Mc**5/m**2
+def m_Mc(m,Mc,x0):
+	res = root(func_mMc,x0,args=[m,Mc])
+	return float(res.x[0])
+#----------------------------------------------
+# m1(eta,Mc) and m2(eta,Mc)
+def eta_Mc(eta,Mc):
+	m1 = 0.5*(Mc/eta**(3./5)) * (1 + np.sqrt(1-4*eta))
+	m2 = 0.5*(Mc/eta**(3./5)) * (1 - np.sqrt(1-4*eta))
+	return m1, m2
+#----------------------------------------------
+def q_Mc(q,Mc):
+	m1 = ((1+q)/q**3)**(1./5)*Mc
+	m2 = (q**2*(1+q))**(1./5)*Mc
+	return m1, m2
+#----------------------------------------------
+def eta_m2(eta,m2): # return m1
+	return 0.5*(m2/eta)*( (1-2*eta) + np.sqrt(1-4*eta))
+def eta_m1(eta,m1): # return m2
+	return 0.5*(m1/eta)*( (1-2*eta) - np.sqrt(1-4*eta))
+#----------------------------------------------
+
+def get_mass(prms):
+	keys = list(prms.keys())
+	Mass = {}	
+	for key in keys:
+		if( key in ['m1','m2','q','eta','Mc'] ):
+			Mass[key] = prms[key]
+	
+	keys = Mass.keys()
+	if(all(x in ['m1','m2'] for x in keys) ):
+		return Mass['m1'], Mass['m2']
+	elif(all(x in ['eta','Mc'] for x in keys) ):
+		eta, Mc = Mass['eta'], Mass['Mc']
+		return eta_Mc(eta,Mc)
+	elif(all(x in ['eta','m1'] for x in keys) ):
+		m1, eta = Mass['m1'], Mass['eta']
+		m2 = eta_m1(eta,m1)
+		return m1, m2
+	elif(all(x in ['eta','m2'] for x in keys) ):
+		m2, eta = Mass['m2'], Mass['eta']
+		m1 = eta_m2(eta,m2)
+		return m1, m2
+	elif( all(x in ['m1','q'] for x in keys) ):
+		m1, q = Mass['m1'], Mass['q']
+		m2 = m1*q
+		return m1, m2
+	elif( all(x in ['m2','q'] for x in keys) ):
+		m2, q = Mass['m2'], Mass['q']
+		m1 = m2/q
+		return m1, m2
+	elif( all(x in ['q','Mc'] for x in keys) ):
+		q, Mc = Mass['q'], Mass['Mc']
+		return q_Mc(q,Mc)
+	elif( all(x in ['m1','Mc'] for x in keys) ):
+		m1, Mc = Mass['m1'], Mass['Mc']
+		m2 = m_Mc(m1,Mc,m1)
+		return m1, m2
+	elif( all(x in ['m2','Mc'] for x in keys) ):
+		m2, Mc = Mass['m2'], Mass['Mc']
+		m1 = m_Mc(m2,Mc,m2)
+		return m1, m2
+	if(all(x in ['q','eta'] for x in keys) ):
+		print("---"*10)
+		print("Error! It is not possible to recover (m1,m2) from (q,Mc)")
+		print("---"*10) ; quit()
+	else:
+		print("---"*10)
+		print("Error! We need at least 2 mass parameters!")
+		print("Parameters allowed: (m1, m2, q, eta, Mc)")
+		print("---"*10) ; quit()
+
+#------------------------------------------------
 
 def Pattern_Func(alpha,beta,psi,Omega):
 	u = np.cos(beta) ; Coeff = np.sin(Omega)
@@ -24,31 +103,14 @@ def Pattern_Func(alpha,beta,psi,Omega):
 	return Fp, Fx
 
 #-------------------------------------------------
-def Integral(x,y):
-	return np.sum( np.array( [0.5*(y[i]+y[i-1])*(x[i]-x[i-1]) for i in range(1,len(x)) ] ) )
 
 def ScalarProduct(freq,Sn,A,B):
-	return 4*np.real( Integral(freq, A*np.conj(B)/Sn) )
+	return 4*np.real( trapezoid( A*np.conj(B)/Sn, freq) )
 
 def GW_Polarizations(params, freq, approx):
 	keys = list(params.keys())
 	
-	#-------------------------------------------------
-	# Convert Masses
-	#-------------------------------------------------
-	if(all( p in  keys for p in ['m1','m2'])):
-		m1 = params['m1'] ; m2 = params['m2']
-	elif(all( p in keys for p in ['Mc','eta'] )):
-		Mc = params['Mc'] ; eta = params['eta'] 
-		Coeff = Mc/(2*eta**0.6)
-		m1 = Coeff*( 1. + np.sqrt(1.-4*eta) ) # m1>m2
-		m2 = Coeff*( 1. - np.sqrt(1.-4*eta) )
-	elif(all( p in keys for p in ['Mc','q'] )):
-		Mc = params['Mc'] ; q = params['q'] # q = m2/m1
-		m2 = ( q*q*(1.+q) )**0.2 * Mc
-		m1 = m2/q 
-	else: print("\n\n# Invalid options to mass! \n\t >> Available: [m1,m2] or [Mc,eta] or [Mc,q]\n\n")
-	#-------------------------------------------------
+	m1, m2   = get_mass(params)
 	DL       = params['DL']*1.e3      # Gpc --> Mpc
 	iota     = params['iota']         # rad
 	psi      = params['psi']          # rad
@@ -83,7 +145,7 @@ def Signal(params, det, approx):
 
 	alpha_obs, beta_obs, psi_obs = geo.ObsAngles(alpha,beta,iota,psi,lon,lat,rot)
 
-	t_delay = -np.cos(beta_obs)*R_earth/c # time delay between detector and center of Earth
+	t_delay = np.cos(beta_obs)*R_earth/c # time delay between detector and center of Earth
 
 	Fp, Fx = Pattern_Func(alpha_obs,beta_obs,psi_obs,det['shape']*rad)
 	hp, hx, freq0 = GW_Polarizations(params, freq, approx)

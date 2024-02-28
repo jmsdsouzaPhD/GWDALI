@@ -2,8 +2,8 @@ import os, sys
 import numpy as np
 import GWDALI.lib.Angles_lib as geo
 import GWDALI.lib.Dictionaries as dct
-import GWDALI.lib.Derivatives_Tensors as gw
-import GWDALI.lib.Symmetric_Indexies as sym
+import GWDALI.lib.Diff_Signal_Tensors as gw
+import GWDALI.lib.Auxiliar as sym
 
 from itertools import permutations
 from tqdm import trange
@@ -56,7 +56,7 @@ def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approx, step_size, 
 				Fisher[i][j] += Fij
 
 				if(i!=j): Fisher[j][i] += Fij
-		print("\n\n\t\tFisher Concluded!!!\n\n")
+		if(not hide_info): print("\n\n\t\tFisher Concluded!!!\n\n")
 		#------------------------------------------------------
 		# Computing Doublet/Triplet (arXiv:2203.02670)
 		#------------------------------------------------------
@@ -81,7 +81,7 @@ def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approx, step_size, 
 					for p2 in pmt([k,l]):
 						kk, ll = p2
 						Db4[ii][jj][kk][ll] += value
-						print('(%s) [Sym] Doublet: '%det['name'], i, j, k, l,'...'*10, end='\r')
+						if(not hide_info): print('(%s) [Sym] Doublet: '%det['name'], i, j, k, l,'...'*10, end='\r')
 			#*****************************#*****************************#*****************************
 			if(dali_method == 'Triplet'):
 				indepT_13, indepT_23, indepT_33 = idxs_trip
@@ -110,7 +110,7 @@ def Get_Tensors(FreeParams, gw_prms, detectors, dali_method, approx, step_size, 
 						for p2 in pmt([l,m,n]):
 							ll, mm, nn = p2
 							Tp6[ii][jj][kk][ll][mm][nn] += value
-							print('(%s) [Sym] Triplet: '%det['name'], i, j, k, l, m, n,'...'*10, end='\r')
+							if(not hide_info): print('(%s) [Sym] Triplet: '%det['name'], i, j, k, l, m, n,'...'*10, end='\r')
 		# --------------# --------------# --------------					
 
 	SNR_sum = np.sqrt(rho2)
