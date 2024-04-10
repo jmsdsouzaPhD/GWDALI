@@ -2,12 +2,12 @@
 API
 =================================
 
-.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', new_priors = None, save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, rcond=1.e-4, npoints=300)
+.. py:function:: GWDALI.GWDALI(Detection_Dict, FreeParams, detectors, approximant='TaylorF2', fmin=1, fmax=1.e4, fsize=3000, dali_method='Fisher_Sampling', sampler_method='nestle', new_priors = None, save_fisher=True, save_cov=True, plot_corner=True, save_samples=True, hide_info=False, index=1, rcond=1.e-4, diff_order=2, step_size=1.e-6, run_sampler=True, npoints=300)
 
 	Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).
 
 	:param Detection_Dict: A dictionary of GW parameters;
-	:param FreeParams: list of free parameters among the available ['m1', 'm2', 'RA', 'Dec', 'DL', 'iota', 'psi', 't_coal', 'phi_coal', 'sx1', 'sy1', 'sz1', 'sx2', 'sy2', 'sz2']
+	:param FreeParams: list of free parameters among the available ['m1', 'm2', 'RA', 'Dec', 'DL', 'inv_dL', 'ln_dL', 'iota', 'cos_iota', 'psi', 't_coal', 'phi_coal', 'sx1', 'sy1', 'sz1', 'sx2', 'sy2', 'sz2']
 	:param detectors: list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration). Each detector dictionary needs to have the following keys:
 
 		* ``name``: (str) The detector name for which the *Noise Power Spectral Density* will be chosen. Available detectors: ['aLIGO', 'aVirgo', 'KAGRA', 'ET', 'CE'];
@@ -30,6 +30,8 @@ API
 	:param hide_info: Hide software outputs in the screen.
 	:param index: Integer argument used in the saved .txt files.
 	:param rcond: Same as rcond in `numpy.linalg.pinv <https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html>`_;
+	:param diff_order: (Avalible 2 or 4) Numerical derivative precision, e.g. for a given step h, for (2) the uncertainty is of order $h^3$, if (3) the uncertainty is of order $h^5$;  
+	:param step_size: Relative step size in the numerical derivative, i.e., dx = max( step_size, step_size*x ) where x is some parameter value;
 	:param npoints: Same as npoints, nsteps, nwalkers in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_;
 	
 	:type Detection_Dict: dict
@@ -49,6 +51,8 @@ API
 	:type hide_info: bool
 	:type index: int
 	:type rcond: float
+	:type diff_order: int
+	:type step_size: float
 	:type npoints: int
 
 	:return: Return a dictionary with the following keys
@@ -66,3 +70,5 @@ API
 		- ``Error``: list of parameters uncertainties (Confidence Level = 60%)
 	
 		- ``SNR``: value of the GW source signal to noise ratio (float)
+
+		- ``Tensors``: Arrays of DALI Tensors (e.g. for N free parameters we have: Fisher[dim=NxN], Doublet12 [dim=NxNxN], Doublet22 [dim=NxNxNxN], Triplet13 [dim=NxNxNxN] , Triplet23 [dim=NxNxNxNxN], Triplet33 [dim=NxNxNxNxNxN] )
