@@ -30,7 +30,7 @@ API
 	:param hide_info: Hide software outputs in the screen.
 	:param index: Integer argument used in the saved .txt files.
 	:param rcond: Same as rcond in `numpy.linalg.pinv <https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html>`_;
-	:param diff_order: (Avalible 2 or 4) Numerical derivative precision, e.g. for a given step h, for (2) the uncertainty is of order :math:`h^3`, if (3) the uncertainty is of order :math:`h^5`;  
+	:param diff_order: (Avalible 2 or 4) Numerical derivative precision, e.g. for a given step h, if diff_orde=2 the uncertainty is of order :math:`h^3`, if diff_order=4 the uncertainty is of order :math:`h^5`;  
 	:param step_size: Relative step size in the numerical derivative, i.e., dx = max( step_size, step_size*x ) where x is some parameter value;
 	:param npoints: Same as npoints, nsteps, nwalkers in `bilby package <https://lscsoft.docs.ligo.org/bilby/>`_;
 	
@@ -71,4 +71,4 @@ API
 	
 		- ``SNR``: value of the GW source signal to noise ratio (float)
 
-		- ``Tensors``: Arrays of DALI Tensors (e.g. for N free parameters we have: Fisher[dim=:math:`N^2`], Doublet12 [dim=:math:`N^3`], Doublet22 [dim=:math:`N^4`], Triplet13 [dim=:math:`N^4`] , Triplet23 [dim=:math:`N^5`], Triplet33 [dim=:math:`N^6`] )
+		- ``Tensors``: Arrays of DALI Tensors (e.g. for N free parameters we have: Fisher[dim= :math:`N^2`], Doublet12 [dim= :math:`N^3`], Doublet22 [dim= :math:`N^4`], Triplet13 [dim= :math:`N^4`] , Triplet23 [dim= :math:`N^5`], Triplet33 [dim= :math:`N^6`] )
