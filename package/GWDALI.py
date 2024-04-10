@@ -6,7 +6,6 @@ import warnings ; warnings.filterwarnings("ignore")
 #----Internal_libs----------
 #===========================
 import GWDALI.lib.Waveforms as wf
-import GWDALI.lib.Angles_lib as geo
 import GWDALI.lib.Dictionaries as gwdict
 import GWDALI.lib.Diff_Signal_Tensors as gwfunc
 import GWDALI.lib.Corner_Plots as corner
@@ -58,17 +57,17 @@ def get_strain_snr(gw_prms,detectors,approximant='TaylorF2',fmin=1.,fmax=1.e4,fs
 	rho2 = 0
 
 	freq = 10**np.linspace(np.log10(fmin), np.log10(fmax), int(fsize))
+	det_a = detectors[0]
 	for idx in range(len(detectors)):
-		det = detectors[idx]
-		Sn0, freq0 = get_Sn(det)
+		det_b = detectors[idx]
+		Sn0, freq0 = get_Sn(det_b)
 		func_Sn = interp1d(freq0,Sn0,fill_value=np.inf,bounds_error=False)
-		detectors[idx]['freq'] = freq
-		detectors[idx]['Sn']   = func_Sn(freq)
+		det_b['freq'] = freq
+		det_b['Sn']   = func_Sn(freq)
 
-		h 	  = gwfunc.Signal(gw_prms, det, approximant)
-		SNR2  = gwfunc.ScalarProduct(det['freq'], det['Sn'],h,h)
+		h 	  = gwfunc.Signal(gw_prms, [det_a, det_b], approximant)
+		SNR2  = gwfunc.ScalarProduct(det_b['freq'], det_b['Sn'],h,h)
 		rho2 += SNR2
-		#print('#####'*10)
 		Strains.append(h)
 		SNR.append(np.sqrt(SNR2))
 

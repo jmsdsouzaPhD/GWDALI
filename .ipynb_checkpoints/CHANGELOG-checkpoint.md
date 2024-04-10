@@ -1,5 +1,12 @@
 # All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2024-04-10
+### Added
+- Allow user to use new free parameters: 
+  - $d_L^{-1}$ [key: **'inv_dL'**] (units of $Gpc^{-1}$);
+  - $ln(d_L/Gpc)$ [key: **'ln_dL'**];
+  - $cos(\iota)$ [key: **'cos_iota'**]
+
 ## [0.1.2] - 2024-02-28
 ### Added
 - Integration method changed to **scipy.integrate.trapezoid(y,x)**

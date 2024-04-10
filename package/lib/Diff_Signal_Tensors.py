@@ -9,7 +9,7 @@ from scipy.optimize import root
 rad = np.pi/180
 deg = 1./rad
 
-c = 299792458 # m/s
+c = 299792458. # m/s
 R_earth = 6371.e3 # meters
 
 PSD, labels_tex = gwdict.Load_Dictionaries()
@@ -39,6 +39,29 @@ def eta_m2(eta,m2): # return m1
 def eta_m1(eta,m1): # return m2
 	return 0.5*(m1/eta)*( (1-2*eta) - np.sqrt(1-4*eta))
 #----------------------------------------------
+def get_iota(prms):
+	if("cos_iota" in prms.keys() ):
+		iota = np.arccos(prms['cos_iota']) # rad
+	elif("iota" in prms.keys() ):
+		iota = prms['iota'] # rad
+	else:
+		print(">> Parameter 'iota' not found!")
+		print(">> Received Parameters:", list(prms.keys()))
+		quit()
+	return iota
+
+def get_dL(prms):
+	if("ln_dL" in prms.keys()):
+		dL = np.exp( prms['ln_dL'] ) * 1.e3
+	elif("inv_dL" in prms.keys()):
+		dL = 1.e3/prms['inv_dL']
+	elif("DL" in prms.keys()):
+		dL = prms["DL"] * 1.e3
+	else:
+		print(">> Parameter 'DL' not found!")
+		print(">> Received Parameters:", list(prms.keys()))
+		quit()
+	return dL
 
 def get_mass(prms):
 	keys = list(prms.keys())
@@ -111,9 +134,9 @@ def GW_Polarizations(params, freq, approx):
 	keys = list(params.keys())
 	
 	m1, m2   = get_mass(params)
-	DL       = params['DL']*1.e3      # Gpc --> Mpc
-	iota     = params['iota']         # rad
-	psi      = params['psi']          # rad
+	iota 	 = get_iota(params) # rad
+	DL       = get_dL(params)   # Mpc
+	psi      = params['psi']    # rad
 
 	sx1 = params['sx1']
 	sy1 = params['sy1']
@@ -129,34 +152,40 @@ def GW_Polarizations(params, freq, approx):
 
 	return hp, hx, freq0
 
-def Signal(params, det, approx):
+# det: abreviation of detector
+def Signal(params,dets,approx):
 	alpha    = params['RA']*rad       # rad
 	beta     = (90-params['Dec'])*rad # rad
-	iota     = params['iota']         # rad
 	psi      = params['psi']          # rad
 	t_coal   = params['t_coal']       # sec
 	phi_coal = params['phi_coal']     # rad
-	
-	name  = det['name']
-	freq  = det['freq'].copy()
-	lon   = det['lon'] # deg
-	lat   = det['lat'] # deg
-	rot   = det['rot'] # deg
+	iota = get_iota(params) # rad
+
+	det_a, det_b = dets
+	tau_a    = geo.get_TimeDelay(det_a,params) # sec (time-delay between det_a and geocenter)
+	tau_b    = geo.get_TimeDelay(det_b,params) # sec (time-delay between det_b and geocenter)
+	tau_ab = (tau_a - tau_b) # time_delay (between det_a and det_b)
+
+	name  = det_b['name']
+	freq  = det_b['freq'].copy()
+	lon   = det_b['lon'] # deg
+	lat   = det_b['lat'] # deg
+	rot   = det_b['rot'] # deg
 
 	alpha_obs, beta_obs, psi_obs = geo.ObsAngles(alpha,beta,iota,psi,lon,lat,rot)
-
-	t_delay = np.cos(beta_obs)*R_earth/c # time delay between detector and center of Earth
-
-	Fp, Fx = Pattern_Func(alpha_obs,beta_obs,psi_obs,det['shape']*rad)
+	Fp, Fx = Pattern_Func(alpha_obs,beta_obs,psi_obs,det_b['shape']*rad)
 	hp, hx, freq0 = GW_Polarizations(params, freq, approx)
 
-	Phase = 2*np.pi*freq0*(t_coal+t_delay) - phi_coal
+	# t_coal := t_(0,a)
+	# tau_ab := tau_a - tau_b = t_(0,a) - t_(0,b)
+	# t_(0,b) = t_(0,a) - tau_ab
+	Phase = 2*np.pi*freq0*(t_coal-tau_ab) - phi_coal
 	H = (Fp*hp + Fx*hx)*np.exp(1.j*Phase)
 	
-	gw_signal = interp1d(freq0,H,bounds_error=False,fill_value='extrapolate')
-	h = gw_signal(freq)
+	#gw_signal = interp1d(freq0,H,bounds_error=False,fill_value='extrapolate')
+	#h = gw_signal(freq)
 
-	return h	
+	return H
 
 #-------------------------------------------------
 
@@ -174,60 +203,66 @@ def split_prms(params,x,eps, diff_order):
 		print("\n\t Invalid diff_order! Allowed values: [2,4] ")
 		quit()
 
-def Diff1(x, params, det, approx, eps, diff_order):
+def Diff1(x, params, dets, approx, eps, diff_order):
 	Ps, dx = split_prms(params,x,eps, diff_order)
-	Y = [Signal(P, det, approx) for P in Ps]
+	Y = [Signal(P, dets, approx) for P in Ps]
 	if(diff_order == 2): return (Y[1]-Y[0])/dx
 	elif(diff_order==4): return 4*(Y[2]-Y[1])/(3*dx) - (Y[3]-Y[0])/(6*dx)
 
-def Diff2(xi, xj, params, det, approx, eps, diff_order):
+def Diff2(xi, xj, params, dets, approx, eps, diff_order):
 	Ps, dx = split_prms(params,xi,eps, diff_order)
-	Y = [Diff1(xj, P, det, approx, eps, diff_order) for P in Ps]
+	Y = [Diff1(xj, P, dets, approx, eps, diff_order) for P in Ps]
 	if(diff_order == 2): return (Y[1]-Y[0])/dx
 	elif(diff_order==4): return 4*(Y[2]-Y[1])/(3*dx) - (Y[3]-Y[0])/(6*dx)
 
-def Diff3(xi, xj, xk, params, det, approx, eps, diff_order):
+def Diff3(xi, xj, xk, params, dets, approx, eps, diff_order):
 	Ps, dx = split_prms(params,xi,eps, diff_order)
-	Y = [Diff2(xj,xk, P, det, approx, eps, diff_order) for P in Ps]
+	Y = [Diff2(xj,xk, P, dets, approx, eps, diff_order) for P in Ps]
 	if(diff_order == 2): return (Y[1]-Y[0])/dx
 	elif(diff_order==4): return 4*(Y[2]-Y[1])/(3*dx) - (Y[3]-Y[0])/(6*dx)
 
 #-------------------------------------------------#-------------------------------------------------
 #-------------------------------------------------#-------------------------------------------------
 
-def Fisher_ij(xi,xj, params, det, approx, eps, diff_order): # [1,1]
-	Dxi = Diff1(xi, params, det, approx, eps, diff_order)
-	Dxj = Diff1(xj, params, det, approx, eps, diff_order)
+def Fisher_ij(xi,xj, params, dets, approx, eps, diff_order): # [1,1]
+	det = dets[1]
+	Dxi = Diff1(xi, params, dets, approx, eps, diff_order)
+	Dxj = Diff1(xj, params, dets, approx, eps, diff_order)
 	return ScalarProduct(det['freq'], det['Sn'], Dxi, Dxj )
 
 #-------------------------------------------------#-------------------------------------------------
 # (arXiv:2203.02670)
 
-def Doublet3(xi,xj,xk, params, det, approx, eps, diff_order): # [1,2]
-	D_i  = Diff1(xi, params, det, approx, eps, diff_order)
-	D_jk = Diff2(xj,xk, params, det, approx, eps, diff_order)
+def Doublet12(xi,xj,xk, params, dets, approx, eps, diff_order): # [1,2]
+	det = dets[1]
+	D_i  = Diff1(xi, params, dets, approx, eps, diff_order)
+	D_jk = Diff2(xj,xk, params, dets, approx, eps, diff_order)
 	return ScalarProduct(det['freq'], det['Sn'], D_i, D_jk)
 
-def Doublet4(xi,xj,xk,xl, params, det, approx, eps, diff_order): # [2,2]
-	D_ij = Diff2(xi,xj, params, det, approx, eps, diff_order)
-	D_kl = Diff2(xk,xl, params, det, approx, eps, diff_order)
+def Doublet22(xi,xj,xk,xl, params, dets, approx, eps, diff_order): # [2,2]
+	det = dets[1]
+	D_ij = Diff2(xi,xj, params, dets, approx, eps, diff_order)
+	D_kl = Diff2(xk,xl, params, dets, approx, eps, diff_order)
 	return ScalarProduct(det['freq'], det['Sn'], D_ij, D_kl)
 
 #-------------------------------------------------#-------------------------------------------------
 
-def Triplet4(xi,xj,xk,xl, params, det, approx, eps, diff_order): # [1,3]
-	D_i   = Diff1(xi, params, det, approx, eps, diff_order)
-	D_jkl = Diff3(xj,xk,xl, params, det, approx, eps, diff_order)
+def Triplet13(xi,xj,xk,xl, params, dets, approx, eps, diff_order): # [1,3]
+	det = dets[1]
+	D_i   = Diff1(xi, params, dets, approx, eps, diff_order)
+	D_jkl = Diff3(xj,xk,xl, params, dets, approx, eps, diff_order)
 	return ScalarProduct(det['freq'], det['Sn'], D_i, D_jkl)
 
-def Triplet5(xi,xj,xk,xl,xm, params, det, approx, eps, diff_order): # [2,3]
-	D_ij  = Diff2(xi,xj, params, det, approx, eps, diff_order)
-	D_klm = Diff3(xk,xl,xm, params, det, approx, eps, diff_order)
+def Triplet23(xi,xj,xk,xl,xm, params, dets, approx, eps, diff_order): # [2,3]
+	det = dets[1]
+	D_ij  = Diff2(xi,xj, params, dets, approx, eps, diff_order)
+	D_klm = Diff3(xk,xl,xm, params, dets, approx, eps, diff_order)
 	return ScalarProduct(det['freq'], det['Sn'], D_ij, D_klm)
 
-def Triplet6(xi,xj,xk,xl,xm,xn, params, det, approx, eps, diff_order): # [3,3]
-	D_ijk = Diff3(xi,xj,xk, params, det, approx, eps, diff_order)
-	D_lmn = Diff3(xl,xm,xn, params, det, approx, eps, diff_order)
+def Triplet33(xi,xj,xk,xl,xm,xn, params, dets, approx, eps, diff_order): # [3,3]
+	det = dets[1]
+	D_ijk = Diff3(xi,xj,xk, params, dets, approx, eps, diff_order)
+	D_lmn = Diff3(xl,xm,xn, params, dets, approx, eps, diff_order)
 	return ScalarProduct(det['freq'], det['Sn'], D_ijk, D_lmn)
 
 #-------------------------------------------------#-------------------------------------------------

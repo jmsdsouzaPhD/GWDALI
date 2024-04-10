@@ -83,3 +83,17 @@ def ObsAngles(alpha0,beta0,iota,psi0,lon,lat,rot):
 	alpha_obs, beta_obs = AngTransf(alpha0,beta0,theta,phi,ksi)
 	psi_obs = poll_ang(alpha0,beta0,iota,psi0,theta,phi,ksi)
 	return alpha_obs, beta_obs, psi_obs
+
+rad = np.pi/180
+R_earth = 6371.e3
+c = 299792458.
+
+def get_TimeDelay(det,prms):
+	alpha0 = prms['RA']*rad
+	beta0  = (90-prms['Dec'])*rad
+	phi    = det['lon']*rad
+	theta  = (90-det['lat'])*rad
+	ksi    = det['rot']*rad
+
+	_, beta_a = AngTransf(alpha0,beta0,theta,phi,ksi)
+	return np.cos(beta_a)*R_earth/c
