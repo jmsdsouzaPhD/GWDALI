@@ -23,16 +23,8 @@
 - Allow users to use others detectors sensitivity curves (informing $S_n$ and $freq$) in addition to those already included in the code (aLIGO, aVirgo, KAGRA, ET, CE).
 - Allow user to use different 2-mass combinations as bellow ($\bullet$: allowed ; $\times$: forbiden):
 <!-- Markdown -->
-$$
-\begin{array}{cccccc} 
-\square & m_1 & m_2 & q & \eta & M_c \\
-m_1 & \square & \bullet & \bullet & \bullet & \bullet\\
-m_2 & \bullet & \square & \bullet & \bullet & \bullet\\
-q & \bullet & \bullet & \square & \times & \bullet \\
-\eta & \bullet & \bullet & \times & \square & \bullet \\
-M_c & \bullet & \bullet & \bullet & \bullet & \square
-\end{array}
-$$
+$$\begin{array}{cccccc} \square & m_1 & m_2 & q & \eta & M_c \\\ m_1 & \square & \bullet & \bullet & \bullet & \bullet\\\ m_2 & \bullet & \square & \bullet & \bullet & \bullet\\\ q & \bullet & \bullet & \square & \times & \bullet \\\ \eta & \bullet & \bullet & \times & \square & \bullet \\\ M_c & \bullet & \bullet & \bullet & \bullet & \square \end{array}$$
+
 It is not possible to choose the combination $\eta-q$ once we cannot recover $m_1$ and $m_2$ from $\eta$ and $q$.
 
 ### Fixed
