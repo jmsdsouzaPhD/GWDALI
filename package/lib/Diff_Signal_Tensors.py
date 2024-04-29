@@ -63,6 +63,29 @@ def get_dL(prms):
 		quit()
 	return dL
 
+def get_spins(prms):
+	if(all([x in prms.keys() for x in ['sx1','sy1','sz1','sx2','sy2','sz2'] ])):
+		sx1 = prms['sx1']
+		sy1 = prms['sy1']
+		sz1 = prms['sz1']
+		sx2 = prms['sx2']
+		sy2 = prms['sy2']
+		sz2 = prms['sz2']
+	elif( all( [x in prms.keys() for x in ['S1','theta_1','phi_1','S2','theta_2','phi_2']] ) ):
+		sx1 = prms['S1']*np.sin( prms['theta_1'] )*np.cos( prms['phi_1'] )
+		sy1 = prms['S1']*np.sin( prms['theta_1'] )*np.sin( prms['phi_1'] )
+		sz1 = prms['S1']*np.cos( prms['theta_1'] )
+		sx2 = prms['S2']*np.sin( prms['theta_2'] )*np.cos( prms['phi_2'] )
+		sy2 = prms['S2']*np.sin( prms['theta_2'] )*np.sin( prms['phi_2'] )
+		sz2 = prms['S2']*np.cos( prms['theta_2'] )
+	else:
+		print(">> Invalid or Incomplete Spin Inputs!")
+		print(">> GWDALI works with:")
+		print("\t ['S1','theta_1','phi_1','S2','theta_2','phi_2'] , or")
+		print("\t ['sx1','sy1','sz1','sx2','sy2','sz2']")
+		quit()
+	return [sx1, sy1, sz1], [sx2, sy2, sz2]
+
 def get_mass(prms):
 	keys = list(prms.keys())
 	Mass = {}	
@@ -138,15 +161,7 @@ def GW_Polarizations(params, freq, approx):
 	DL       = get_dL(params)   # Mpc
 	psi      = params['psi']    # rad
 
-	sx1 = params['sx1']
-	sy1 = params['sy1']
-	sz1 = params['sz1']
-	sx2 = params['sx2']
-	sy2 = params['sy2']
-	sz2 = params['sz2']
-
-	s1 = [sx1, sy1, sz1]
-	s2 = [sx2, sy2, sz2]
+	s1, s2 = get_spins(params)
 
 	hp, hx, freq0 = wf.Waveforms(m1,m2,iota,DL,s1,s2,freq, approx=approx)
 
@@ -182,8 +197,8 @@ def Signal(params,dets,approx):
 	Phase = 2*np.pi*freq0*(t_coal-tau_ab) - phi_coal
 	H = (Fp*hp + Fx*hx)*np.exp(1.j*Phase)
 	
-	#gw_signal = interp1d(freq0,H,bounds_error=False,fill_value='extrapolate')
-	#h = gw_signal(freq)
+	gw_signal = interp1d(freq0,H,bounds_error=False,fill_value='extrapolate')
+	H = gw_signal(freq)
 
 	return H
 

@@ -189,5 +189,5 @@ def GWDALI( Detection_Dict,
 	if(plot_corner): Aux.PlotCorner(M,truths,Cov,FreeParams,[dT_min,dT_sec],dali_method,path,index)
 
 	# Result (dict)
-	# keys: Fisher, CovFisher, Covariance, Samples, Error, Recovery, SNR
+	# keys: Fisher, CovFisher, Covariance, Samples, Error, Recovery, SNR, Tensors
 	return Result 

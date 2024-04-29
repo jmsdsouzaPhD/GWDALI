@@ -156,6 +156,13 @@ Priors_std['sz1']    = bilby.core.prior.Uniform(name='sz1',minimum=0, maximum=1.
 Priors_std['sx2']    = bilby.core.prior.Uniform(name='sx2',minimum=0, maximum=1.0)
 Priors_std['sy2']    = bilby.core.prior.Uniform(name='sy2',minimum=0, maximum=1.0)
 Priors_std['sz2']    = bilby.core.prior.Uniform(name='sz2',minimum=0, maximum=1.0)
+#----------------------------
+Priors_std['S1']		= bilby.core.prior.Uniform(name='S1',minimum=0, maximum=.9)
+Priors_std['theta_1']	= bilby.core.prior.Sine(name='theta_1',minimum=0, maximum=np.pi)
+Priors_std['phi_1']		= bilby.core.prior.Uniform(name='phi_1',minimum=0, maximum=2*np.pi)
+Priors_std['S2']		= bilby.core.prior.Uniform(name='S2',minimum=0, maximum=.9)
+Priors_std['theta_2']	= bilby.core.prior.Sine(name='theta_2',minimum=0, maximum=np.pi)
+Priors_std['phi_2']		= bilby.core.prior.Uniform(name='phi_2',minimum=0, maximum=2*np.pi)
 #----------------------------#----------------------------#----------------------------
 Priors_std['phi_coal']  = bilby.core.prior.Uniform(name='phi_coal',minimum=0, maximum=2*np.pi) # radians
 Priors_std['t_coal']    = bilby.core.prior.Uniform(name='t_coal',minimum=0, maximum=3600) # seconds
