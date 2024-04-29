@@ -1,5 +1,15 @@
 # All notable changes to this project will be documented in this file.
 
+## [0.1.4] - 2024-04-15
+### Added
+- Allow user to use new free parameters (spins in spherical coordinates): 
+  - $|\vec{S}_1|$ [key: **S1**]: Spin's Magnitude (0<$S_1$<1) of the first object;
+  - $\theta_1$ [key: **theta_1**]: Spin's Polar Angle of the first object;
+  - $\phi_1$ [key: **phi_1**]: Spin's Azimuthal Angle of the first object;
+  - $|\vec{S}_2|$ [key: **S2**]: Spin's Magnitude (0<$S_2$<1) of the second object;
+  - $\theta_2$ [key: **theta_2**]: Spin's Polar Angle of the second object;
+  - $\phi_2$ [key: **phi_2**]: Spin's Azimuthal Angle of the second object;
+  
 ## [0.1.3] - 2024-04-10
 ### Added
 - Allow user to use new free parameters: 
@@ -12,14 +22,17 @@
 - Integration method changed to **scipy.integrate.trapezoid(y,x)**
 - Allow users to use others detectors sensitivity curves (informing $S_n$ and $freq$) in addition to those already included in the code (aLIGO, aVirgo, KAGRA, ET, CE).
 - Allow user to use different 2-mass combinations as bellow ($\bullet$: allowed ; $\times$: forbiden):
-$$\begin{bmatrix} 
+<!-- Markdown -->
+$$
+\begin{array}{cccccc} 
 \square & m_1 & m_2 & q & \eta & M_c \\
 m_1 & \square & \bullet & \bullet & \bullet & \bullet\\
 m_2 & \bullet & \square & \bullet & \bullet & \bullet\\
 q & \bullet & \bullet & \square & \times & \bullet \\
 \eta & \bullet & \bullet & \times & \square & \bullet \\
 M_c & \bullet & \bullet & \bullet & \bullet & \square
-\end{bmatrix}$$
+\end{array}
+$$
 It is not possible to choose the combination $\eta-q$ once we cannot recover $m_1$ and $m_2$ from $\eta$ and $q$.
 
 ### Fixed
