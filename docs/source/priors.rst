@@ -59,9 +59,9 @@ Priors
    :alt: priors
    :align: center
 
-=================================  
+************************************  
 Make your own prior
-=================================
+************************************
 
 To redefine your priors define a dictionary as bellow:
 

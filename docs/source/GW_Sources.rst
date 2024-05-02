@@ -40,9 +40,9 @@ In GWDALI we deal with astronomical coordinates (RA, Dec) aligned with geocentri
    * sz2: **Z-Component of Second Object Spin** :math:`\longrightarrow S_{z_2}`
    * S1: **Magnitude of the First Object Spin** :math:`\longrightarrow |\vec{S}_1|`
    * theta_1: **Polar Angle of the First Object Spin** :math:`\longrightarrow \theta_1` [rad]
-   * phi_1: **Azimuthal Angle of the First Object Spin** :math:`\longrightarrow phi_1` [rad]
+   * phi_1: **Azimuthal Angle of the First Object Spin** :math:`\longrightarrow \phi_1` [rad]
    * S2 **Magnitude of the Second Object Spin** :math:`\longrightarrow |\vec{S}_2|`
    * theta_2: **Polar Angle of the Second Object Spin** :math:`\longrightarrow \theta_2` [rad]
-   * phi_2: **Azimuthal Angle of the Second Object Spin** :math:`\longrightarrow phi_2` [rad]
+   * phi_2: **Azimuthal Angle of the Second Object Spin** :math:`\longrightarrow \phi_2` [rad]
 
 
