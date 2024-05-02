@@ -6,16 +6,19 @@ In GWDALI we deal with astronomical coordinates (RA, Dec) aligned with geocentri
 .. figure:: ./geo_coords.png
    :alt: Source Coordinates
    :align: center
-   :scale: 60%
+   :scale: 50%
 
 ************************************
    Free Parameters
 ************************************
 
-   * m1: :math:`\longrightarrow m_1`
-   * m2: :math:`\longrightarrow m_2`
-   * M: :math:`\longrightarrow M_{tot}=m_1+m_2`
-   * eta: :math:`\longrightarrow \eta = m_1m_2/(m_1+m_2)^2`
-   * Mc: :math:`\longrightarrow M_c`
-   * q: :math:`\longrightarrow q=m_1/m_2` 
+   * m1: Redshifted  Mass of the first object :math:`\longrightarrow (1+z)m_1` [:math:`M_{\odot}`]
+   * m2: Redshifted  Mass of the second object :math:`\longrightarrow (1+z)m_2` [:math:`M_{\odot}`]
+   * eta: Symetric mass ratio :math:`\longrightarrow \eta \equiv m_1m_2/(m_1+m_2)^2`
+   * Mc: Redshifted Chirp Mass:math:`\longrightarrow (1+z)M_c \quiv (1+z)\eta^{3/5}(m_1+m_2)` [:math:`M_{\odot}`]
+   * q: Mass Ratio :math:`\longrightarrow q=m_1/m_2` with :math:`m_2>m_1`
+   * DL: Luminosity Distance :math:`\longrightarrow d_L` [Gpc]
+   * inv_dL: Inverse of Luminosity Distance :math:`\longrightarrow d_L^{-1}` [:math:`Gpc^{-1}`]
+   * ln_dL: Logarithm of Luminosity Distance :math:`\longrightarrow ln(d_L/Gpc)`
+
 

@@ -11,9 +11,9 @@ Detectors (Position/Orientation/Shape)
    :align: center
    :scale: 50%
 
-=================================  
+************************************  
 Detectors Sensitivity
-=================================
+************************************
 
 .. figure:: ./Sensitivity.png
    :alt: sensitivity
