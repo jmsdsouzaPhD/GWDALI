@@ -18,4 +18,4 @@ Detectors Sensitivity
 .. figure:: ./Sensitivity.png
    :alt: sensitivity
    :align: center
-   :scale: 50%
+   :scale: 80%
