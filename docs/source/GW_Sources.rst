@@ -17,21 +17,21 @@ In GWDALI we deal with astronomical coordinates (RA, Dec) aligned with geocentri
    Free Parameters
 ************************************
 
-   * m1: *Redshifted  Mass of the first object* :math:`\longrightarrow (1+z)m_1` [:math:`M_{\odot}`]
-   * m2: *Redshifted  Mass of the second object* :math:`\longrightarrow (1+z)m_2` [:math:`M_{\odot}`]
-   * eta: *Symetric mass ratio* :math:`\longrightarrow \eta \equiv m_1m_2/(m_1+m_2)^2`
-   * Mc: *Redshifted Chirp Mass* :math:`\longrightarrow (1+z)M_c \quiv (1+z)\eta^{3/5}(m_1+m_2)` [:math:`M_{\odot}`]
-   * q: *Mass Ratio* :math:`\longrightarrow q=m_1/m_2` with :math:`m_2>m_1`
-   * DL: *Luminosity Distance* :math:`\longrightarrow d_L` [Gpc]
-   * inv_dL: *Inverse of Luminosity Distance* :math:`\longrightarrow d_L^{-1}` [:math:`Gpc^{-1}`]
-   * ln_dL: *Logarithm of Luminosity Distance* :math:`\longrightarrow ln(d_L/Gpc)`
-   * RA: *Right Ascencion* :math:`\longrightarrow Ra` [deg]
-   * Dec: *Declination* :math:`\longrightarrow Dec` [deg]
-   * iota: *Binary Inclination* :math:`\longrightarrow \iota` [rad]
-   *cos_iota: *Cosine of Inclination* :math:`\longrightarrow cos(\iota)`
+   * m1: **Redshifted  Mass of the first object** :math:`\longrightarrow (1+z)m_1` [:math:`M_{\odot}`]
+   * m2: **Redshifted  Mass of the second object** :math:`\longrightarrow (1+z)m_2` [:math:`M_{\odot}`]
+   * eta: **Symetric mass ratio** :math:`\longrightarrow \eta \equiv m_1m_2/(m_1+m_2)^2`
+   * Mc: **Redshifted Chirp Mass** :math:`\longrightarrow (1+z)M_c \equiv (1+z)\eta^{3/5}(m_1+m_2)` [:math:`M_{\odot}`]
+   * q: **Mass Ratio** :math:`\longrightarrow q=m_1/m_2` with :math:`m_2>m_1`
+   * DL: **Luminosity Distance** :math:`\longrightarrow d_L` [Gpc]
+   * inv_dL: **Inverse of Luminosity Distance** :math:`\longrightarrow d_L^{-1}` [:math:`Gpc^{-1}`]
+   * ln_dL: **Logarithm of Luminosity Distance** :math:`\longrightarrow ln(d_L/Gpc)`
+   * RA: **Right Ascencion** :math:`\longrightarrow Ra` [deg]
+   * Dec: **Declination** :math:`\longrightarrow Dec` [deg]
+   * iota: **Binary Inclination** :math:`\longrightarrow \iota` [rad]
+   *cos\_iota: *Cosine of Inclination* :math:`\longrightarrow cos(\iota)`
    * psi: *Polarization Angle* :math:`\longrightarrow \psi` [rad]
-   * phi_coal: *Coalescence Phase* :math:`\longrightarrow \phi_{coal}` [rad]
-   * t_coal: *Coalescence Time* :math:`\longrightarrow t_{coal}` [seconds]
+   * phi\_coal: *Coalescence Phase* :math:`\longrightarrow \phi_{coal}` [rad]
+   * t\_coal: *Coalescence Time* :math:`\longrightarrow t_{coal}` [seconds]
    * sx1: *X-Component of First Object Spin* :math:`\longrightarrow S_{x_1}`
    * sy1: *Y-Component of First Object Spin* :math:`\longrightarrow S_{y_1}`
    * sz1: *Z-Component of First Object Spin* :math:`\longrightarrow S_{z_1}`
