@@ -5,13 +5,13 @@ GWDALI Software (version 0.1.4)
 Software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[1]**. GWDALI also deals with the not-so-infrequent cases of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the `Derivative Approximation for LIkelihoods <https://arxiv.org/abs/1401.6892>`_ (DALI) algorithm proposed in **[2]** and applied to gravitational waves in **[3]**, whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 Check our paper in `arXiv <https://arxiv.org/abs/2307.10154>`_.
 
-.. figure:: ./logo_gwdali.png
-   :alt: GWDALI logo
-   :align: center
+* `Published Paper (Astronomy and Computing) <https://www.sciencedirect.com/science/article/abs/pii/S2213133723000744>`_
+* `pypi page <https://pypi.org/project/gwdali/>`_
+* `github page <https://github.com/jmsdsouzaPhD/GWDALI/>`_
 
-=================================
+*********************************
 Installation
-=================================
+*********************************
 
 To install the software run the command below:
 
@@ -32,9 +32,9 @@ To install the software run the command below:
     license
     author
 
-=================================  
+*********************************  
 References
-=================================
+*********************************
 
     **[1]** L. S. Finn and D. F. Chernoff, “Observing binary inspiral in gravitational radiation: One interferometer,” Phys. Rev. D, vol. 47, pp. 2198–2219, 1993.
 

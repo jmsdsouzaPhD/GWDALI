@@ -34,8 +34,8 @@
 
           
           
-          <a href="index.html" class="icon icon-home">
-            GWDALI
+          <a href="index.html">
+            
               <img src="_static/logo_gwdali_name.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
@@ -87,6 +87,7 @@
              
   <section id="derivative-approximation-for-likelihood-dali">
 <h1>Derivative Approximation for LIkelihood (DALI)<a class="headerlink" href="#derivative-approximation-for-likelihood-dali" title="Link to this heading"></a></h1>
+<p>This approximation is based on Taylor expansion of the logarithm of the likelihood but being ordered in terms of order of derivatives:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}log\mathcal{L} \approx log\mathcal{L}_{0}&amp;
  -\left[\frac{1}{2}\sum_{i,j}\left\langle \partial_{i}h(\theta)|\partial_{j}h(\theta)\right\rangle _{0}\Delta\theta_{i}\Delta\theta_{j}\right] \\
@@ -105,6 +106,25 @@
 \[\begin{split}\Delta\theta^i =&amp; \theta^i-\theta_0^i  \\
 \Delta\theta^{ij} =&amp; \Delta\theta^i\cdot\Delta\theta^j  \\
 \Delta\theta^{ij..m} =&amp; \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m\end{split}\]</div>
+<p>GWDALI deals with derivatives through <strong>numerical derivatives</strong> with <strong>finite differences</strong>.
+It is availble to ways on computing these derivatives:</p>
+<blockquote>
+<div><ul>
+<li><p>With an uncertainty of <span class="math notranslate nohighlight">\(O(h^2)\)</span>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\frac{df}{dx}=\left\{ \frac{1}{h}\left[f(x+h/2)-f(x-h/2)\right]\right\} +\mathcal{O}(h^{2})\]</div>
+</div></blockquote>
+</li>
+<li><p>With uncertainty of <span class="math notranslate nohighlight">\(O(h^4)\)</span>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\frac{df}{dx}=\left\{ \frac{4}{3h}\left[f(x+h/2)-f(x-h/2)\right]-\frac{1}{6h}\left[f(x+h)-f(x-h)\right]\right\} +\mathcal{O}(h^{4})\]</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>where <span class="math notranslate nohighlight">\(h\)</span> is the integration step.</p>
 </section>
 
 

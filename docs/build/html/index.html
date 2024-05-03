@@ -32,8 +32,8 @@
 
           
           
-          <a href="#" class="icon icon-home">
-            GWDALI
+          <a href="#">
+            
               <img src="_static/logo_gwdali_name.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
@@ -87,12 +87,13 @@
 <h1>GWDALI Software (version 0.1.4)<a class="headerlink" href="#gwdali-software-version-0-1-4" title="Link to this heading"></a></h1>
 <p>Software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix <strong>[1]</strong>. GWDALI also deals with the not-so-infrequent cases of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the <a class="reference external" href="https://arxiv.org/abs/1401.6892">Derivative Approximation for LIkelihoods</a> (DALI) algorithm proposed in <strong>[2]</strong> and applied to gravitational waves in <strong>[3]</strong>, whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 Check our paper in <a class="reference external" href="https://arxiv.org/abs/2307.10154">arXiv</a>.</p>
-<figure class="align-center">
-<img alt="GWDALI logo" src="_images/logo_gwdali.png" />
-</figure>
-</section>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/S2213133723000744">Published Paper (Astronomy and Computing)</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/gwdali/">pypi page</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jmsdsouzaPhD/GWDALI/">github page</a></p></li>
+</ul>
 <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>To install the software run the command below:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>gwdali
 </pre></div>
@@ -112,12 +113,13 @@ Check our paper in <a class="reference external" href="https://arxiv.org/abs/230
 </div>
 </section>
 <section id="references">
-<h1>References<a class="headerlink" href="#references" title="Link to this heading"></a></h1>
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p><strong>[1]</strong> L. S. Finn and D. F. Chernoff, “Observing binary inspiral in gravitational radiation: One interferometer,” Phys. Rev. D, vol. 47, pp. 2198–2219, 1993.</p>
 <p><strong>[2]</strong> E. Sellentin, M. Quartin, and L. Amendola, “Breaking the spell of gaussianity: forecasting with higher order fisher matrices,” Monthly Notices of the Royal Astronomical Society, vol. 441, no. 2, pp. 1831–1840, 2014.</p>
 <p><strong>[3]</strong> Z. Wang, C. Liu, J. Zhao, and L. Shao, “Extending the fisher information matrix in gravitational-wave data analysis,” arXiv preprint arXiv:2203.02670, 2022.</p>
 </div></blockquote>
+</section>
 </section>
 
 

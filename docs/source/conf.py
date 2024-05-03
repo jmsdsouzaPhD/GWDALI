@@ -33,6 +33,7 @@ templates_path = ['_templates']
 # -- Options for HTML output
 
 html_theme_options = {
+    'logo_only': True,
     'style_nav_header_background': 'linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)',
 }
 html_theme = 'sphinx_rtd_theme'

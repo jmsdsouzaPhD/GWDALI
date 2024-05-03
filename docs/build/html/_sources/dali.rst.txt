@@ -2,6 +2,8 @@
 Derivative Approximation for LIkelihood (DALI)
 =================================
 
+This approximation is based on Taylor expansion of the logarithm of the likelihood but being ordered in terms of order of derivatives:
+
 .. math::
 
 	log\mathcal{L} \approx log\mathcal{L}_{0}&
@@ -24,3 +26,19 @@ where,
 	\Delta\theta^i =& \theta^i-\theta_0^i  \\ 
 	\Delta\theta^{ij} =& \Delta\theta^i\cdot\Delta\theta^j  \\ 
 	\Delta\theta^{ij..m} =& \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m
+
+GWDALI deals with derivatives through **numerical derivatives** with **finite differences**.
+It is availble to ways on computing these derivatives:
+	* With an uncertainty of :math:`O(h^2)`:
+
+		.. math::
+
+			\frac{df}{dx}=\left\{ \frac{1}{h}\left[f(x+h/2)-f(x-h/2)\right]\right\} +\mathcal{O}(h^{2})
+
+	* With uncertainty of :math:`O(h^4)`:
+
+		.. math::
+
+			\frac{df}{dx}=\left\{ \frac{4}{3h}\left[f(x+h/2)-f(x-h/2)\right]-\frac{1}{6h}\left[f(x+h)-f(x-h)\right]\right\} +\mathcal{O}(h^{4})
+
+where :math:`h` is the integration step.
