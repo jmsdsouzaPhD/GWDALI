@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Priors &mdash; GWDALI 0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Detectors (Position/Orientation/Shape)" href="detectors.html" />
+    <link rel="next" title="GW Sources Characterization" href="GW_Sources.html" />
     <link rel="prev" title="Derivative Approximation for LIkelihood (DALI)" href="dali.html" /> 
 </head>
 
@@ -29,15 +29,16 @@
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search"  style="background: linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)" >
 
           
           
           <a href="index.html" class="icon icon-home">
             GWDALI
+              <img src="_static/logo_gwdali_name.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.1.0
+                0.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -52,10 +53,12 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#make-your-own-prior">Make your own prior</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Priors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#make-your-own-prior">Make your own prior</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="GW_Sources.html">GW Sources Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectors.html#detectors-sensitivity">Detectors Sensitivity</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
@@ -64,7 +67,7 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">GWDALI</a>
       </nav>
@@ -141,9 +144,8 @@
 <figure class="align-center">
 <img alt="priors" src="_images/fig_priors.png" />
 </figure>
-</section>
 <section id="make-your-own-prior">
-<h1>Make your own prior<a class="headerlink" href="#make-your-own-prior" title="Link to this heading"></a></h1>
+<h2>Make your own prior<a class="headerlink" href="#make-your-own-prior" title="Link to this heading"></a></h2>
 <p>To redefine your priors define a dictionary as bellow:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Defining a new prior only for the luminosity distance:</span>
 
@@ -171,13 +173,14 @@
 </pre></div>
 </div>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="dali.html" class="btn btn-neutral float-left" title="Derivative Approximation for LIkelihood (DALI)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="detectors.html" class="btn btn-neutral float-right" title="Detectors (Position/Orientation/Shape)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="GW_Sources.html" class="btn btn-neutral float-right" title="GW Sources Characterization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

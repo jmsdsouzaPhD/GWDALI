@@ -4,8 +4,8 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GWDALI Software (version 0.0.9) &mdash; GWDALI 0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>GWDALI Software (version 0.1.4) &mdash; GWDALI 0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -28,15 +28,16 @@
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search"  style="background: linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)" >
 
           
           
           <a href="#" class="icon icon-home">
             GWDALI
+              <img src="_static/logo_gwdali_name.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.1.0
+                0.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -52,9 +53,8 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="priors.html#make-your-own-prior">Make your own prior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_Sources.html">GW Sources Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectors.html#detectors-sensitivity">Detectors Sensitivity</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
@@ -63,7 +63,7 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="#">GWDALI</a>
       </nav>
@@ -73,7 +73,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">GWDALI Software (version 0.0.9)</li>
+      <li class="breadcrumb-item active">GWDALI Software (version 0.1.4)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -83,8 +83,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="gwdali-software-version-0-0-9">
-<h1>GWDALI Software (version 0.0.9)<a class="headerlink" href="#gwdali-software-version-0-0-9" title="Link to this heading"></a></h1>
+  <section id="gwdali-software-version-0-1-4">
+<h1>GWDALI Software (version 0.1.4)<a class="headerlink" href="#gwdali-software-version-0-1-4" title="Link to this heading"></a></h1>
 <p>Software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood. The Gaussian approximation is related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix <strong>[1]</strong>. GWDALI also deals with the not-so-infrequent cases of Fisher Matrix with zero-determinant. The Beyond-Gaussian approach uses the <a class="reference external" href="https://arxiv.org/abs/1401.6892">Derivative Approximation for LIkelihoods</a> (DALI) algorithm proposed in <strong>[2]</strong> and applied to gravitational waves in <strong>[3]</strong>, whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 Check our paper in <a class="reference external" href="https://arxiv.org/abs/2307.10154">arXiv</a>.</p>
 <figure class="align-center">
@@ -104,9 +104,8 @@ Check our paper in <a class="reference external" href="https://arxiv.org/abs/230
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="priors.html#make-your-own-prior">Make your own prior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_Sources.html">GW Sources Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectors.html#detectors-sensitivity">Detectors Sensitivity</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>

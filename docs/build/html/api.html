@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; GWDALI 0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -18,6 +18,7 @@
         <script src="_static/documentation_options.js?v=837179f8"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -29,15 +30,16 @@
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search"  style="background: linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)" >
 
           
           
           <a href="index.html" class="icon icon-home">
             GWDALI
+              <img src="_static/logo_gwdali_name.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.1.0
+                0.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -56,9 +58,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="priors.html#make-your-own-prior">Make your own prior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_Sources.html">GW Sources Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectors.html#detectors-sensitivity">Detectors Sensitivity</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
@@ -67,7 +68,7 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">GWDALI</a>
       </nav>
@@ -91,13 +92,13 @@
 <h1>API<a class="headerlink" href="#api" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="GWDALI.GWDALI">
-<span class="sig-prename descclassname"><span class="pre">GWDALI.</span></span><span class="sig-name descname"><span class="pre">GWDALI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Detection_Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FreeParams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TaylorF2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.e4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dali_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Fisher_Sampling'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nestle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_priors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fisher</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_cov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_corner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rcond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.e-4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GWDALI.GWDALI" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">GWDALI.</span></span><span class="sig-name descname"><span class="pre">GWDALI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Detection_Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FreeParams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TaylorF2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.e4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dali_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Fisher_Sampling'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nestle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_priors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fisher</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_cov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_corner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rcond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.e-4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.e-6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GWDALI.GWDALI" title="Link to this definition"></a></dt>
 <dd><p>Return GW samples, Fisher and covariance matrix, parameters uncertainties, parameters recovered and signal to noise ratio (SNR).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Detection_Dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – A dictionary of GW parameters;</p></li>
-<li><p><strong>FreeParams</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – list of free parameters among the available [‘m1’, ‘m2’, ‘RA’, ‘Dec’, ‘DL’, ‘iota’, ‘psi’, ‘t_coal’, ‘phi_coal’, ‘sx1’, ‘sy1’, ‘sz1’, ‘sx2’, ‘sy2’, ‘sz2’]</p></li>
+<li><p><strong>FreeParams</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – list of free parameters among the available [‘m1’, ‘m2’, ‘RA’, ‘Dec’, ‘DL’, ‘inv_dL’, ‘ln_dL’, ‘iota’, ‘cos_iota’, ‘psi’, ‘t_coal’, ‘phi_coal’, ‘sx1’, ‘sy1’, ‘sz1’, ‘sx2’, ‘sy2’, ‘sz2’,’S1’,’theta_1’,’phi_1’,’S2’,’theta_2’,’phi_2’]</p></li>
 <li><p><strong>detectors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – <p>list of dictionaries for each detector interferometer (for Einstein Telescope you need to specify its three interferometers configuration). Each detector dictionary needs to have the following keys:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: (str) The detector name for which the <em>Noise Power Spectral Density</em> will be chosen. Available detectors: [‘aLIGO’, ‘aVirgo’, ‘KAGRA’, ‘ET’, ‘CE’];</p></li>
@@ -121,6 +122,8 @@
 <li><p><strong>hide_info</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Hide software outputs in the screen.</p></li>
 <li><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Integer argument used in the saved .txt files.</p></li>
 <li><p><strong>rcond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Same as rcond in <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html">numpy.linalg.pinv</a>;</p></li>
+<li><p><strong>diff_order</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – (Avalible 2 or 4) Numerical derivative precision, e.g. for a given step h, if diff_orde=2 the uncertainty is of order <span class="math notranslate nohighlight">\(h^3\)</span>, if diff_order=4 the uncertainty is of order <span class="math notranslate nohighlight">\(h^5\)</span>;</p></li>
+<li><p><strong>step_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Relative step size in the numerical derivative, i.e., dx = max( step_size, step_size*x ) where x is some parameter value;</p></li>
 <li><p><strong>npoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – <p>Same as npoints, nsteps, nwalkers in <a class="reference external" href="https://lscsoft.docs.ligo.org/bilby/">bilby package</a>;</p>
 </p></li>
 </ul>
@@ -135,6 +138,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">Recovery</span></code>: list of recovered parameters (when using DALI methods)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Error</span></code>: list of parameters uncertainties (Confidence Level = 60%)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">SNR</span></code>: value of the GW source signal to noise ratio (float)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tensors</span></code>: Arrays of DALI Tensors (e.g. for N free parameters we have: Fisher[dim= <span class="math notranslate nohighlight">\(N^2\)</span>], Doublet12 [dim= <span class="math notranslate nohighlight">\(N^3\)</span>], Doublet22 [dim= <span class="math notranslate nohighlight">\(N^4\)</span>], Triplet13 [dim= <span class="math notranslate nohighlight">\(N^4\)</span>] , Triplet23 [dim= <span class="math notranslate nohighlight">\(N^5\)</span>], Triplet33 [dim= <span class="math notranslate nohighlight">\(N^6\)</span>] )</p></li>
 </ul>
 </p>
 </dd>
