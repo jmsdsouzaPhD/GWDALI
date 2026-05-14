@@ -7,7 +7,7 @@ copyright = '2026, Josiel'
 author = 'Josiel Mendonça Soares de Souza'
 
 release = '0.0'
-version = '0.1.4'
+version = '1.0'
 
 master_doc = 'index'
 
