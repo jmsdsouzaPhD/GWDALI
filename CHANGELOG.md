@@ -1,5 +1,10 @@
 # All notable changes to this project will be documented in this file.
 
+## [1.0] - 2026-05-14
+### Added
+- Refomulating GWDALI to be JAX friendly
+- Implementation of automatic-differentiation (autodiff)
+
 ## [0.1.4] - 2024-04-15
 ### Added
 - Allow user to use new free parameters (spins in spherical coordinates): 
