@@ -1,44 +1,31 @@
-# Configuration file for the Sphinx documentation builder.
+import os
+import sys
 
-# -- Project information
+sys.path.insert(0, os.path.abspath('../../package'))
 
 project = 'GWDALI'
 copyright = '2026, Josiel'
 author = 'Josiel Mendonça Soares de Souza'
 
-release = '0.0'
+release = '1.0'
 version = '1.0'
 
-master_doc = 'index'
-
-# -- General configuration
-
 extensions = [
-    'sphinx.ext.duration',
-    'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'sphinx_rtd_theme'
 ]
 
-intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-}
-intersphinx_disabled_domains = ['std']
+autosummary_generate = True
 
 templates_path = ['_templates']
+html_static_path = ['_static']
 
-# -- Options for HTML output
+html_theme = 'sphinx_rtd_theme'
 
 html_theme_options = {
     'logo_only': True,
-    'style_nav_header_background': 'linear-gradient(180deg, rgba(200,200,200,1) 50%, rgba(0,0,0,1) 100%)',
+    'style_nav_header_background': '#111111',
 }
-html_theme = 'sphinx_rtd_theme'
-#html_theme = 'groundwork'
-html_logo = 'logo_gwdali.png'
 
-# -- Options for EPUB output
-epub_show_urls = 'footnote'
+html_logo = '_static/logo_gwdali.png'
