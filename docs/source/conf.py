@@ -3,7 +3,7 @@
 # -- Project information
 
 project = 'GWDALI'
-copyright = '2024, Josiel'
+copyright = '2026, Josiel'
 author = 'Josiel Mendonça Soares de Souza'
 
 release = '0.0'
@@ -38,7 +38,7 @@ html_theme_options = {
 }
 html_theme = 'sphinx_rtd_theme'
 #html_theme = 'groundwork'
-html_logo = 'logo_gwdali_name.png'
+html_logo = 'logo_gwdali.png'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
