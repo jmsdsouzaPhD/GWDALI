@@ -1,0 +1,15 @@
+setup.py
+GWDALI/__init__.py
+GWDALI/core.py
+GWDALI/Sensitivities/Sn_CE.txt
+GWDALI/Sensitivities/Sn_CE_20km.txt
+GWDALI/Sensitivities/Sn_CE_40km.txt
+GWDALI/Sensitivities/Sn_ET.txt
+GWDALI/Sensitivities/Sn_K.txt
+GWDALI/Sensitivities/Sn_L.txt
+GWDALI/Sensitivities/Sn_V.txt
+gwdali.egg-info/PKG-INFO
+gwdali.egg-info/SOURCES.txt
+gwdali.egg-info/dependency_links.txt
+gwdali.egg-info/requires.txt
+gwdali.egg-info/top_level.txt

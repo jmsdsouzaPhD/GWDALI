@@ -1,0 +1,93 @@
+.
+├── GWDALI
+│   ├── core.py
+│   ├── __init__.py
+│   ├── lib
+│   │   ├── AngTransf.py
+│   │   ├── Auxiliar.py
+│   │   ├── corner_plot.py
+│   │   ├── GridLike.py
+│   │   ├── IMRPhenomA.py
+│   │   ├── IMRPhenomB.py
+│   │   ├── IMRPhenomC.py
+│   │   ├── IMRPhenomD.py
+│   │   ├── IMRPhenomHM.py
+│   │   ├── Likelihoods.py
+│   │   ├── Module_Distance.py
+│   │   ├── Module_Inclination.py
+│   │   ├── Module_Mass.py
+│   │   ├── Module_Spins.py
+│   │   ├── ParamsTransform.py
+│   │   ├── __pycache__
+│   │   │   ├── AngTransf.cpython-310.pyc
+│   │   │   ├── AngTransf.cpython-312.pyc
+│   │   │   ├── AngTransf.cpython-38.pyc
+│   │   │   ├── Auxiliar.cpython-312.pyc
+│   │   │   ├── Auxiliar.cpython-38.pyc
+│   │   │   ├── corner_plot.cpython-310.pyc
+│   │   │   ├── corner_plot.cpython-312.pyc
+│   │   │   ├── corner_plot.cpython-38.pyc
+│   │   │   ├── GridLike.cpython-312.pyc
+│   │   │   ├── GridLike.cpython-38.pyc
+│   │   │   ├── IMRPhenomA.cpython-312.pyc
+│   │   │   ├── IMRPhenomA.cpython-38.pyc
+│   │   │   ├── IMRPhenomB.cpython-312.pyc
+│   │   │   ├── IMRPhenomB.cpython-38.pyc
+│   │   │   ├── IMRPhenomC.cpython-312.pyc
+│   │   │   ├── IMRPhenomC.cpython-38.pyc
+│   │   │   ├── IMRPhenomD.cpython-312.pyc
+│   │   │   ├── IMRPhenomD.cpython-38.pyc
+│   │   │   ├── IMRPhenomHM.cpython-312.pyc
+│   │   │   ├── IMRPhenomHM.cpython-38.pyc
+│   │   │   ├── Likelihoods.cpython-310.pyc
+│   │   │   ├── Likelihoods.cpython-312.pyc
+│   │   │   ├── Likelihoods.cpython-38.pyc
+│   │   │   ├── Module_Distance.cpython-312.pyc
+│   │   │   ├── Module_Inclination.cpython-312.pyc
+│   │   │   ├── Module_Mass.cpython-312.pyc
+│   │   │   ├── Module_Spins.cpython-312.pyc
+│   │   │   ├── ParamsTransform.cpython-312.pyc
+│   │   │   ├── TaylorF2.cpython-312.pyc
+│   │   │   ├── Tensors.cpython-310.pyc
+│   │   │   ├── Tensors.cpython-312.pyc
+│   │   │   ├── Tensors.cpython-38.pyc
+│   │   │   ├── Waveforms.cpython-310.pyc
+│   │   │   ├── Waveforms.cpython-312.pyc
+│   │   │   └── Waveforms.cpython-38.pyc
+│   │   ├── QNMData.txt
+│   │   ├── table.csv
+│   │   ├── TaylorF2.py
+│   │   ├── Tensors.py
+│   │   └── Waveforms.py
+│   ├── __pycache__
+│   │   ├── core.cpython-312.pyc
+│   │   ├── GWDALI.cpython-312.pyc
+│   │   ├── GWDALI_v1.cpython-312.pyc
+│   │   ├── GWDALI_v1.cpython-38.pyc
+│   │   ├── GWJAX.cpython-310.pyc
+│   │   ├── GWJAX.cpython-312.pyc
+│   │   ├── GWJAX.cpython-38.pyc
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── __init__.cpython-312.pyc
+│   │   └── __init__.cpython-38.pyc
+│   └── Sensitivities
+│       ├── Sn_CE_20km.txt
+│       ├── Sn_CE_40km.txt
+│       ├── Sn_CE.txt
+│       ├── Sn_ET.txt
+│       ├── Sn_K.txt
+│       ├── Sn_L.txt
+│       └── Sn_V.txt
+├── gwdali.egg-info
+│   ├── dependency_links.txt
+│   ├── PKG-INFO
+│   ├── requires.txt
+│   ├── SOURCES.txt
+│   └── top_level.txt
+├── map.png
+├── map_white.png
+├── setup.py
+├── tree.txt
+└── __version_1.0__
+
+7 directories, 84 files

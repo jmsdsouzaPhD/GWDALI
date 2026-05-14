@@ -1,0 +1,15 @@
+ # Computing First-Order Derivatives (diff_method = autodiff) .....
+
+         (dL)    [1-11]  Diff[dL] OK!   (3 seconds)
+         (iota)  [2-11]  Diff[iota] OK!         (3 seconds)
+         (psi)   [3-11]  Diff[psi] OK!  (2 seconds)
+         (phi_coal)      [4-11]  Diff[phi_coal] OK!     (2 seconds)
+         (RA)    [5-11]  Diff[RA] OK!   (2 seconds)
+         (Dec)   [6-11]  Diff[Dec] OK!  (2 seconds)
+         (t_coal)        [7-11]  Diff[t_coal] OK!       (2 seconds)
+         (Mc)    [8-11]  Diff[Mc] OK!   (18 seconds)
+         (eta)   [9-11]  Diff[eta] OK!  (42 seconds)
+         (sz1)   [10-11]         Diff[sz1] OK!  (19 seconds)
+         (sz2)   [11-11]         Diff[sz2] OK!  (16 seconds)
+
+>> First Derivatives Concluded in 1min:57sec!
