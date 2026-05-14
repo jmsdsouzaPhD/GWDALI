@@ -139,7 +139,7 @@ DALI Tensors
       dict
 
 
-Priors
+Check Priors
 =======
 
 .. py:function:: GWDALI.Priors(FreeParams, name=None, new_priors=None, plot=False)

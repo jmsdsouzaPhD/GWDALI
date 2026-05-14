@@ -17,6 +17,7 @@ About the Author
 	* `PhD Thesis (DFTE-UFRN, Brazil) <https://repositorio.ufrn.br/jspui/handle/123456789/54566>`_
 	* `github profile  <https://github.com/jmsdsouzaPhD>`_
 	* `ORCID <https://orcid.org/0000-0003-1552-0095>`_
+	* `Curriculum Vitae <https://github.com/jmsdsouzaPhD/jmsdsouzaPhD/blob/main/Josiel%20Mendonca%20CV.pdf>`_
 
 
 Collaborators:
