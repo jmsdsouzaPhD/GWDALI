@@ -1,139 +1,142 @@
 API Reference
 =============
 
-This page documents the main public functions available in GWDALI v1.0.
-
 Main Interface
 ===============
 
-.. py:function:: GWDALI.GWDALI(GwPrms, detectors, FreeParams, approx="TaylorF2", method="Doublet", sampler="nestle", diff_method="autodiff", ...)
+.. py:function:: GWDALI.GWDALI(GwPrms, detectors, FreeParams, new_priors=None, approx="TaylorF2", method="Doublet", sampler="nestle", diff_method="autodiff", dali_tensors=None, step_size=[1.e-6], run_sampler=True, hide_info=False, npoints=300, nwalkers=None, ntemps=10, nburn=0., limits=None, pos0=None, npool=None, verbose=True, remove_out=True, output_name=None, save_bilby_path=True, bilby_path="outputs_bilby/", enable_jax_waveforms=True, **kwargs)
 
-   Main interface of GWDALI.
+   Main interface of GWDALI v1.0.
 
    Computes:
-   
-   - detector strain
-   - signal-to-noise ratio (SNR)
-   - Fisher matrix
-   - DALI tensors
-   - posterior samples
 
-   Parameters
-   ----------
+   - Detector strains
+   - Signal-to-noise ratios
+   - Fisher Matrix
+   - Doublet tensors
+   - Triplet tensors
+   - Posterior samples
 
-   GwPrms : dict
-      Dictionary containing the gravitational-wave source parameters.
+   :param GwPrms: Dictionary containing GW source parameters.
+   :param detectors: Detector network configuration.
+   :param FreeParams: Free parameters used in the inference.
+   :param new_priors: Redefine default priors.
+   :param approx: Waveform approximant.
+   :param method: DALI method [``"Fisher"``, ``"Doublet"``, ``"Triplet"``].
+   :param sampler: Posterior sampler backend from `bilby <https://lscsoft.docs.ligo.org/bilby/>`_.
+   :param diff_method: Derivative method [``"autodiff"``, ``"numdiff"``].
+   :param dali_tensors: User-defined DALI tensors.
+   :param step_size: Numerical derivative step sizes.
+   :param run_sampler: Run posterior sampling.
+   :param hide_info: Hide terminal outputs.
+   :param npoints: Number of posterior samples.
+   :param nwalkers: Number of walkers used in MCMC samplers.
+   :param ntemps: Number of temperatures in parallel tempering samplers.
+   :param nburn: Burn-in fraction.
+   :param limits: Parameter limits used in the sampler.
+   :param pos0: Initial walker positions.
+   :param npool: Number of multiprocessing pools.
+   :param verbose: Show sampler outputs.
+   :param remove_out: Remove posterior outliers.
+   :param output_name: Output filename.
+   :param save_bilby_path: Save bilby outputs.
+   :param bilby_path: Output directory for bilby files.
+   :param enable_jax_waveforms: Enable JAX waveform backend.
+   :param disable_jit: Disable ``jax.jit()``.
+   :param EarthRotation: Enable Earth rotation corrections.
+   :param jitgrad: Enable ``jax.jit()`` on derivatives.
 
-   detectors : list
-      List containing detector configurations.
+   Supported approximants:
 
-   FreeParams : list
-      Parameters varied during the inference procedure.
+   - ``"TaylorF2"``
+   - ``"TaylorF2_ISCO"``
+   - ``"TaylorF2_Spinless"``
+   - ``"TaylorF2_Spinless_0PN"``
+   - ``"IMRPhenomA"``
+   - ``"IMRPhenomB"``
+   - ``"IMRPhenomC"``
+   - ``"IMRPhenomD"``
+   - ``"IMRPhenomHM"``
 
-   approx : str, optional
-      Waveform approximant.
+   :returns:
+      ``Results, Truths, Tensors, Fisher, runtimes``
 
-   method : str, optional
-      Tensor expansion method:
-      
-      - ``"Fisher"``
-      - ``"Doublet"``
-      - ``"Triplet"``
-
-   sampler : str, optional
-      Posterior sampler backend.
-
-   diff_method : str, optional
-      Derivative computation method:
-      
-      - ``"autodiff"``
-      - ``"numdiff"``
-
-   Returns
-   -------
-
-   Results : object
-      Posterior samples and sampler output.
-
-   Truths : list
-      Injection values for the free parameters.
-
-   Tensors : dict
-      DALI tensors.
-
-   Fisher : ndarray
-      Fisher information matrix.
-
-   runtimes : list
-      Timing diagnostics.
+   :rtype:
+      tuple
 
 
-Waveform Functions
-==================
+Waveforms
+==========
 
-.. py:function:: GWDALI.get_hphx(detectors, GwPrms, freq, approx, enable_jax_waveforms=True)
+.. py:function:: GWDALI.get_hphx(detectors, GwPrms, freq, approx, enable_jax_waveforms=True, **kwargs)
 
-   Computes the plus and cross GW polarizations.
+   Computes GW polarizations.
 
-.. py:function:: GWDALI.get_strain(detectors, GwPrms, freq, approx, enable_jax_waveforms=True)
+   :param detectors: Detector network.
+   :param GwPrms: GW source parameters.
+   :param freq: Frequency array.
+   :param approx: Waveform approximant.
 
-   Computes the detector strain for a detector network.
+.. py:function:: GWDALI.get_strain(detectors, GwPrms, freq, approx, enable_jax_waveforms=True, **kwargs)
 
-.. py:function:: GWDALI.get_SNR(detectors, GwPrms, approx, enable_jax_waveforms=True)
+   Computes detector strains.
 
-   Computes individual and network signal-to-noise ratios.
+   :param detectors: Detector network.
+   :param GwPrms: GW source parameters.
+   :param freq: Frequency array.
+   :param approx: Waveform approximant.
+
+.. py:function:: GWDALI.get_SNR(detectors, GwPrms, approx, enable_jax_waveforms=True, **kwargs)
+
+   Computes detector and network signal-to-noise ratios.
 
 
 Derivatives
 ============
 
-.. py:function:: GWDALI.get_derivatives(FreeParams, approx, GwPrms, dets, freq, diff_order="first", diff_method="numdiff", ...)
+.. py:function:: GWDALI.get_derivatives(FreeParams, approx, GwPrms, dets, freq, diff_order="first", diff_method="numdiff", step_size=1.e-6, full_tensor=True, enable_jax_waveforms=True, **kwargs)
 
    Computes waveform derivatives.
 
-   Parameters
-   ----------
+   :param FreeParams: Parameters used in derivatives.
+   :param approx: Waveform approximant.
+   :param GwPrms: GW source parameters.
+   :param dets: Detector network.
+   :param freq: Frequency array.
+   :param diff_order: Derivative order [``"first"``, ``"second"``, ``"third"``].
+   :param diff_method: Derivative method [``"autodiff"``, ``"numdiff"``].
+   :param step_size: Relative numerical derivative step size.
+   :param full_tensor: Return full symmetric tensors.
+   :param jitgrad: Enable ``jax.jit()`` on derivatives.
+   :param EarthRotation: Enable Earth rotation corrections.
 
-   diff_order : str
-      Derivative order:
-      
-      - ``"first"``
-      - ``"second"``
-      - ``"third"``
+   :returns:
+      ``Diff_values, time_diff``
 
-   diff_method : str
-      Derivative method:
-      
-      - ``"autodiff"``
-      - ``"numdiff"``
-
-   Returns
-   -------
-
-   Diff_values : ndarray
-      Derivative tensors.
-
-   time_diff : list
-      Runtime information.
+   :rtype:
+      tuple
 
 
 DALI Tensors
 =============
 
-.. py:function:: GWDALI.get_dali_tensors(GwPrms, detectors, FreeParams, method, approx, ...)
+.. py:function:: GWDALI.get_dali_tensors(GwPrms, detectors, FreeParams, method, approx, enable_jax_waveforms=True, diff_method="autodiff", step_size=[1.e-6,1.e-4,1.e-2], hide_info=False, **kwargs)
 
    Computes Fisher, Doublet and Triplet tensors.
 
-   Returns
-   -------
+   :param GwPrms: GW source parameters.
+   :param detectors: Detector network.
+   :param FreeParams: Free parameters.
+   :param method: Tensor expansion method.
+   :param approx: Waveform approximant.
+   :param diff_method: Derivative method.
+   :param step_size: Numerical derivative step sizes.
 
-   Tensors : dict
+   :returns:
+      Dictionary containing ``Fisher``, ``Doublet`` and ``Triplet``.
 
-      Dictionary containing:
-
-      - ``Fisher``
-      - ``Doublet``
-      - ``Triplet``
+   :rtype:
+      dict
 
 
 Priors
@@ -141,7 +144,12 @@ Priors
 
 .. py:function:: GWDALI.Priors(FreeParams, name=None, new_priors=None, plot=False)
 
-   Builds prior distributions for Bayesian inference.
+   Builds Bayesian priors.
+
+   :param FreeParams: Free parameters.
+   :param name: Prior preset name.
+   :param new_priors: User-defined priors.
+   :param plot: Plot prior distributions.
 
 
 Detector Utilities
@@ -153,56 +161,4 @@ Detector Utilities
 
 .. py:function:: GWDALI.draw_detectors(detectors)
 
-   Draws detector locations on the Earth map.
-
-
-Waveform Backends
-==================
-
-GWDALI v1.0 supports:
-
-- JAX waveform models
-- LALSuite waveform models
-
-Supported approximants include:
-
-- ``TaylorF2``
-- ``TaylorF2_ISCO``
-- ``TaylorF2_Spinless``
-- ``IMRPhenomA``
-- ``IMRPhenomB``
-- ``IMRPhenomC``
-- ``IMRPhenomD``
-- ``IMRPhenomHM``
-
-
-Automatic Differentiation
-==========================
-
-GWDALI provides automatic differentiation using JAX:
-
-- ``jax.grad()``
-- ``jax.vmap()``
-
-for efficient computation of:
-
-- waveform derivatives
-- Fisher matrices
-- higher-order DALI tensors
-
-
-Example
-========
-
-.. code-block:: python
-
-   import GWDALI as gw
-
-   Results, Truths, Tensors, Fisher, runtimes = gw.GWDALI(
-       GwPrms,
-       detectors,
-       FreeParams,
-       approx="IMRPhenomHM",
-       method="Doublet",
-       diff_method="autodiff"
-   )
+   Draws detector locations on Earth maps.
