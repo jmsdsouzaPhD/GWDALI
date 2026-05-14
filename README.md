@@ -14,7 +14,7 @@ References: [arXiv:1401.6892](https://arxiv.org/abs/1401.6892) and [arXiv:2203.0
 
 ## Installation
 
-To install the software go to the path GWDALI/ and run the command below:
+To install the software go to the path **packages/** and run the command below:
 
 ```
 $ python3 -m pip install -e .
