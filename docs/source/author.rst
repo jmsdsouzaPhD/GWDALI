@@ -9,7 +9,7 @@ About the Author
 
 * **Dr. Josiel Mendonça Soares de Souza**
 	* PostDoc in Physics
-	* Instituto de Física, Universidade Federal do Rio de Janeiro, RJ, Brazil
+	* PPGCosmo, Universidade Federal do Espírito Santo, ES, Brazil
 	* Research Field: Gravitation, Cosmology and Gravitational Waves
 	* Member of `Brazilian Einstein Telescope Synergy (BETS) <https://indico.ego-gw.it/event/562/sessions/666/attachments/2789/4922/BETS_RU_10_Mai_sturani.pdf>`_
 	* Member of `Einstein Telescope Observational Science Board (ET-OSB) <https://www.et-gw.eu/index.php/the-et-collaboration/observational-science-board>`_
@@ -19,7 +19,10 @@ About the Author
 	* `ORCID <https://orcid.org/0000-0003-1552-0095>`_
 
 
-Collaborator:
+Collaborators:
 
 * **Prof. Riccardo Sturani**
 	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade Estadual Paulista (UNESP), São Paulo, Brazil
+
+* **Prof. Miguel Quartn**
+	* Centro Brasileiro de Pesquisas Físicas (CBPF), Rio de Janeiro, RJ, Brazil
