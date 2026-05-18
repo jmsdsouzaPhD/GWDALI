@@ -18,9 +18,9 @@ deg = 1./rad
 detector = {'name':'ET','lon':0, 'lat':90, 'rot':0, 'shape':90}
 detectors = [detector]
 
-freq = 10**np.linspace(np.log10(5),3,10000)
+freq = np.logspace(1,3,10000)
 
-Mc = 44.#36.
+Mc = 44.
 eta = 0.24
 dL = 460. # Mpc
 iota = np.pi/3

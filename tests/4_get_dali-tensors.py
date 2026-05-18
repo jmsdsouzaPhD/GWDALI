@@ -22,7 +22,7 @@ det_ET2 = {'name':'ET','lon':6, 'lat':50, 'rot':120, 'shape':60}
 det_ET3 = {'name':'ET','lon':6, 'lat':50, 'rot':-120, 'shape':60}
 detectors = [det_ET1, det_ET2, det_ET3]
 
-freq = 10**np.linspace(np.log10(5),3,1000)
+freq = np.logspace(1,3,10000)
 
 GwPrms = {}                                                                                                
 GwPrms['dL'] 	= 10.96
@@ -43,10 +43,7 @@ GwPrms['sy1'] 	= 0.00
 GwPrms['sx2'] 	= 0.00
 GwPrms['sy2'] 	= 0.00
 
-fig = plt.figure(figsize=(12,12))
-
 approx = "TaylorF2"
-
 if approx == "IMRPhenomA": GwPrms["sz1"] = GwPrms["sz2"] = 0. 
 
 print(f">> Running {approx}...\n")
@@ -57,7 +54,7 @@ for wf_type in ["lal","jax"]:
 	if wf_type == "lal":
 		DiffMethods = ["numdiff"]
 	else:
-		DiffMethods = ["numdiff","autodiff"]
+		DiffMethods = ["numdiff"]#,"autodiff"]
 
 	for diff_method in DiffMethods:
 		res = gw.get_dali_tensors(GwPrms,detectors,FreeParams,"Triplet",approx,
@@ -75,5 +72,3 @@ for wf_type in ["lal","jax"]:
 
 		np.savez_compressed(f"tns_outputs/tensors_{wf_type}_{approx}_{diff_method}.npz",Fisher=Fisher,Db12=Db12,Db22=Db22,Tp13=Tp13,Tp23=Tp23,Tp33=Tp33)
 		print("Tensors Saved!!!",wf_type,diff_method)
-
-		#quit()
