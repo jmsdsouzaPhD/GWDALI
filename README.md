@@ -2,7 +2,7 @@
 
 A Fisher-Based Software for Parameter Estimation from Gravitational Waves
 
-![Logo](https://github.com/jmsdsouzaPhD/GWDALI/blob/main/docs/source/logo_gwdali.png)
+![Logo](https://github.com/jmsdsouzaPhD/GWDALI/blob/main/docs/source/_static/logo_gwdali.png)
 
 Documentation in [https://gwdali.readthedocs.io/en/latest/](https://gwdali.readthedocs.io/en/latest/)
 
