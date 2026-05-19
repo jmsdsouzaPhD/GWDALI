@@ -1,8 +1,5 @@
-import sys, os
 import GWDALI as gw
 import numpy as np
-import pandas as pd
-import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 from time import time as now
@@ -131,6 +128,5 @@ fig.legend(loc='lower right')
 plt.suptitle(approx,weight="bold")
 plt.tight_layout()
 fig.savefig(f'outputs/fig_get_derivatives_{FreeParams[0]}-{FreeParams[1]}.png')
-print("\nOK!")
 
 plt.show()

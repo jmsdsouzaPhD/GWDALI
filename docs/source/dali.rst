@@ -35,10 +35,4 @@ It is availble to ways on computing these derivatives:
 
 			\frac{df}{dx}=\left\{ \frac{1}{h}\left[f(x+h/2)-f(x-h/2)\right]\right\} +\mathcal{O}(h^{2})
 
-	* With uncertainty of :math:`O(h^4)`:
-
-		.. math::
-
-			\frac{df}{dx}=\left\{ \frac{4}{3h}\left[f(x+h/2)-f(x-h/2)\right]-\frac{1}{6h}\left[f(x+h)-f(x-h)\right]\right\} +\mathcal{O}(h^{4})
-
 where :math:`h` is the integration step.

@@ -14,7 +14,6 @@ keys = [f"${x}$" for x in keys.split(',')]
 
 TexKeys = {}
 for i, key in enumerate(FreeParams):
-	print(key,keys[i])
 	TexKeys[key] = keys[i]
 
 dict_dL = {"dL":dL, "inv_dL":1/dL, "inv_dL2":1/dL**2, "inv_sqrtdL":1/dL**.5}
@@ -42,7 +41,6 @@ for n, key in enumerate(FreeParams):
 	
 	n = len(x)
 	plt.plot(x,y,'k-',lw=2)
-	#plt.fill_between(x,np,max(y)/100*np.ones(n),y,color='k',alpha=.3)
 	if min(y)!=max(y):
 		l1 = max(y)/100
 		xs = x[y>l1]

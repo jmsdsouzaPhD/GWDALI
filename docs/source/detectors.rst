@@ -6,7 +6,7 @@ Detectors (Position/Orientation/Shape)
 
 	detector = {"name":"CE","lon":-119,"lat":46,"rot":45,"shape":90}
 
-.. figure:: ./Coords.png
+.. figure:: ./_static/Coords.png
    :alt: detectors
    :align: center
    :scale: 50%
@@ -15,7 +15,7 @@ Detectors (Position/Orientation/Shape)
 Detectors Sensitivity
 ************************************
 
-.. figure:: ./Sensitivity.png
+.. figure:: ./_static/Sensitivity.png
    :alt: sensitivity
    :align: center
    :scale: 80%

@@ -1,14 +1,7 @@
-import sys, os
 import GWDALI as gw
 import numpy as np
-import pandas as pd
-import jax.numpy as jnp
 import matplotlib.pyplot as plt
-
 from time import time as now
-from tqdm import trange
-
-#np.random.seed(0)
 
 Approxs = ["TaylorF2"] + [f"IMRPhenom{x}" for x in "A,B,C,D,HM".split(',')]
 
@@ -37,16 +30,14 @@ GwPrms["sx2"]  = 0.
 GwPrms["sy2"]  = 0.
 GwPrms["sz2"]  = np.random.uniform(-0.98,0.98)
 
-Mc  = GwPrms["Mc"]
-eta = GwPrms["eta"]
-sz1 = GwPrms["sz1"]
-sz2 = GwPrms["sz2"]
+sz1 = GwPrms['sz1']
+sz2 = GwPrms['sz2']
+eta = GwPrms['eta']
 
-dM = np.sqrt(1-4*eta)
-M = Mc/eta**(3./5)
-m1 = .5*M*(1+dM)
-m2 = .5*M*(1-dM)
-chi_eff = (sz1*m1 + sz2*m2)/M
+dM = np.sqrt(1.-4*eta)
+chi_s = .5*(sz1+sz2)
+chi_a = .5*(sz1-sz2)
+chi_eff = chi_s + dM*chi_a
 
 fig = plt.figure(figsize=(12,10))
 plt.suptitle("GWDALI 1.0: Strain ($h=F_+h_++F_{\\times}h_{\\times}$) [JAX vs LAL]",weight="bold")
@@ -73,9 +64,9 @@ for n, approx in enumerate(Approxs):
 	for ni, enable_jax_waveforms in enumerate([True,False]):
 		t1 = now()
 		if enable_jax_waveforms:
-			H_vec = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms,disable_jit=True,EarthRotation=True)
+			H_vec = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms,disable_jit=True,EarthRotation=False)
 		else:
-			H_vec = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms,dF=dF,EarthRotation=True)
+			H_vec = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms,dF=dF,EarthRotation=False)
 
 		h = H_vec[0] # first detector
 
@@ -126,5 +117,3 @@ fig.legend(loc='upper right')
 fig.savefig('outputs/fig_get_strains.png')
 
 plt.show()
-
-print("\n",sys.argv[0],"OK!")

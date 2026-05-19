@@ -55,7 +55,7 @@ Priors
 	Priors['t_coal']    = bilby.core.prior.Uniform(name='t_coal',minimum=0, maximum=3600) # 1 hour
 	#----------------------------#----------------------------#----------------------------
 
-.. figure:: ./fig_priors.png
+.. figure:: ./_static/fig_priors.png
    :alt: priors
    :align: center
 

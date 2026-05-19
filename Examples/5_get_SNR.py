@@ -1,14 +1,9 @@
-import sys, os
 import GWDALI as gw
 import numpy as np
-import pandas as pd
-import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 from time import time as now
 from tqdm import trange
-
-np.random.seed(0)
 
 Approxs = ["TaylorF2"] + [f"IMRPhenom{x}" for x in "A,B,C,D,HM".split(',')]
 

@@ -1,8 +1,5 @@
-import sys, os
 import GWDALI as gw
 import numpy as np
-import pandas as pd
-import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 from astropy.cosmology import FlatLambdaCDM
@@ -156,6 +153,4 @@ for key in GwPrms.keys():
 fig.legend(loc='upper right')
 
 fig.savefig('outputs/fig_get_hphx.pdf')
-
-print("\n",sys.argv[0],"OK!")
 plt.show()

@@ -2,7 +2,7 @@
 About the Author
 =================================
 
-.. figure:: ./author.png
+.. figure:: ./_static/author.png
    :alt: jmsdsouza
    :align: right
    :scale: 40%

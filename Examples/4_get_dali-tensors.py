@@ -1,8 +1,5 @@
-import sys, os
 import GWDALI as gw
 import numpy as np
-import pandas as pd
-import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 from time import time as now
@@ -14,8 +11,6 @@ Approxs = ["TaylorF2"] + [f"IMRPhenom{x}" for x in "A,B,C,D,HM".split(',')]
 
 rad = np.pi/180
 deg = 1./rad
-
-dL = 450.
 
 det_ET1 = {'name':'ET','lon':6, 'lat':50, 'rot':0, 'shape':60}
 det_ET2 = {'name':'ET','lon':6, 'lat':50, 'rot':120, 'shape':60}
