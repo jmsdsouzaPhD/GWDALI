@@ -5,6 +5,11 @@ GWDALI Software (version 1.0)
 Software developed to perform parameter estimations of gravitational waves from compact objects coalescence (CBC) via Gaussian and Beyond-Gaussian approximation of GW likelihood **[1,2]**. The Gaussian approximation is related to Fisher Matrix, from which it is direct to compute the covariance matrix by inverting the Fisher Matrix **[3]**. GWDALI also deals with the not-so-infrequent cases of Fisher Matrix with zero-determinant, for instance, from Fisher Matrix inversion, the uncertainties of the luminosity distance :math:`\sigma_{d_L}(\iota)` diverges for small values of source inclinations :math:`\iota` (in contrast to what is shown in **[4]**). The Beyond-Gaussian approach uses the `Derivative Approximation for LIkelihoods <https://arxiv.org/abs/1401.6892>`_ (DALI) algorithm proposed in **[5]** and applied to gravitational waves in **[6]**, whose model parameter uncertainties are estimated via Monte Carlo sampling but less costly than using the GW likelihood with no approximation.
 Check our papers in `arXiv:2307.10154 <https://arxiv.org/abs/2307.10154>`_ and `arXiv:2510.16955 <https://arxiv.org/abs/2510.16955>`_.
 
+.. figure:: ./_static/gwdali_2D_grid_dL.png
+   :alt: gwdali_grid
+   :align: center
+   :scale: 50%
+
 * `Published Paper (Astronomy and Computing) <https://www.sciencedirect.com/science/article/abs/pii/S2213133723000744>`_
 * `pypi page <https://pypi.org/project/gwdali/>`_
 * `github page <https://github.com/jmsdsouzaPhD/GWDALI/>`_
@@ -17,18 +22,20 @@ To install the software run the command below:
 
 .. code-block:: console
 
-    $ pip install gwdali
+    git clone https://github.com/jmsdsouzaPhD/GWDALI.git
+    cd GWDALI/package/
+    pip install -e .
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     :caption: Contents:
     
-    usage
     api
     dali
     priors
-    GW_Sources
+    gw_sources
     detectors
+    examples
     license
     author
 

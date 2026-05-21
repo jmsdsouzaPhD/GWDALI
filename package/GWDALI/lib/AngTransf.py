@@ -18,40 +18,8 @@ def CrossProduct(A,B):
 
 rad = jnp.pi/180
 
-''' 
-@jit # Matrix Formulation:
-def AngTransf(iota,psi0,RA,Dec,lon,lat,rot):
-	alpha0 = RA*rad ; beta0 = (90-Dec)*rad
-	phi = lon*rad ; theta = (90-lat)*rad
-	ksi=rot*rad
-
-	R_ksi   = jnp.array([[jnp.cos(ksi) , jnp.sin(ksi), 0],[-jnp.sin(ksi) , jnp.cos(ksi) , 0],[0,0,1]])
-	R_theta = jnp.array([[jnp.cos(theta) , 0, -jnp.sin(theta)],[0,1,0],[jnp.sin(theta) , 0,  jnp.cos(theta)]])
-	R_phi   = jnp.array([[jnp.cos(phi) , jnp.sin(phi), 0],[-jnp.sin(phi) , jnp.cos(phi) , 0],[0,0,1]])
-
-	R = jnp.dot(R_ksi,jnp.dot(R_theta,R_phi))
-	N0 = jnp.array( [jnp.sin(beta0)*jnp.cos(alpha0) , jnp.sin(beta0)*jnp.sin(alpha0) , jnp.cos(beta0)] )
-	N  = jnp.array( jnp.transpose( jnp.dot(R,N0.T) ) )
-
-	alpha_det = jnp.arctan2( N[1] , N[0] )
-	beta_det = jnp.arctan2( jnp.sqrt(N[0]**2 + N[1]**2) , N[2] )
-
-	# Computing Psi from geoframe to detector-frame
-	N  = jnp.array( [jnp.sin(beta0)*jnp.cos(alpha0) , jnp.sin(beta0)*jnp.sin(alpha0), jnp.cos(beta0)] )
-	zA = jnp.array( [jnp.sin(theta)*jnp.cos(phi) , jnp.sin(theta)*jnp.sin(phi), jnp.cos(theta)] )
-	z0 = jnp.array( [0,0,1] )
-	Yrad = CrossProduct(N,z0) / jnp.sin(beta0)
-	Xrad = CrossProduct(Yrad,N)
-	L = jnp.cos(iota)*N + jnp.sin(iota)*(jnp.sin(psi0)*Xrad - jnp.cos(psi0)*Yrad)
-	Sin_psi = InnerProduct(L, zA - N*InnerProduct(zA,N) )
-	Cos_psi = InnerProduct( zA , CrossProduct(N,L) )
-	psi_det =  jnp.arctan2( Sin_psi , Cos_psi )
-
-	return alpha_det, beta_det, psi_det
-'''
-
 @jit # Analytic Formulation
-def AngTransf(iota,psi0,RA,Dec,lon,lat,rot):
+def AngTransf(psi0,RA,Dec,lon,lat,rot):
 	alpha0 = RA*rad ; beta0 = (90-Dec)*rad
 	phi = lon*rad ; theta = (90-lat)*rad ; ksi = rot*rad
 

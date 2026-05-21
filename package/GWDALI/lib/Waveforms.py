@@ -62,15 +62,14 @@ def PatternFunc(alpha,beta,psi,shape): # L-shape Detector
 	return Fp*jnp.sin(Omega), Fx*jnp.sin(Omega)
 
 @jit
-def PN_time_corrections(m1,m2,freq):
+def PN_time_corrections(Mc,eta,freq):
 	# Equation (3.8b) of arXiv:0907.0700 
 	# t(f) up to 3.5 PN 
 	# spinless!
 
-	M = m1+m2
-	eta = m1*m2/M**2
+	M = Mc/eta**(3./5)
+	v  = (PI*M*GMc3*freq)**(1./3)
 
-	v  = 2*PI*M*GMc3*freq
 	v2 = v*v
 	v3 = v2*v
 	v4 = v2*v2
@@ -98,30 +97,25 @@ def PN_time_corrections(m1,m2,freq):
 	return Coeff*Corrections
 
 @jit
-def get_FpFx(iota,psi,RA,Dec,det_conf,Mc,eta,freq):
+def get_FpFx(psi,RA,Dec,det_conf,Mc,eta,freq):
 	alpha0 = RA*rad
 	beta0 = Dec*rad
 	lon, lat, rot, shape = det_conf
 
-	alpha_det, beta_det, psi_det = geo.AngTransf(iota,psi,RA,Dec,lon,lat,rot)
+	alpha_det, beta_det, psi_det = geo.AngTransf(psi,RA,Dec,lon,lat,rot)
 	Fp, Fx = PatternFunc(alpha_det, beta_det, psi_det, shape)
 	return Fp, Fx
 
 @jit
-def get_FpFx_ER(iota,psi,RA,Dec,det_conf,Mc,eta,freq):
+def get_FpFx_ER(psi,RA,Dec,det_conf,Mc,eta,freq):
 	alpha0 = RA*rad
 	beta0 = Dec*rad
 	lon, lat, rot, shape = det_conf
 
-	M = Mc/eta**(3./5)
-	dM = jnp.sqrt(1-4*eta)
-	m1 = .5*M*(1.+dM)
-	m2 = .5*M*(1.-dM)
-
-	t_shift = PN_time_corrections(m1,m2,freq) # (t_shift<=0) 3.5PN time(f) [arXiv:0907.0700 ]
+	t_shift = PN_time_corrections(Mc,eta,freq) # (t_shift<=0) 3.5PN time(f) [arXiv:0907.0700 ]
 	RA_mod = RA - w_earth*t_shift/rad # Effect of Earth Rotation
 	
-	alpha_det, beta_det, psi_det = geo.AngTransf(iota,psi,RA_mod,Dec,lon,lat,rot)
+	alpha_det, beta_det, psi_det = geo.AngTransf(psi,RA_mod,Dec,lon,lat,rot)
 	Fp, Fx = PatternFunc(alpha_det, beta_det, psi_det, shape)
 	return Fp, Fx
 
@@ -149,9 +143,9 @@ APPROXIMANTS = [
 ]
 
 @jit
-def get_time_delay(det_conf_a,det_conf_b,iota,psi,RA,Dec):
-	beta_a = geo.AngTransf(iota,psi,RA,Dec,*det_conf_a[:-1])[1]
-	beta_b = geo.AngTransf(iota,psi,RA,Dec,*det_conf_b[:-1])[1]
+def get_time_delay(det_conf_a,det_conf_b,psi,RA,Dec):
+	beta_a = geo.AngTransf(psi,RA,Dec,*det_conf_a[:-1])[1]
+	beta_b = geo.AngTransf(psi,RA,Dec,*det_conf_b[:-1])[1]
 	
 	return R_earth/c * (jnp.cos(beta_b) - jnp.cos(beta_a))
 
@@ -241,7 +235,7 @@ from GWDALI.lib.ParamsTransform import build_transform
 def build_waveform_strain(theta_keys,approx,**kwargs):
 	transform = build_transform(theta_keys)
 
-	earth_rotation = kwargs.get("ER", False)
+	earth_rotation = kwargs.get("EarthRotation", False)
 	FpFx_func = ( get_FpFx_ER if earth_rotation else get_FpFx )
 
 	@jit
@@ -254,9 +248,9 @@ def build_waveform_strain(theta_keys,approx,**kwargs):
 		hp, hx = globals()[f"hphx_{approx}"](*args_hphx)
 
 		det_conf_a, det_conf_ref = det_conf
-		tau_ab = get_time_delay(det_conf_a,det_conf_ref,iota,psi,RA,Dec)
+		tau_ab = get_time_delay(det_conf_a,det_conf_ref,psi,RA,Dec)
 
-		Fp, Fx = FpFx_func(iota,psi,RA,Dec,det_conf_a,Mc,eta,freq)
+		Fp, Fx = FpFx_func(psi,RA,Dec,det_conf_a,Mc,eta,freq)
 		return (Fp*hp + Fx*hx) * jnp.exp(2.j * jnp.pi * freq * tau_ab)
 	return Gw_Signal
 # ===============================================================
@@ -300,7 +294,7 @@ def build_waveform_hphx_lal(theta_keys,approx,**kwargs):
 def build_waveform_strain_lal(theta_keys,approx,**kwargs):
 	transform = build_transform(theta_keys)
 	
-	earth_rotation = kwargs.get("ER", False)
+	earth_rotation = kwargs.get("EarthRotation", False)
 	FpFx_func = ( get_FpFx_ER if earth_rotation else get_FpFx )
 
 	def Gw_Signal(theta, det_conf, freq, approx, **kwargs):
@@ -310,8 +304,8 @@ def build_waveform_strain_lal(theta_keys,approx,**kwargs):
 		hp, hx = hphx_lal(*hphx_prms, freq, approx, **kwargs)
 
 		det_conf_a, det_conf_ref = det_conf
-		tau_ab = get_time_delay(det_conf_a,det_conf_ref,iota,psi,RA,Dec)
+		tau_ab = get_time_delay(det_conf_a,det_conf_ref,psi,RA,Dec)
 
-		Fp, Fx = FpFx_func(iota,psi,RA,Dec,det_conf_a,Mc,eta,freq)
+		Fp, Fx = FpFx_func(psi,RA,Dec,det_conf_a,Mc,eta,freq)
 		return (Fp*hp + Fx*hx) * jnp.exp(2.j * jnp.pi * freq * tau_ab)
 	return Gw_Signal

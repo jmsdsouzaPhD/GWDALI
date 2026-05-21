@@ -17,7 +17,9 @@ References: [arXiv:1401.6892](https://arxiv.org/abs/1401.6892) and [arXiv:2203.0
 To install the software go to the path **packages/** and run the command below:
 
 ```
-$ python3 -m pip install -e .
+git clone https://github.com/jmsdsouzaPhD/GWDALI.git
+cd GWDALI/package/
+pip install -e .
 ```
 
 ## Authors

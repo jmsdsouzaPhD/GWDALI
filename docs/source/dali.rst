@@ -1,6 +1,6 @@
-=================================
+==============================================
 Derivative Approximation for LIkelihood (DALI)
-=================================
+==============================================
 
 This approximation is based on Taylor expansion of the logarithm of the likelihood but being ordered in terms of order of derivatives:
 
@@ -29,7 +29,8 @@ where,
 
 GWDALI deals with derivatives through **numerical derivatives** with **finite differences**.
 It is availble to ways on computing these derivatives:
-	* With an uncertainty of :math:`O(h^2)`:
+
+* With an uncertainty of :math:`O(h^2)`:
 
 		.. math::
 

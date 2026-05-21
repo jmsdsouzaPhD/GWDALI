@@ -194,27 +194,27 @@ def get_gwjax_wf_functions():
 	Gw_Signal, Gw_hphx, Gw_Signal_Real, Gw_Signal_Imag = wf.load_waveforms()
 	return Gw_Signal, Gw_hphx, Gw_Signal_Real, Gw_Signal_Imag
 
-def get_hphx(detectors,GwPrms,freq,approx, enable_jax_waveforms=True,**kwargs):
+def get_hphx(GwPrms,freq,approx,enable_jax_waveforms=True,**kwargs):
 	if 'disable_jit' in kwargs.keys():
 		if kwargs['disable_jit'] == True:
 			jax.config.update("jax_disable_jit",True)
 			print(">> Disabling jax.jit()")
 
-	theta_keys, prms = zip( *GwPrms.items() )
+	gwprms = GwPrms.copy()
+	for key in "RA,Dec,psi".split(','): gwprms[key] = 0.
+	theta_keys, prms = zip( *gwprms.items() )
+	prms = list(prms)
 
 	if enable_jax_waveforms:
-		Gw_Signal, Gw_hphx, Gw_Signal_Real, Gw_Signal_Imag = wf.load_waveforms(theta_keys,approx)
+		Gw_hphx = wf.load_waveforms(theta_keys,approx)[1]
 
-	hphx_vec = []
-	for det in detectors:
-		args = list( GwPrms.values() )
-		if enable_jax_waveforms:
-			hp, hx = Gw_hphx[approx](args,freq)
-		else:
-			hphx_func = wf.build_waveform_hphx_lal(theta_keys,approx,**kwargs)
-			hp, hx = hphx_func(prms,freq,approx,**kwargs)
-		hphx_vec.append([hp,hx])
-	return hphx_vec
+	if enable_jax_waveforms:
+		hp, hx = Gw_hphx[approx](prms,freq)
+	else:
+		hphx_func = wf.build_waveform_hphx_lal(theta_keys,approx,**kwargs)
+		hp, hx = hphx_func(prms,freq,approx,**kwargs)
+
+	return hp, hx
 
 def get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms=True,**kwargs):
 	if 'disable_jit' in kwargs.keys():
@@ -224,7 +224,7 @@ def get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms=True,**kwargs):
 
 	theta_keys, gw_values = zip(*GwPrms.items())
 	if enable_jax_waveforms:
-		Gw_Signal, Gw_hphx, Gw_Signal_Real, Gw_Signal_Imag = wf.load_waveforms(theta_keys,approx,**kwargs)
+		Gw_Signal = wf.load_waveforms(theta_keys,approx,**kwargs)[0]
 	
 	h_vec = []
 	hr_vec = []
@@ -240,19 +240,13 @@ def get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms=True,**kwargs):
 		if enable_jax_waveforms:
 			args = [*gw_values, det_conf, freq]
 			h  = Gw_Signal[approx](gw_values, det_conf, freq)
-			hr = Gw_Signal_Real[approx](*args)
-			hi = Gw_Signal_Imag[approx](*args)
 		else:
 			h_func = wf.build_waveform_strain_lal(theta_keys,approx,**kwargs)
 			h = h_func(gw_values, det_conf,freq,approx,**kwargs)
-			hr = h.real
-			hi = h.imag
 		if not hide_cond: print("\t\t >> h computed!")
 
 		h_vec.append(h)
-		hr_vec.append(hr)
-		hi_vec.append(hi)
-	return h_vec, hr_vec, hi_vec
+	return h_vec
 
 def get_SNR(detectors,GwPrms,approx,enable_jax_waveforms=True,**kwargs):
 	if 'disable_jit' in kwargs.keys():
@@ -283,7 +277,7 @@ def get_SNR(detectors,GwPrms,approx,enable_jax_waveforms=True,**kwargs):
 	SNR_tot = np.sqrt(snr2)
 	return SNR_vec, SNR_tot
 
-def get_derivatives(FreeParams,approx,GwPrms,dets,freq,diff_order="first",diff_method="numdiff",
+def get_derivatives(FreeParams,approx,GwPrms,detectors,freq,diff_order="first",diff_method="numdiff",
 					step_size=1.e-6,full_tensor=True,enable_jax_waveforms=True,**kwargs):
 
 	if 'disable_jit' in kwargs.keys():
@@ -297,9 +291,9 @@ def get_derivatives(FreeParams,approx,GwPrms,dets,freq,diff_order="first",diff_m
 	gwkeys = list( GwPrms.keys() ) ; ndim = len(FreeParams)
 	print(">> Computing Derivatives with respect to:",FreeParams,"\n")
 
-	det_a = [dets[0][x] for x in "lon,lat,rot,shape".split(',')]
-	if len(dets)>1:
-		det_b = [dets[1][x] for x in "lon,lat,rot,shape".split(',')]
+	det_a = [detectors[0][x] for x in "lon,lat,rot,shape".split(',')]
+	if len(detectors)>1:
+		det_b = [detectors[1][x] for x in "lon,lat,rot,shape".split(',')]
 	else:
 		det_b = det_a
 	det_conf = [det_a, det_b]
@@ -317,7 +311,7 @@ def get_derivatives(FreeParams,approx,GwPrms,dets,freq,diff_order="first",diff_m
 	# time_vec = [ time_diff1[0],...,time_diff1[n], time_diff2[j], ..., time_diff3[N] ]
 	# time_diff = [time_vec,dt_total]
 	# Diff_values = Derivatives, [time_vec,dt_total]
-	return Diff_values, time_diff
+	return np.array(Diff_values), time_diff
 
 def get_dali_tensors(GwPrms,detectors,FreeParams,method,approx,enable_jax_waveforms=True,
 				 diff_method="autodiff",step_size=[1.e-6,1.e-4,1.e-2],hide_info=False,**kwargs):
@@ -361,7 +355,7 @@ def get_map(detectors,plot_map=False):
 	for det in detectors:
 		for i in trange(50):
 			for j in range(50):
-				alpha_det, beta_det, psi_det = geo.AngTransf(0,0,lons[j],lats[i],det['lon'],det['lat'],det['rot'])
+				alpha_det, beta_det, psi_det = geo.AngTransf(0,lons[j],lats[i],det['lon'],det['lat'],det['rot'])
 				Fp, Fx = wf.PatternFunc(alpha_det, beta_det, psi_det, det['shape'])
 				Fp = np.array(Fp); Fx = np.array(Fx)
 				F2[i][j] += Fp**2 + Fx**2

@@ -1,0 +1,113 @@
+.
+├── build
+│   ├── doctrees
+│   │   ├── api.doctree
+│   │   ├── author.doctree
+│   │   ├── dali.doctree
+│   │   ├── detectors.doctree
+│   │   ├── environment.pickle
+│   │   ├── GW_Sources.doctree
+│   │   ├── index.doctree
+│   │   ├── license.doctree
+│   │   ├── priors.doctree
+│   │   └── usage.doctree
+│   └── html
+│       ├── api.html
+│       ├── author.html
+│       ├── dali.html
+│       ├── detectors.html
+│       ├── genindex.html
+│       ├── GW_Sources.html
+│       ├── _images
+│       │   ├── author.png
+│       │   ├── Coords.png
+│       │   ├── fig_priors.png
+│       │   ├── geo_coords.png
+│       │   ├── logo_gwdali.png
+│       │   └── Sensitivity.png
+│       ├── index.html
+│       ├── license.html
+│       ├── objects.inv
+│       ├── priors.html
+│       ├── search.html
+│       ├── searchindex.js
+│       ├── _sources
+│       │   ├── api.rst.txt
+│       │   ├── author.rst.txt
+│       │   ├── dali.rst.txt
+│       │   ├── detectors.rst.txt
+│       │   ├── GW_Sources.rst.txt
+│       │   ├── index.rst.txt
+│       │   ├── license.rst.txt
+│       │   ├── priors.rst.txt
+│       │   └── usage.rst.txt
+│       ├── _static
+│       │   ├── basic.css
+│       │   ├── css
+│       │   │   ├── badge_only.css
+│       │   │   ├── fonts
+│       │   │   │   ├── fontawesome-webfont.eot
+│       │   │   │   ├── fontawesome-webfont.svg
+│       │   │   │   ├── fontawesome-webfont.ttf
+│       │   │   │   ├── fontawesome-webfont.woff
+│       │   │   │   ├── fontawesome-webfont.woff2
+│       │   │   │   ├── lato-bold-italic.woff
+│       │   │   │   ├── lato-bold-italic.woff2
+│       │   │   │   ├── lato-bold.woff
+│       │   │   │   ├── lato-bold.woff2
+│       │   │   │   ├── lato-normal-italic.woff
+│       │   │   │   ├── lato-normal-italic.woff2
+│       │   │   │   ├── lato-normal.woff
+│       │   │   │   ├── lato-normal.woff2
+│       │   │   │   ├── Roboto-Slab-Bold.woff
+│       │   │   │   ├── Roboto-Slab-Bold.woff2
+│       │   │   │   ├── Roboto-Slab-Regular.woff
+│       │   │   │   └── Roboto-Slab-Regular.woff2
+│       │   │   └── theme.css
+│       │   ├── doctools.js
+│       │   ├── documentation_options.js
+│       │   ├── file.png
+│       │   ├── groundwork.css
+│       │   ├── gw_logo.png
+│       │   ├── jquery.js
+│       │   ├── js
+│       │   │   ├── badge_only.js
+│       │   │   ├── html5shiv.min.js
+│       │   │   ├── html5shiv-printshiv.min.js
+│       │   │   └── theme.js
+│       │   ├── language_data.js
+│       │   ├── logo_gwdali_name.png
+│       │   ├── logo_gwdali.png
+│       │   ├── minus.png
+│       │   ├── plus.png
+│       │   ├── pygments.css
+│       │   ├── searchtools.js
+│       │   ├── small_groundwork.css
+│       │   ├── sphinx_highlight.js
+│       │   └── _sphinx_javascript_frameworks_compat.js
+│       └── usage.html
+├── make.bat
+├── Makefile
+├── requirements.txt
+├── source
+│   ├── api.rst
+│   ├── author.rst
+│   ├── conf.py
+│   ├── dali.rst
+│   ├── detectors.rst
+│   ├── GW_Sources.rst
+│   ├── index.rst
+│   ├── license.rst
+│   ├── priors.rst
+│   ├── _static
+│   │   ├── author.png
+│   │   ├── Coords.png
+│   │   ├── fig_priors.png
+│   │   ├── geo_coords.pdf
+│   │   ├── geo_coords.png
+│   │   ├── logo_gwdali.png
+│   │   └── Sensitivity.png
+│   └── usage.rst
+└── tree.txt
+
+11 directories, 99 files
