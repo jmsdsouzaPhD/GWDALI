@@ -8,7 +8,7 @@ GW Sources Characterization
 
 In GWDALI we deal with astronomical coordinates (RA, Dec) aligned with geocentric coordinates (longitude 'lon' and latitude 'lat' ) such that :math:`Ra//lon` and :math:`Dec//lat`:
 
-.. figure:: ./geo_coords.png
+.. figure:: ./_static/geo_coords.png
    :alt: Source Coordinates
    :align: center
    :scale: 50%
