@@ -207,7 +207,7 @@
 </li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Sources Characterization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -275,19 +275,7 @@
 \Delta\theta^{ij} =&amp; \Delta\theta^i\cdot\Delta\theta^j  \\
 \Delta\theta^{ij..m} =&amp; \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m\end{split}\]</div>
 </div>
-<p>GWDALI deals with derivatives through <strong>numerical derivatives</strong> with <strong>finite differences</strong>.
-It is availble to ways on computing these derivatives:</p>
-<ul>
-<li><p>With an uncertainty of <span class="math notranslate nohighlight">\(O(h^2)\)</span>:</p>
-<blockquote>
-<div><div class="math-wrapper docutils container">
-<div class="math notranslate nohighlight">
-\[\frac{df}{dx}=\left\{ \frac{1}{h}\left[f(x+h/2)-f(x-h/2)\right]\right\} +\mathcal{O}(h^{2})\]</div>
-</div>
-</div></blockquote>
-</li>
-</ul>
-<p>where <span class="math notranslate nohighlight">\(h\)</span> is the integration step.</p>
+<p>GWDALI deals with derivatives on two methods: 1) <strong>numerical derivatives</strong> with <strong>finite differences</strong>, and 2) <strong>automatic differentiation</strong> with <a class="reference external" href="https://github.com/google/jax">jax</a>.</p>
 </section>
 
         </article>

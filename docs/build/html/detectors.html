@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Examples" href="examples.html"><link rel="prev" title="GW Sources Characterization" href="gw_sources.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Examples" href="examples.html"><link rel="prev" title="GW Source Characterization" href="gw_sources.html">
         <link rel="prefetch" href="_static/logo_gwdali.png" as="image">
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2025.12.19 -->
@@ -207,7 +207,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Sources Characterization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -252,11 +252,29 @@
         <article role="main" id="furo-main-content">
           <section id="detectors-position-orientation-shape">
 <h1>Detectors (Position/Orientation/Shape)<a class="headerlink" href="#detectors-position-orientation-shape" title="Link to this heading">¶</a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">detector</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;CE&quot;</span><span class="p">,</span><span class="s2">&quot;lon&quot;</span><span class="p">:</span><span class="o">-</span><span class="mi">119</span><span class="p">,</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span><span class="mi">46</span><span class="p">,</span><span class="s2">&quot;rot&quot;</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span><span class="s2">&quot;shape&quot;</span><span class="p">:</span><span class="mi">90</span><span class="p">}</span>
+<p>To setting the properties of a given detector, create a python dictionary with the following entries:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">{&quot;name&quot;,&quot;lon&quot;,&quot;lat&quot;,&quot;rot&quot;,&quot;shape&quot;}</span></span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of detector among (“ET”,”CE”,”CE_20km”,”CE_40km”,”LIGO”,”Virgo”,”KAGRA”);</p></li>
+<li><p><strong>lon</strong> (<em>float</em>) – Longitude;</p></li>
+<li><p><strong>lat</strong> (<em>float</em>) – Latitude;</p></li>
+<li><p><strong>rot</strong> (<em>float</em>) – Orientation anti-clockwise starting in 0° from the detector bissetiz aligned to the Noth-South direction;</p></li>
+<li><p><strong>shape</strong> (<em>float</em>) – Openning angle of the interferometer’s arms.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">detector</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;ET&quot;</span><span class="p">,</span><span class="s2">&quot;lon&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="s2">&quot;rot&quot;</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span><span class="s2">&quot;shape&quot;</span><span class="p">:</span><span class="mi">60</span><span class="p">}</span>
 </pre></div>
 </div>
 <figure class="align-center">
-<a class="reference internal image-reference" href="_images/Coords.png"><img alt="detectors" src="_images/Coords.png" style="width: 600.0px; height: 300.0px;" /></a>
+<a class="reference internal image-reference" href="_images/Coords.png"><img alt="detectors" src="_images/Coords.png" style="width: 840.0px; height: 420.0px;" /></a>
 </figure>
 <section id="detectors-sensitivity">
 <h2>Detectors Sensitivity<a class="headerlink" href="#detectors-sensitivity" title="Link to this heading">¶</a></h2>
@@ -287,7 +305,7 @@
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">GW Sources Characterization</div>
+                <div class="title">GW Source Characterization</div>
                 
               </div>
             </a>

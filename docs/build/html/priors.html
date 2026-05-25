@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="GW Sources Characterization" href="gw_sources.html"><link rel="prev" title="Derivative Approximation for LIkelihood (DALI)" href="dali.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="GW Source Characterization" href="gw_sources.html"><link rel="prev" title="Derivative Approximation for LIkelihood (DALI)" href="dali.html">
         <link rel="prefetch" href="_static/logo_gwdali.png" as="image">
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2025.12.19 -->
@@ -207,7 +207,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Sources Characterization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -252,89 +252,245 @@
         <article role="main" id="furo-main-content">
           <section id="priors">
 <h1>Priors<a class="headerlink" href="#priors" title="Link to this heading">¶</a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bilby</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.cosmology</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlatLambdaCDM</span>
-<span class="n">cosmo</span> <span class="o">=</span> <span class="n">FlatLambdaCDM</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span><span class="mf">0.3</span><span class="p">)</span>
-
-<span class="n">Priors</span> <span class="o">=</span> <span class="p">{}</span>
-
-<span class="c1">#----------------------------------------</span>
-<span class="c1"># Prior(DL): dVc/dz</span>
-<span class="c1">#----------------------------------------</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.e-3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">d</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-<span class="n">H</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-<span class="n">Rc</span> <span class="o">=</span> <span class="n">d</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="p">)</span>
-<span class="n">priorD</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">Rc</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">H</span>
-<span class="n">xx</span> <span class="o">=</span> <span class="n">d</span><span class="o">/</span><span class="mf">1.e3</span>
-<span class="n">yy</span> <span class="o">=</span> <span class="n">priorD</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">priorD</span><span class="p">)</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">d1</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1.e3</span> <span class="c1"># Gpc</span>
-<span class="n">d2</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1.e3</span>   <span class="c1"># Gpc</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;DL&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Interped</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;DL&#39;</span><span class="p">,</span><span class="n">xx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="n">d1</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">d2</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;iota&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Sine</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;iota&#39;</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;psi&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;psi&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Sine</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
-<span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">xx</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
-<span class="n">yy</span><span class="o">/=</span><span class="nb">sum</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;RA&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;RA&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span> <span class="c1"># deg unit</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;Dec&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Interped</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Dec&#39;</span><span class="p">,</span><span class="n">xx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span><span class="n">minimum</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span> <span class="c1"># deg unit</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;m1&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;m2&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Mc&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mf">1.e-3</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mf">1.e-3</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;sx1&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sx1&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;sy1&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sy1&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;sz1&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sz1&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;sx2&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sx2&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;sy2&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sy2&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;sz2&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sz2&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;phi_coal&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;phi_coal&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-<span class="n">Priors</span><span class="p">[</span><span class="s1">&#39;t_coal&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">bilby</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">prior</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;t_coal&#39;</span><span class="p">,</span><span class="n">minimum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span> <span class="c1"># 1 hour</span>
-<span class="c1">#----------------------------#----------------------------#----------------------------</span>
-</pre></div>
+<section id="default-priors">
+<h2>Default Priors<a class="headerlink" href="#default-priors" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Support / Integration Limits</p></th>
+<th class="head"><p>Prior Type</p></th>
+<th class="head"><p>Analytical Form</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">m1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,100]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(m_1)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,100]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(m_2)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">M</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,200]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(M)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Mc</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,100]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\mathcal{M}_c)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ln_Mc</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[\ln</span> <span class="pre">1,\ln</span> <span class="pre">100]</span></code></p></td>
+<td><p>Log-chirp-mass prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\ln\mathcal{M}_c)\propto e^{\ln\mathcal{M}_c}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">q</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[10^{-2},1-\epsilon]</span></code></p></td>
+<td><p>Mass-ratio prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(q)\propto q^2\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">q</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">q</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inv_eta</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ln_eta</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">deltaM</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RA</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,360^\circ]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\alpha)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Dec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-90^\circ,90^\circ]</span></code></p></td>
+<td><p>Isotropic sky prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\delta)\propto \cos\delta\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iota</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,\pi]</span></code></p></td>
+<td><p>Sine prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\iota)\propto \sin\iota\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cos_iota</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-1,1]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\cos\iota)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">psi</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,\pi]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\psi)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_coal</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-1,1]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(t_{\rm coal})\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">phi_coal</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-\pi,\pi]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\phi_{\rm coal})\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sx1,sy1,sz1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-0.98,0.98]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(s_i)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sx2,sy2,sz2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-0.98,0.98]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(s_i)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">chi1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,0.98]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\chi_1)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">phi1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,2\pi]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\phi_1)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">theta1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,\pi]</span></code></p></td>
+<td><p>Spherical-angle prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\theta_1)\propto \sin\theta_1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">chi2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,0.98]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\chi_2)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">phi2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,2\pi]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\phi_2)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">theta2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,\pi]</span></code></p></td>
+<td><p>Spherical-angle prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\theta_2)\propto \sin\theta_2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">chi_s</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-0.98,0.98]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\chi_s)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">chi_a</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-0.98,0.98]</span></code></p></td>
+<td><p>Uniform</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(\chi_a)\propto 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+<td><p>cosmology-dependent</p></td>
+<td><p>Astrophysical distance prior</p></td>
+<td><p><span class="math notranslate nohighlight">\(p(d_L)\propto \frac{dV_c}{dd_L}\frac{\mathrm{SFR}(z)}{1+z}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lnDL</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inv_dL</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">inv_dL2</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inv_sqrtdL</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">inv_lnDL</span></code></p></td>
+<td><p>derived from <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+<td><p>Derived prior</p></td>
+<td><p>Derived from the prior on <code class="docutils literal notranslate"><span class="pre">dL</span></code></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <figure class="align-center">
 <img alt="priors" src="_images/fig_priors.png" />
 </figure>
+</section>
 <section id="make-your-own-prior">
 <h2>Make your own prior<a class="headerlink" href="#make-your-own-prior" title="Link to this heading">¶</a></h2>
-<p>To redefine your priors define a dictionary as bellow:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Defining a new prior only for the luminosity distance:</span>
+<p>To redefine your priors define a dictionary with two arrays for each parameter, one for the support and another for the probability distribution.
+For instance, to redefine the priors on <code class="docutils literal notranslate"><span class="pre">dL</span></code>, <code class="docutils literal notranslate"><span class="pre">iota</span></code>, <code class="docutils literal notranslate"><span class="pre">Mc</span></code> and <code class="docutils literal notranslate"><span class="pre">eta</span></code> as shown in the figure below, we can run the code snippet below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">GWDALI</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gw</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># dL values</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># prior as power-law</span>
+<span class="n">FreeParams</span> <span class="o">=</span> <span class="s2">&quot;dL,Mc,eta,iota&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+<span class="n">Priors_default</span> <span class="o">=</span> <span class="n">gw</span><span class="o">.</span><span class="n">Priors</span><span class="p">(</span><span class="n">FreeParams</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">new_priors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">dL</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">iota</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">Mc</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">eta</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">l0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">6</span>
+
+<span class="n">p_dL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">.5</span><span class="o">*</span><span class="p">(</span><span class="n">dL</span><span class="o">-</span><span class="mi">50</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">50</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="p">;</span> <span class="n">p_dL</span><span class="o">/=</span><span class="nb">sum</span><span class="p">(</span><span class="n">p_dL</span><span class="p">)</span>
+<span class="n">p_Mc</span> <span class="o">=</span> <span class="n">Mc</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">.5</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">((</span><span class="n">Mc</span><span class="o">-</span><span class="mi">50</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="p">;</span> <span class="n">p_Mc</span><span class="o">/=</span><span class="nb">sum</span><span class="p">(</span><span class="n">p_Mc</span><span class="p">)</span>
+<span class="n">p_eta</span> <span class="o">=</span> <span class="n">eta</span><span class="o">**</span><span class="mi">2</span> <span class="p">;</span> <span class="n">p_eta</span><span class="o">/=</span><span class="nb">sum</span><span class="p">(</span><span class="n">p_eta</span><span class="p">)</span>
+<span class="n">p_iota</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">iota</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">iota</span><span class="o">&lt;</span><span class="n">l0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">iota</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">iota</span><span class="o">&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">-</span><span class="n">l0</span><span class="p">)</span> <span class="p">;</span> <span class="n">p_iota</span><span class="o">/=</span><span class="nb">sum</span><span class="p">(</span><span class="n">p_iota</span><span class="p">)</span>
 
 <span class="n">new_priors</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">new_priors</span><span class="p">[</span><span class="s1">&#39;DL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<span class="n">new_priors</span><span class="p">[</span><span class="s2">&quot;dL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dL</span><span class="p">,</span><span class="n">p_dL</span><span class="p">]</span>
+<span class="n">new_priors</span><span class="p">[</span><span class="s2">&quot;iota&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">iota</span><span class="p">,</span><span class="n">p_iota</span><span class="p">]</span>
+<span class="n">new_priors</span><span class="p">[</span><span class="s2">&quot;Mc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Mc</span><span class="p">,</span><span class="n">p_Mc</span><span class="p">]</span>
+<span class="n">new_priors</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">eta</span><span class="p">,</span><span class="n">p_eta</span><span class="p">]</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">gw</span><span class="o">.</span><span class="n">GWDALI</span><span class="p">(</span> <span class="n">Detection_Dict</span> <span class="o">=</span> <span class="n">params</span><span class="p">,</span>
-     <span class="n">FreeParams</span>     <span class="o">=</span> <span class="n">FreeParams</span><span class="p">,</span>
-     <span class="n">detectors</span>      <span class="o">=</span> <span class="p">[</span><span class="n">det0</span><span class="p">,</span><span class="n">det1</span><span class="p">,</span><span class="n">det2</span><span class="p">,</span><span class="n">det3</span><span class="p">],</span> <span class="c1"># Einstein Telescope + Cosmic Explorer</span>
-     <span class="n">approximant</span>    <span class="o">=</span> <span class="s1">&#39;TaylorF2_py&#39;</span><span class="p">,</span>
-     <span class="n">dali_method</span>    <span class="o">=</span> <span class="s1">&#39;Doublet&#39;</span><span class="p">,</span>
-     <span class="n">sampler_method</span> <span class="o">=</span> <span class="s1">&#39;nestle&#39;</span><span class="p">,</span> <span class="c1"># Same as Bilby sampling method</span>
-     <span class="n">new_priors</span>     <span class="o">=</span> <span class="n">new_priors</span><span class="p">,</span>
-     <span class="n">save_fisher</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-     <span class="n">save_cov</span>       <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-     <span class="n">plot_corner</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-     <span class="n">save_samples</span>   <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-     <span class="n">hide_info</span>      <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-     <span class="n">index</span>          <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-     <span class="n">rcond</span>          <span class="o">=</span> <span class="mf">1.e-4</span><span class="p">,</span>
-     <span class="n">npoints</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="c1"># points for &quot;nested sampling&quot; or steps/walkers for &quot;MCMC&quot;</span>
+<span class="n">Priors_modified</span> <span class="o">=</span> <span class="n">gw</span><span class="o">.</span><span class="n">Priors</span><span class="p">(</span><span class="n">FreeParams</span><span class="p">,</span><span class="n">new_priors</span><span class="o">=</span><span class="n">new_priors</span><span class="p">,</span><span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">FreeParams</span><span class="p">:</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">Priors_default</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">Priors_modified</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">minimum</span><span class="p">,</span><span class="n">p1</span><span class="o">.</span><span class="n">maximum</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">minimum</span><span class="p">,</span><span class="n">p2</span><span class="o">.</span><span class="n">maximum</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">prob</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="p">;</span> <span class="n">y1</span><span class="o">/=</span><span class="nb">max</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">prob</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="p">;</span> <span class="n">y2</span><span class="o">/=</span><span class="nb">max</span><span class="p">(</span><span class="n">y2</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">FreeParams</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="s1">&#39;k-&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Default Prior&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="s1">&#39;r-&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;New Prior&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+<figure class="align-center">
+<img alt="priors" src="_images/priors_modified.png" />
+</figure>
 </section>
 </section>
 
@@ -348,7 +504,7 @@
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">GW Sources Characterization</div>
+                <div class="title">GW Source Characterization</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -394,6 +550,7 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Priors</a><ul>
+<li><a class="reference internal" href="#default-priors">Default Priors</a></li>
 <li><a class="reference internal" href="#make-your-own-prior">Make your own prior</a></li>
 </ul>
 </li>
@@ -410,5 +567,6 @@
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

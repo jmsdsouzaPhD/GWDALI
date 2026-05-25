@@ -207,7 +207,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Sources Characterization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -290,6 +290,24 @@
 <dd><p>Computes detector and network signal-to-noise ratios.</p>
 </dd></dl>
 
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The available jax-friendly approximants are:
+- <code class="docutils literal notranslate"><span class="pre">&quot;TaylorF2&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;TaylorF2_ISCO&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;TaylorF2_Spinless&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;TaylorF2_Spinless_0PN&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;IMRPhenomA&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;IMRPhenomB&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;IMRPhenomC&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;IMRPhenomD&quot;</span></code>
+- <code class="docutils literal notranslate"><span class="pre">&quot;IMRPhenomHM&quot;</span></code></p>
+<p>Otherwise the software will use the LALSuite approximants via <a class="reference external" href="https://lscsoft.docs.ligo.org/lalsuite/lalsimulation/">lalsimulation</a>.</p>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/1_get_hphx.ipynb">Example (Get Polarizations)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/3_get_strains.ipynb">Example (Get Strains)</a></p></li>
+</ul>
 </section>
 
         </article>

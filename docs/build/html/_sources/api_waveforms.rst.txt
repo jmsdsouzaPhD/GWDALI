@@ -22,3 +22,21 @@ Waveforms
 .. py:function:: GWDALI.get_SNR(detectors, GwPrms, approx, enable_jax_waveforms=True, **kwargs)
 
    Computes detector and network signal-to-noise ratios.
+
+.. warning:: 
+
+   The available jax-friendly approximants are:
+   - ``"TaylorF2"``
+   - ``"TaylorF2_ISCO"``
+   - ``"TaylorF2_Spinless"``
+   - ``"TaylorF2_Spinless_0PN"``
+   - ``"IMRPhenomA"``
+   - ``"IMRPhenomB"``
+   - ``"IMRPhenomC"``
+   - ``"IMRPhenomD"``
+   - ``"IMRPhenomHM"``
+
+   Otherwise the software will use the LALSuite approximants via `lalsimulation <https://lscsoft.docs.ligo.org/lalsuite/lalsimulation/>`_.
+
+* `Example (Get Polarizations) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/1_get_hphx.ipynb>`_
+* `Example (Get Strains) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/3_get_strains.ipynb>`_

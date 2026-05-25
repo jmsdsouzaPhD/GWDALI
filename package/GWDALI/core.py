@@ -384,26 +384,35 @@ def draw_detectors(dets):
 	ax = plt.subplot(111)
 	ax.imshow(img,extent=[-180, 180, -90, 90],origin="upper")
 
-	for det in dets:
+	colors = plt.cm.tab10(np.arange(0, .1*len(dets)+.01,0.1))
+
+	for det, clr in zip(dets,colors):
 		x0, y0 = det['lon'],det['lat']
 
-		r = (det['rot']-90)*np.pi/180
-		sh = det['shape']*np.pi/180
-		
-		ux = (np.pi/4 - sh/2)
-		uy = (np.pi/4 + sh/2)
+		rot = det['rot']
+		shape = det['shape']
 
 		l = 10.
-		x = [x0+l*np.cos(r + ux),x0,x0+l*np.cos(r + uy)]
-		y = [y0+l*np.sin(r + ux),y0,y0+l*np.sin(r + uy)]
+	
+		theta_x = (rot - 45 - shape/2)*np.pi/180
+		theta_y = (rot - 45 + shape/2)*np.pi/180
 
-		ax.plot(x,y,'o-',mec='k',lw=3,label=det['name'],zorder=3)
+		dx_x = l*np.cos(theta_x)
+		dy_x = l*np.sin(theta_x)
 
-	plt.legend()
+		dx_y = l*np.cos(theta_y)
+		dy_y = l*np.sin(theta_y)
+
+		plt.quiver([x0,x0],[y0,y0],[dx_x,dx_y],[dy_x,dy_y],angles='xy',scale_units='xy',\
+			scale=0.8, width=0.003, headwidth=3,headlength=3,headaxislength=2,color=clr,\
+			edgecolor='k',linewidth=.5,zorder=3)
+		plt.plot(x0,y0,'o-',mec='k',label=det['name'],color=clr,zorder=3)
+
+	plt.legend(loc='lower left')
 	ax.set_xlim(-180, 180)
 	ax.set_ylim(-90, 90)
 	ax.set_xlabel("Lon")
 	ax.set_ylabel("Lat")
-	plt.grid(alpha=.3,ls='--')
+	plt.grid(alpha=.5,ls='--')
 	plt.tight_layout()
 	return fig

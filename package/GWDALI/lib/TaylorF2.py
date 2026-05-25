@@ -1,3 +1,4 @@
+import jax
 from jax import jit
 import jax.numpy as jnp
 import numpy as np
@@ -11,6 +12,8 @@ c = 299792458.
 Mpc = pc*1.e6
 
 GMc3 = G*Msun/c**3 #GMc3 = G*Msun/c**3
+
+pi2 = PI*PI
 
 A0 = 7.806521525937888e-23
 
@@ -46,12 +49,13 @@ def PhaseTf2(Mc,eta,freq):
 @jit # from 1PN to 3.5 PN + Spins
 def PhaseTf2_Spins(Mc,eta,chi1,chi2,freq):
 	M = Mc/eta**(3./5)
+	dM = jnp.sqrt(1-4*eta)
+
 	eta2 = eta*eta
 	eta3 = eta2*eta
-	pi2 = PI*PI
 
-	m1 = 0.5*(Mc/eta**(3./5)) * (1 + jnp.sqrt(1-4*eta))
-	m2 = 0.5*(Mc/eta**(3./5)) * (1 - jnp.sqrt(1-4*eta))
+	m1 = 0.5*M * (1 + dM)
+	m2 = 0.5*M * (1 - dM)
 	m1M = m1/M ; m2M = m2/M
 	deltaM = m1M - m2M
 	chi_a = (chi1-chi2)/2
@@ -61,15 +65,16 @@ def PhaseTf2_Spins(Mc,eta,chi1,chi2,freq):
 	piMf = PI*Mf
 	v = piMf**(1./3)
 
-	varphi = [0]*8
+	varphi = [0]*8 # 0 PN
 
-	#varphi[1] += 1;
+	#varphi[0] += 1;
+	#varphi[1] += 0;
 	varphi[2] += 5.*(74.3/8.4 + 11.*eta)/9.;
 	varphi[3] += -16.*PI;
 	varphi[4] += 5.*(3058.673/7.056 + 5429./7.*eta+617.*eta*eta)/72.;
 	varphi[5] += 5./9.*(772.9/8.4-13.*eta)*PI;
 	#vlogv[5] += 5./3.*(772.9/8.4-13.*eta)*PI;
-	varphi[6]     =  11583.231236531/4.694215680 - 640./3.*pi2 - 684.8/2.1*gE + eta*(-15737.765635/3.048192 + 225.5/1.2*pi2) + eta2*76.055/1.728 - eta3*127.825/1.296;
+	varphi[6]	 =  11583.231236531/4.694215680 - 640./3.*pi2 - 684.8/2.1*gE + eta*(-15737.765635/3.048192 + 225.5/1.2*pi2) + eta2*76.055/1.728 - eta3*127.825/1.296;
 	#vlogvarphi[6] += -684.8/2.1;
 	varphi[7] += PI*(770.96675/2.54016 + 378.515/1.512*eta - 740.45/7.56*eta*eta);
 	#======================================================================
@@ -119,12 +124,7 @@ def PhaseTf2_0PN(phi0,t0,Mc,eta,freq):
 
 @jit # Amplitude TaylorF2
 def Amp_Tf2(dL,Mc,eta,freq):
-
-	M = Mc/eta**(3./5)
-
-	h0 = A0 * Mc**(5./6) / dL
-	#f_isco = 1./(6*jnp.sqrt(6)*M) / GMc3 / jnp.pi
-	#cutoff = freq<f_isco
+	h0 = - A0 * Mc**(5./6) / dL # The Tf2 Amplitude found in lalsimulation is negative!
 	return h0*freq**(-7./6)
 
 @jit # TaylorF2 (0PN) Waveform
@@ -151,8 +151,8 @@ def hphx_TaylorF2_Spinless_0PN(dL,iota,phi0,t0,Mc,eta,sx1,sy1,sz1,sx2,sy2,sz2,fr
 @jit # TaylorF2 (3.5 PN) Waveform
 def hphx_TaylorF2_Spinless(dL,iota,phi0,t0,Mc,eta,sx1,sy1,sz1,sx2,sy2,sz2,freq):
 	
-	Phase_corr = PhaseTf2(Mc,eta,freq)
-	Phase = PhaseTf2_0PN(phi0,t0,Mc,eta,freq) + Phase_corr
+	Phase_PNcorr = PhaseTf2(Mc,eta,freq)
+	Phase = PhaseTf2_0PN(phi0,t0,Mc,eta,freq) + Phase_PNcorr
 	
 	M = Mc/eta**(3./5)
 	f_isco = 1./(6*jnp.sqrt(6)*M) / GMc3 / jnp.pi
@@ -173,17 +173,16 @@ def hphx_TaylorF2_Spinless(dL,iota,phi0,t0,Mc,eta,sx1,sy1,sz1,sx2,sy2,sz2,freq):
 @jit # TaylorF2 (3.5 PN) Waveform + Spins
 def hphx_TaylorF2(dL,iota,phi0,t0,Mc,eta,sx1,sy1,sz1,sx2,sy2,sz2,freq):
 	
-	Phase_spins = PhaseTf2_Spins(Mc,eta,sz1,sz2,freq)
-	Phase_0PN = 2*PI*freq*t0 - phi0 - PI/4 + (3./128)*(PI*GMc3*Mc*freq)**(-5./3)
+	Phase_PNcorr = PhaseTf2_Spins(Mc,eta,sz1,sz2,freq) # PN corrections
 
-	Phase = -( Phase_0PN + Phase_spins ) + PI
-	
+	Phase_0PN = 2*PI*freq*t0 - phi0 + (3./128)*(PI*GMc3*Mc*freq)**(-5./3)
+
+	Phase = Phase_0PN + Phase_PNcorr -PI/4
+
 	M = Mc/eta**(3./5)
-	f_isco = 1./(6*jnp.sqrt(6)*M) / GMc3 / jnp.pi
-	cutoff = freq<f_isco
 
-	Amp = Amp_Tf2(dL,Mc,eta,freq)#*cutoff
-	h0 = Amp*jnp.exp(1.j*Phase)
+	Amp = Amp_Tf2(dL,Mc,eta,freq)
+	h0 = Amp*jnp.exp(-1.j*Phase)
 
 	u = jnp.cos(iota)
 	gp = 0.5*(1+u*u)

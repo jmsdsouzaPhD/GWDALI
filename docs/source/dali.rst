@@ -27,13 +27,4 @@ where,
 	\Delta\theta^{ij} =& \Delta\theta^i\cdot\Delta\theta^j  \\ 
 	\Delta\theta^{ij..m} =& \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m
 
-GWDALI deals with derivatives through **numerical derivatives** with **finite differences**.
-It is availble to ways on computing these derivatives:
-
-* With an uncertainty of :math:`O(h^2)`:
-
-		.. math::
-
-			\frac{df}{dx}=\left\{ \frac{1}{h}\left[f(x+h/2)-f(x-h/2)\right]\right\} +\mathcal{O}(h^{2})
-
-where :math:`h` is the integration step.
+GWDALI deals with derivatives on two methods: 1) **numerical derivatives** with **finite differences**, and 2) **automatic differentiation** with `jax <https://github.com/google/jax>`_.

@@ -36,11 +36,10 @@ c = 299792458. # speed of light
 try:
 	from jax.scipy.integrate import trapezoid
 except:
-	print("Fail on loading jax.scypi.integrate.trapezoid")
-	@jit
-	def trapezoid(y,x):
-		dx = jnp.diff(x)
-		return jnp.sum( 0.5 * (y[1:]+y[:-1])*dx )
+	trapezoid = jit(lambda y, x: jnp.sum(.5 * (y[1:]+y[:-1])*jnp.diff(x) ))
+	#def trapezoid(y,x):
+	#	dx = jnp.diff(x)
+	#	return jnp.sum( 0.5 * (y[1:]+y[:-1])*dx )
 
 class Exact_likelihood(bilby.Likelihood): 
 	def __init__(self,args):

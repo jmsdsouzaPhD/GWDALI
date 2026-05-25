@@ -53,7 +53,7 @@ ntemps = 6
 nwalkers = 12
 #============#============#============#============
 
-tns_data = np.load("../tns_outputs/tensors_lal_TaylorF2_numdiff.npz")
+tns_data = np.load("tns_outputs/tensors_lal_TaylorF2_numdiff.npz")
 Fisher = tns_data["Fisher"]
 Db12 = tns_data["Db12"]
 Db22 = tns_data["Db22"]
@@ -87,7 +87,7 @@ res = gw.GWDALI(	GwPrms=GwPrms,
 					remove_out=False,
 					verbose = True,
 					hide_info = False,
-					output_name=f'gwdali_output/',
+					output_name=f'outputs/gwdali_output/',
 					nsamples=nsamples,
 					enable_jax_waveforms=wf_type=="jax",
 					#thin_by_nact=1,
@@ -111,5 +111,5 @@ fig = corner(samples,bins=40,color='k',smooth=1,smooth1d=1,fill_contours=True,la
 plt.plot([],[],'k-',label=f"{wf_type}_{method}")
 fig.legend(loc='upper right')
 plt.suptitle(approx,weight="bold",ha="right")
-fig.savefig(f"fig_{wf_type}_{method}.jpg")
+fig.savefig(f"outputs/fig_{wf_type}_{method}_2.jpg")
 plt.show()

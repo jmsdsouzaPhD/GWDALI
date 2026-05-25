@@ -18,3 +18,5 @@ DALI Tensors
 
    :rtype:
       dict
+
+* `Example (Get Tensors) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/5_get_tensors.ipynb>`_

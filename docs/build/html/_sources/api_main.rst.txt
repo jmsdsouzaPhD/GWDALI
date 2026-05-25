@@ -60,3 +60,6 @@ Main Interface
 
    :rtype:
       tuple
+
+* `Example (Grid) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/6_GWDALI_Grid.ipynb>`_
+* `Example (MCMC) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/7_GWDALI_MCMC.ipynb>`_

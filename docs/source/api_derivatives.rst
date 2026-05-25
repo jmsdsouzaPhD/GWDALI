@@ -22,3 +22,5 @@ Derivatives
 
    :rtype:
       tuple
+
+* `Example (Get Derivatives) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/4_get_derivatives.ipynb>`_
