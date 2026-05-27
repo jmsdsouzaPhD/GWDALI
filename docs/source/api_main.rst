@@ -19,7 +19,7 @@ Main Interface
    :param list FreeParams: Free parameters used in the inference.
    :param dictionary new_priors: Redefine default priors.
    :param str approx: Waveform approximant.
-   :param str method: DALI method [``"Fisher"``, ``"Doublet"``, ``"Triplet"``].
+   :param str method: DALI method [``"Fisher"``, ``"Singlet"``, ``"Doublet"``, ``"Triplet"``].
    :param str sampler: Posterior sampler backend from `bilby <https://lscsoft.docs.ligo.org/bilby/>`_.
    :param str diff_method: Derivative method [``"autodiff"``, ``"numdiff"``].
    :param list dali_tensors: User-defined DALI tensors (list of arrays).
