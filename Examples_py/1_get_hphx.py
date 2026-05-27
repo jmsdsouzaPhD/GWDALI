@@ -152,5 +152,5 @@ for key in GwPrms.keys():
 	plt.plot([],[],'k.',label=f"{key} = {GwPrms[key]:.2f}")
 fig.legend(loc='upper right')
 
-fig.savefig('outputs/fig_get_hphx.pdf')
+fig.savefig('outputs/fig_get_hphx.png')
 plt.show()

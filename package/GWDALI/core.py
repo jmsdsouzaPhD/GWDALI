@@ -150,7 +150,7 @@ def GWDALI( GwPrms,
 	Tensors_flat = []
 	print("Computing Tensors ...")
 	time_dali = None
-	if(method in ["Fisher","Doublet","Triplet"]):
+	if method in "Fisher,Singlet,Doublet,Triplet".split(','):
 		if dali_tensors is None:
 			print("Loading JAX derivatives ...")
 			time_init = now()
@@ -177,7 +177,7 @@ def GWDALI( GwPrms,
 
 	Truths = [ GwPrms[fp] for fp in FreeParams]
 	time_mcmc = None
-	if(run_sampler):
+	if run_sampler:
 		if nwalkers==None: nwalkers = 3*len(FreeParams)
 		t_init = now()
 		Results = get_samples(Data,Tensors_flat,detectors,GwPrms,FreeParams,\
@@ -185,7 +185,7 @@ def GWDALI( GwPrms,
 							  new_priors,limits,pos0,npool,remove_out,output_name,save_bilby_path,
 							  enable_jax_waveforms,bilby_path,**kwargs)
 		time_mcmc = now() - t_init
-	return Results, Truths, Tensors, Fisher, [time_dali, time_mcmc]
+	return Results, Tensors, [time_dali, time_mcmc]
 
 #=============================================#=============================================#=============================================#
 #=============================================#=============================================#=============================================#

@@ -1,4 +1,5 @@
 import numpy as np
+import scipy as scp
 import jax
 import jax.numpy as jnp
 from jax import jit, grad, jacrev, vmap, config
@@ -33,9 +34,6 @@ try:
 	from jax.scipy.integrate import trapezoid
 except:
 	trapezoid = jit(lambda y, x: jnp.sum(.5 * (y[1:]+y[:-1])*jnp.diff(x) ))
-	#def trapezoid(y,x):
-	#	dx = jnp.diff(x)
-	#	return jnp.sum( 0.5 * (y[1:]+y[:-1])*dx )
 
 def get_Sn(name,**kwargs):
 	if name in Sensitivity.keys():
@@ -46,56 +44,37 @@ def get_Sn(name,**kwargs):
 		Sensitivity[name] = np.transpose([jnp.array(freq),jnp.sqrt(Sn)])
 	return Sn, freq
 
-#--------------------------------------------------------------------
-# -------------------------- GW Parameters --------------------------
-#--------------------------------------------------------------------
+cond_number = lambda I, C, M: np.max(np.abs(I-C@M))
+symmetrize = lambda M: .5*(M+M.T)
 
-Keys = "dL,iota,psi,phi_coal,RA,Dec,t_coal,Mc,eta,sx1,sy1,sz1,sx2,sy2,sz2,\
-ln_dL,inv_dL,inv_dL2,inv_sqrtdL,inv_lndL,cos_iota,inv_eta,ln_eta,ln_Mc,\
-m1,m2,M,q,deltaM,chi_s,chi_a".split(',')
-'''
-	-------std_args-------
-	[0]  dL
-	[1]  iota
-	[2]  psi
-	[3]  phi_coal
-	[4]  RA
-	[5]  Dec
-	[6]  t_coal
-	[7]  Mc
-	[8]  eta
-	[9]  sx1
-	[10] sy1
-	[11] sz1
-	[12] sx2
-	[13] sy2
-	[14] sz2
-	-------var_args-------
-	[15] ln_dL
-	[16] inv_dL
-	[17] inv_dL2
-	[18] inv_sqrtdL
-	[19] inv_lndL
-	[20] cos_iota
-	[21] inv_eta
-	[22] ln_eta
-	[23] ln_Mc
-	[24] m1
-	[25] m2
-	[26] M
-	[27] q
-	[28] deltaM : Mass Asymmetry Parameter
-	[29] chi_s
-	[30] chi_a
-'''
+def Inversion(F,**kwargs):
+	inversion_method = kwargs.get("inversion_method", "default")
+	rcond = kwargs.get("rcond", 1.e-9)
 
-#----------------------------
-# 11 independent parameters
-#----------------------------
-# Number of derivatives:
-# 	>>  11 1st derivatives
-# 	>>  66 2nd derivatives
-# 	>> 286 3rd derivatives
+	Fs = symmetrize(F)
+	I = np.eye(len(Fs))
+	diag = np.diag(Fs)
+	Norm = np.sqrt(np.outer(diag,diag))
+	Fx = Fs/Norm # Normalized Fisher Matrix
+	if inversion_method == "default":
+		C1 = np.linalg.inv(Fs)
+		C2 = scp.linalg.inv(Fs)
+		C3 = np.linalg.inv(Fx) / Norm
+		C4 = scp.linalg.inv(Fx) / Norm
+		C_vec = np.array( [symmetrize(C)for C in [C1,C2,C3,C4]] )
+		eps_vec = np.array( [ cond_number(I,C,F) for C in C_vec ] )
+		idx = np.argmin(eps_vec) 
+		Cov = C_vec[idx]
+		eps = eps_vec[idx]
+	elif inversion_method == "pseudo":
+		C1 = np.linalg.pinv(F,rcond)
+		C2 = np.linalg.pinv(Fx,rcond)/Norm
+		C_vec = np.array( [symmetrize(C)for C in [C1,C2]] )
+		eps_vec = np.array( [ cond_number(I,C,Fs) for C in C_vec] )
+		idx = np.argmin(eps_vec) 
+		Cov = C_vec[idx]
+		eps = eps_vec[idx]
+	return Cov, eps
 
 #=============================================================================
 #-----------------------------Autodiff jax.grad()-----------------------------
@@ -385,7 +364,7 @@ def get_tensors(gwprms,approx,detectors,FreeParams,method,diff_method,step_size,
 				dx = locals()[f'step_size{i+1}']
 				globals()[f'aux_diff{i+1}'] = [gwkeys, dx, approx, det_conf, freq, enable_jax_waveforms]
 
-		if(method in ["Fisher","Doublet","Triplet"]):								
+		if(method in ["Fisher","Singlet","Doublet","Triplet"]):								
 			time_diff1 = [[0.], 0.]
 			time_diff2 = [[0.], 0.]
 			time_diff3 = [[0.], 0.]

@@ -52,6 +52,5 @@ for n, key in enumerate(FreeParams):
 
 plt.tight_layout()
 fig.savefig("outputs/priors.png")
-fig.savefig("outputs/priors.pdf")
 plt.show()
 print("OK!")

@@ -56,7 +56,7 @@ Main Interface
    - ``"IMRPhenomHM"``
 
    :returns:
-      ``Results, Truths, Tensors, Fisher, runtimes``
+      ``Results, Tensors, runtimes``
 
    :rtype:
       tuple

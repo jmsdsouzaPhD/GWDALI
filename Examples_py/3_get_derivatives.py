@@ -91,7 +91,7 @@ for ni, m in enumerate(methods):
 
 
 	try:
-		Diff_values = Diff_values.reshape(-1, 1000)
+		Diff_values = Diff_values.reshape(-1, len(freq))
 	except:
 		Diff_values = np.array(Diff_values)
 

@@ -90,7 +90,6 @@ for n, approx in enumerate(Approxs):
 		plt.loglog(freq,Amp,color=color,lw=lw,ls=ls)
 		plt.ylim(1.e-26,1.e-21)
 		plt.grid(ls='--',which='both',alpha=0.3)
-		#plt.ylim(h_amp[0]/1000,h_amp[0]*2)
 		plt.ylabel("Amplitude")
 		if (n!= len(Approxs)-1): plt.xticks([])
 		else: plt.xlabel('frequency [Hz]')
@@ -100,8 +99,6 @@ for n, approx in enumerate(Approxs):
 		plt.plot(freq,Phase,color=color,lw=lw,ls=ls)
 		plt.xscale('log') ; plt.yscale('log')
 		plt.grid(ls='--',which='both',alpha=0.3)
-		#plt.ylim(h_amp[0]/1000,h_amp[0]*2)
-		#plt.legend(loc='upper right')
 		if (n!= len(Approxs)-1): plt.xticks([])
 		else: plt.xlabel('frequency [Hz]')
 

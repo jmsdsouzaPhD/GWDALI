@@ -149,7 +149,7 @@ class DALI_likelihood(bilby.Likelihood):
 		# Speedup likelihood with @jit
 		#======================================
 		dT_vec = dT,dT2,dT3,dT4,dT5,dT6
-		if self.Method == "Fisher": 
+		if self.Method == "Singlet": 
 			loglike = compute_logL1(Fisher,dT_vec)
 		elif self.Method == "Doublet": 
 			loglike = compute_logL2(Fisher,Doublet,dT_vec)
@@ -358,8 +358,21 @@ def get_samples(Data,Tensors,detectors,gwprms,FreeParams,
 		h_func = wf.build_waveform_strain_lal(theta_keys,approx,**kwargs)
 		Gw_Signal = lambda *args: jnp.asarray(h_func(*args, approx,**kwargs))
 
-	if(Method=="Exact"): likelihood = Exact_likelihood([Data,detectors,gwprms,Gw_Signal,FreeParams])
-	else: likelihood = DALI_likelihood([gwprms,Tensors,FreeParams,Method])
+	if Method=="Exact": 
+		likelihood = Exact_likelihood([Data,detectors,gwprms,Gw_Signal,FreeParams])
+	elif Method == "Fisher":
+		Fisher_flat = Tensors[0] ; ndim = len(FreeParams)
+		Fisher = np.reshape(Fisher_flat,(ndim,ndim))
+		Cov, eps = Tns.Inversion(Fisher,**kwargs)
+		Mu = [gwprms[key] for key in FreeParams]
+		nsamples = kwargs.get("nsamples",npoints)
+		Samples = np.random.multivariate_normal(Mu,Cov,nsamples)
+		return [Samples,Cov,eps]
+	elif Method in  "Singlet,Doublet,Triplet".split(','):
+		likelihood = DALI_likelihood([gwprms,Tensors,FreeParams,Method])
+	else:
+		print(f"\nERROR! Method {Method} is not valid;\n\t >> Availables: [Fisher,Singlet,Doublet,Triplet]")
+		quit()
 
 	if(sampler=="grid"):
 		return grd.Call_Grid(likelihood,priors,npoints,limits)
@@ -372,15 +385,6 @@ def get_samples(Data,Tensors,detectors,gwprms,FreeParams,
 		print("\n\n Running Sampler (%s)...\n" % sampler)
 
 		if pos0 is not None:
-			print(f"\nsampler: {sampler}")
-			print("FreeParams:",FreeParams)
-			print(f"ndim: {len(FreeParams)}")
-			print(f"nsteps: {npoints}")
-			print(f"nwalkers: {nwalkers}")
-			print(f"ntemps: {ntemps}")
-			print(f"npool: {npool}")
-			print("shape(pos0):",np.shape(pos0),'\n')
-
 			res = bilby.run_sampler(likelihood,priors,sampler=sampler,npoints=npoints,nwalkers=nwalkers,\
 									nsteps=npoints,nburn=nburn,outdir=outdir,npool=npool, verbose=verbose,
 									store_walkers=False,resume=True,save=save_bilby_path,check_point_plot=False,ntemps=ntemps,pos0=pos0,**kwargs)

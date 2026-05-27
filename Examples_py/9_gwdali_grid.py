@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from time import time as now
 from datetime import datetime
-from jcorner import jcorner
+
 import traceback
 import pandas as pd
 import GWDALI as gw
@@ -44,15 +44,12 @@ ndim = len(FreeParams)
 
 approx = "TaylorF2"
 method = "Doublet"
-#wf_type = "jax"
-#wf_type = "lal"
-wf_type = sys.argv[1] # jax or lal
 
 ndim = len(FreeParams)
 sampler = "grid"
 npoints = 100
 
-tns_data = np.load("../tns_outputs/tensors_lal_TaylorF2_numdiff.npz")
+tns_data = np.load("tns_outputs/tensors_lal_TaylorF2_numdiff.npz")
 Fisher = tns_data["Fisher"]
 Db12 = tns_data["Db12"]
 Db22 = tns_data["Db22"]
@@ -63,12 +60,14 @@ Doublet = [Db12, Db22]
 Triplet = [Tp13, Tp23, Tp33]
 dali_tensors = [Fisher,Doublet,Triplet]
 print("dali_tensors load successfully!")
-#quit()
+
 #============#============#============#============
 
 limits = {}
 limits['dL'] = np.linspace(1,3*GwPrms['dL'],npoints)
 limits['iota'] = np.linspace(0*rad,100*rad,npoints)
+
+wf_type = "jax"
 
 t1 = now() ; print("Running GWJAX")
 res = gw.GWDALI(	GwPrms=GwPrms,
@@ -88,18 +87,18 @@ res = gw.GWDALI(	GwPrms=GwPrms,
 					pos0 = None,
 					npool = 1,
 					#ntemps = ntemps,
-					remove_out=False,
+					remove_out=True,
 					verbose = True,
 					hide_info = False,
 					output_name=f'gwdali_output/',
 					#nsamples=nsamples,
-					enable_jax_waveforms=wf_type=="jax",
+					enable_jax_waveforms=True,
 					#thin_by_nact=1,
 					#burn_in_nact=0,
 					#burn_in_fixed_discard=0,
 					)
 
-Results, Truths, Tensors, Fisher_Matrix, Time = res
+Results, Tensors, Time = res
 time_dali, time_mcmc = Time
 
 os.system("clear")
@@ -126,9 +125,6 @@ plt.xlabel('likelihood call time [ms]')
 plt.grid()
 
 plt.tight_layout()
-#fig.savefig(f"outputs/fig_grid-samples_{wf_type}_{method}.png")
 fig.savefig(f"outputs/fig_grid-samples_{wf_type}_{method}_no-tensors.png")
-
-#fig.savefig(f"Grid_{wf_type}_{method}.png")
 
 plt.show()
