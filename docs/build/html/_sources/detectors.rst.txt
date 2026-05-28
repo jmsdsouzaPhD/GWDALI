@@ -31,3 +31,5 @@ Detectors Sensitivity
    :alt: sensitivity
    :align: center
    :scale: 80%
+
+See `detectors sensitivities files <https://github.com/jmsdsouzaPhD/GWDALI/tree/main/package/GWDALI/Sensitivities>`_.

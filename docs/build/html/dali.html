@@ -268,14 +268,29 @@
         \right] \\
 &amp; +\mathcal{O}(\partial^{4})\end{split}\]</div>
 </div>
-<p>where,</p>
+<p>where the brackets <span class="math notranslate nohighlight">\(\langle \cdot | \cdot\rangle\)</span> denote the scalar product:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\langle A|B \rangle \equiv \sum_{a=1}^{N_{dets}} 4\Re \left\{ \int_0^{\infty} \frac{\tilde{A}_a^*\tilde{B}_a(f)}{S_{n,a}(f)}df \right\}\]</div>
+</div>
+<p>and the <span class="math notranslate nohighlight">\(\Delta\theta^{i..n}\)</span> are the products among best-fit parameters displacements:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\begin{split}\Delta\theta^i =&amp; \theta^i-\theta_0^i  \\
 \Delta\theta^{ij} =&amp; \Delta\theta^i\cdot\Delta\theta^j  \\
 \Delta\theta^{ij..m} =&amp; \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m\end{split}\]</div>
 </div>
-<p>GWDALI deals with derivatives on two methods: 1) <strong>numerical derivatives</strong> with <strong>finite differences</strong>, and 2) <strong>automatic differentiation</strong> with <a class="reference external" href="https://github.com/google/jax">jax</a>.</p>
+<p>GWDALI deals with derivatives on two methods:</p>
+<ul class="simple">
+<li><ol class="arabic simple">
+<li><p><strong>numerical derivatives</strong> with <strong>finite differences</strong>, and</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p><strong>automatic differentiation</strong> with <a class="reference external" href="https://github.com/google/jax">JAX</a>.</p></li>
+</ol>
+</li>
+</ul>
 </section>
 
         </article>

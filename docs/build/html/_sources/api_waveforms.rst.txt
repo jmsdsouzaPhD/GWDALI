@@ -38,5 +38,7 @@ Waveforms
 
    Otherwise the software will use the LALSuite approximants via `lalsimulation <https://lscsoft.docs.ligo.org/lalsuite/lalsimulation/>`_.
 
+See the examples bellow also to check how close are the JAX waveforms implementations from the implementations in LAL.
+
 * `Example (Get Polarizations) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/1_get_hphx.ipynb>`_
 * `Example (Get Strains) <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/3_get_strains.ipynb>`_

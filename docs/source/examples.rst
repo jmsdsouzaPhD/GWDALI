@@ -28,11 +28,12 @@ Jupyter Notebooks (.ipynb)
             * :math:`T_{ijkl}\equiv\langle\partial_i h|\partial_{jkl} h\rangle`
             * :math:`T_{ijklm}\equiv\langle\partial_{ij} h|\partial_{klm} h\rangle`
             * :math:`T_{ijklmn}\equiv\langle\partial_{ijk} h|\partial_{lmn} h\rangle`
-* `6_GWDALI_Grid.ipynb <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/6_GWDALI_Grid.ipynb>`_
+* `6_GWDALI_MCMC_Fisher-vs-Singlet.ipynb <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/6_GWDALI_MCMC_Fisher-vs-Singlet.ipynb>`_
+    - Sampling parameters for Posteriors estimation via MCMC or Nested Sampling methods (comparing Fisher-Inversion vs Singlet/Fisher_MCMC)
+* `7_GWDALI_MCMC_Exact-vs-Doublet.ipynb <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/7_GWDALI_MCMC._Exact-vs-Doublet.ipynb>`_
+    - Sampling parameters for Posteriors estimation via MCMC or Nested Sampling methods (comparing Exact vs Doublet posteriors)
+* `8_GWDALI_Grid.ipynb <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/8_GWDALI_Grid.ipynb>`_
     - Compute GW Posteriors from a N-dimensional Grid (choosen by the user)
-* `7_GWDALI_MCMC.ipynb <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_jupyter/7_GWDALI_MCMC.ipynb>`_
-    - Sampling parameters for Posteriors estimation via MCMC or Nested Sampling methods
-
 
 ***************************
 Top-Down Python Codes (.py)
@@ -46,5 +47,6 @@ Top-Down Python Codes (.py)
 * `6_draw_detectors.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/6_draw_detectors.py>`_
 * `7_get_map.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/7_get_map.py>`_
 * `8_check_priors.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/8_check_priors.py>`_
-* `9_gwdali_grid.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/9_gwdali_grid.py>`_
-* `10_gwdali_mcmc.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/10_gwdali_mcmc.py>`_
+* `9_gwdali_mcmc_Fisher-vs-Singlet.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/9_gwdali_mcmc_Fisher-vs-Singlet.py>`_
+* `10_gwdali_mcmc_Exact-vs-Doublet.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/10_gwdali_mcmc_Exact-vs-Doublet.py>`_
+* `11_gwdali_grid.py <https://github.com/jmsdsouzaPhD/GWDALI/blob/main/Examples_py/11_gwdali_grid.py>`_

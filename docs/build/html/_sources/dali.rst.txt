@@ -19,7 +19,14 @@ This approximation is based on Taylor expansion of the logarithm of the likeliho
 		\right] \\
 	& +\mathcal{O}(\partial^{4})
 
-where,
+where the brackets :math:`\langle \cdot | \cdot\rangle` denote the scalar product:
+
+.. math::
+
+	\langle A|B \rangle \equiv \sum_{a=1}^{N_{dets}} 4\Re \left\{ \int_0^{\infty} \frac{\tilde{A}_a^*\tilde{B}_a(f)}{S_{n,a}(f)}df \right\}
+
+
+and the :math:`\Delta\theta^{i..n}` are the products among best-fit parameters displacements:
 
 .. math::
 
@@ -27,4 +34,7 @@ where,
 	\Delta\theta^{ij} =& \Delta\theta^i\cdot\Delta\theta^j  \\ 
 	\Delta\theta^{ij..m} =& \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m
 
-GWDALI deals with derivatives on two methods: 1) **numerical derivatives** with **finite differences**, and 2) **automatic differentiation** with `jax <https://github.com/google/jax>`_.
+GWDALI deals with derivatives on two methods: 
+
+* 1) **numerical derivatives** with **finite differences**, and 
+* 2) **automatic differentiation** with `JAX <https://github.com/google/jax>`_.
