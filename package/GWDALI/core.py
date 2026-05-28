@@ -124,7 +124,7 @@ def GWDALI( GwPrms,
 	det_conf_ref = [detectors[0][x] for x in "lon,lat,rot,shape".split(',')]
 	for det in detectors:
 		cont += 1
-		Sn, freq = Tns.get_Sn(det['name'],**kwargs)
+		Sn, freq = Tns.get_Sn(det)
 		det_conf = [ [det[x] for x in "lon,lat,rot,shape".split(',')] , det_conf_ref ]
 
 		if enable_jax_waveforms:
@@ -260,7 +260,7 @@ def get_SNR(detectors,GwPrms,approx,enable_jax_waveforms=True,**kwargs):
 
 	det_conf_ref = [detectors[0][x] for x in "lon,lat,rot,shape".split(',')]
 	for det in detectors:
-		Sn, freq = Tns.get_Sn(det['name'],**kwargs)
+		Sn, freq = Tns.get_Sn(det)
 		det_conf = [ [det[x] for x in "lon,lat,rot,shape".split(',')] , det_conf_ref ]
 		
 		if enable_jax_waveforms:

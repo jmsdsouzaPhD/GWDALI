@@ -66,7 +66,7 @@ class Exact_likelihood(bilby.Likelihood):
 			det_conf_ref = [self.Dets[0][x] for x in "lon,lat,rot,shape".split(',')]
 			for n, det in enumerate(self.Dets):
 				H = self.Data[n]
-				Sn, freq = Tns.get_Sn(det['name'])
+				Sn, freq = Tns.get_Sn(det)
 				det_conf = [ [det[x] for x in "lon,lat,rot,shape".split(',')] , det_conf_ref ]
 
 				h  = self.GwSignal(gw_values, det_conf, freq)

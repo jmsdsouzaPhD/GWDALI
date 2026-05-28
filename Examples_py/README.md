@@ -16,7 +16,9 @@
     - Usage of the function **get_map()** which returns a world map with the projection of the detectors antenna pattern responses;
 * **8_check_priors.py**
     - Usage of the function **Priors()** which returns a plot with the priors of the free parameters desired by the user;
-* **9_gwdali_grid.py**
+* **9_gwdali_mcmc_Fisher-vs-Singlet.py**
+    - Usage of the function **GWDALI()** for Fisher inversion (samples obtained via multivariate normal distribution) and with sampler method available in bilby package. It returns the samples obtained via MCMC/Nested_Sampling methods wich can be used to build corner plots. **Comparison between Fisher and Singlet**
+* **10_gwdali_mcmc_Exact-vs-Doublet.py**
+    - Usage of the function **GWDALI()** with sampler method available in bilby package. It returns the samples obtained via MCMC/Nested_Sampling methods wich can be used to build corner plots. **Comparison between Exact and Doublet**
+* **11_gwdali_grid.py**
     - Usage of the function **GWDALI()** with sampler method **grid** which returns a grid the desired free parameters an its corresponding posterior values;
-* **10_gwdali_mcmc.py**
-    - Usage of the function **GWDALI()** with sampler method available in bilby package. It returns the samples obtained via MCMC/Nested_Sampling methods wich can be used to build corner plots.

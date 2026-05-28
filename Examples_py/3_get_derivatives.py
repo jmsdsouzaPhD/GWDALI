@@ -50,7 +50,7 @@ GwPrms["sy1"] = 0.
 GwPrms["sx2"] = 0.
 GwPrms["sy2"] = 0.
 
-approx = "IMRPhenomHM"
+approx = "IMRPhenomD"
 diff_order  = "first"
 
 FreeParams = "dL,iota,psi,phi_coal,RA,Dec,t_coal,Mc,eta,sz1,sz2".split(',')

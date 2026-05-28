@@ -28,20 +28,20 @@ Sensitivity['ET']    = np.loadtxt(path / 'Sn_ET.txt')
 Sensitivity['CE']    = np.loadtxt(path / 'Sn_CE.txt')
 Sensitivity['CE_40km']    = np.loadtxt(path / 'Sn_CE_40km.txt')
 Sensitivity['CE_20km']    = np.loadtxt(path / 'Sn_CE_20km.txt')
-Keys= Sensitivity.keys()
 
 try:
 	from jax.scipy.integrate import trapezoid
 except:
 	trapezoid = jit(lambda y, x: jnp.sum(.5 * (y[1:]+y[:-1])*jnp.diff(x) ))
 
-def get_Sn(name,**kwargs):
+def get_Sn(det):
+	name = det["name"]
 	if name in Sensitivity.keys():
 		freq = jnp.array( Sensitivity[name][:,0] )
 		Sn   = jnp.array( Sensitivity[name][:,1]**2)
 	else:
-		Sn, freq = kwargs["new_detector"]
-		Sensitivity[name] = np.transpose([jnp.array(freq),jnp.sqrt(Sn)])
+		print("Reading a new detector:",det["name"])
+		Sn, freq = det["Sn"], det["freq"]
 	return Sn, freq
 
 cond_number = lambda I, C, M: np.max(np.abs(I-C@M))
@@ -339,7 +339,7 @@ def get_tensors(gwprms,approx,detectors,FreeParams,method,diff_method,step_size,
 		dt_tp33 = 0
 		cont+=1
 		try:
-			Sn, freq = get_Sn(det['name'])
+			Sn, freq = get_Sn(det)
 			print(f"\n*********************************** [{cont}] Detector: {det['name']} ***********************************\n")
 		except:
 			print("Invalid Detector Name!!!")
