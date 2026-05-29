@@ -61,48 +61,46 @@ for n, approx in enumerate(Approxs):
 
 	freq = np.arange(1.,1.e3,dF)
 
-	for ni, enable_jax_waveforms in enumerate([True,False]):
-		t1 = now()
-		if enable_jax_waveforms:
-			H_vec = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms,disable_jit=True,EarthRotation=False)
-		else:
-			H_vec = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms,dF=dF,EarthRotation=False)
+	
+	H_vec_jax = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms=True,disable_jit=True,EarthRotation=False)
+	H_vec_lal = gw.get_strain(detectors,GwPrms,freq,approx,enable_jax_waveforms=False,dF=dF,EarthRotation=False)
 
-		h = H_vec[0] # first detector
+	hj = H_vec_jax[0] # first detector 
+	hl = H_vec_lal[0]
 
-		dt = now()-t1
+	ax = plt.subplot(6,1,n+1)
+	plt.xticks([]) ; plt.yticks([])
+	for spine in ax.spines.values():
+		spine.set_visible(False)
+		
+	plt.subplot(6,2,2*n+1)
 
-		color = ['k','r'][ni]
-		ls = ['-',':'][ni]
-		lw = [1,2][ni]
+	AmpJ = Amplitude(hj)
+	AmpL = Amplitude(hl)
 
-		ax = plt.subplot(6,1,n+1)
-		plt.title(approx,weight="bold")
-		plt.xticks([]) ; plt.yticks([])
-		for spine in ax.spines.values():
-			spine.set_visible(False)
-			
-		plt.subplot(6,2,2*n+1)
+	PhaseJ = np.abs( np.unwrap(np.angle(hj/AmpJ)) ) / np.pi
+	PhaseL = np.abs( np.unwrap(np.angle(hl/AmpL)) ) / np.pi
 
-		Amp = Amplitude(h)
-		Phase = np.abs( np.unwrap(np.angle(h/Amp)) ) / np.pi
+	plt.plot([],'w.',label=approx)
+	plt.loglog(freq,AmpJ,color='k',lw=1,ls='-')
+	plt.loglog(freq,AmpL,color='r',lw=3,ls=':')
+	plt.ylim(1.e-26,1.e-21)
+	plt.grid(ls='--',which='both',alpha=0.3)
+	plt.ylabel("Amplitude")
+	plt.legend(loc='upper right')
+	if (n!= len(Approxs)-1): plt.xticks([])
+	else: plt.xlabel('frequency [Hz]')
 
-		plt.loglog(freq,Amp,color=color,lw=lw,ls=ls)
-		plt.ylim(1.e-26,1.e-21)
-		plt.grid(ls='--',which='both',alpha=0.3)
-		plt.ylabel("Amplitude")
-		if (n!= len(Approxs)-1): plt.xticks([])
-		else: plt.xlabel('frequency [Hz]')
+	plt.subplot(6,2,2*n+2)
+	plt.ylabel(f"| Phase [$\\pi$] |")
+	plt.plot(freq,PhaseJ,color='k',lw=1,ls='-')
+	plt.plot(freq,PhaseL,color='r',lw=3,ls=':')
+	plt.xscale('log') ; plt.yscale('log')
+	plt.grid(ls='--',which='both',alpha=0.3)
+	if (n!= len(Approxs)-1): plt.xticks([])
+	else: plt.xlabel('frequency [Hz]')
 
-		plt.subplot(6,2,2*n+2)
-		plt.ylabel(f"| Phase [$\\pi$] |")
-		plt.plot(freq,Phase,color=color,lw=lw,ls=ls)
-		plt.xscale('log') ; plt.yscale('log')
-		plt.grid(ls='--',which='both',alpha=0.3)
-		if (n!= len(Approxs)-1): plt.xticks([])
-		else: plt.xlabel('frequency [Hz]')
-
-		print(approx,f"[enable_jax_waveforms: {enable_jax_waveforms}] OK!")
+	print(approx,"OK!")
 
 plt.tight_layout()
 plt.subplots_adjust(right=.85)
