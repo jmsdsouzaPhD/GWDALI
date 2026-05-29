@@ -25,5 +25,5 @@ Collaborators:
 * **Prof. Riccardo Sturani**
 	* Instituto de Física Teórica (IFT, ICTP-SAIFR), Universidade Estadual Paulista (UNESP), São Paulo, Brazil
 
-* **Prof. Miguel Quartn**
+* **Prof. Miguel Quartin**
 	* Centro Brasileiro de Pesquisas Físicas (CBPF), Rio de Janeiro, RJ, Brazil
