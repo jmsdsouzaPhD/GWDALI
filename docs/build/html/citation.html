@@ -3,11 +3,11 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Priors" href="priors.html"><link rel="prev" title="Detector Utilities" href="api_detector-utils.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="License" href="license.html"><link rel="prev" title="List of papers using GWDALI" href="papers.html">
         <link rel="prefetch" href="_static/logo_gwdali.png" as="image">
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2025.12.19 -->
-        <title>Derivative Approximation for LIkelihood (DALI) - </title>
+        <title>Citation - </title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -173,7 +173,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -205,13 +205,13 @@
 <li class="toctree-l2"><a class="reference internal" href="api_detector-utils.html">Detector Utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Derivative Approximation for LIkelihood (DALI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dali.html">Derivative Approximation for LIkelihood (DALI)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Priors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="papers.html">List of papers using GWDALI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Citation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
@@ -234,7 +234,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/dali.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/citation.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -247,52 +247,39 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="derivative-approximation-for-likelihood-dali">
-<h1>Derivative Approximation for LIkelihood (DALI)<a class="headerlink" href="#derivative-approximation-for-likelihood-dali" title="Link to this heading">¶</a></h1>
-<p>This approximation is based on Taylor expansion of the logarithm of the likelihood but being ordered in terms of order of derivatives:</p>
-<div class="math-wrapper docutils container">
-<div class="math notranslate nohighlight">
-\[\begin{split}log\mathcal{L} \approx log\mathcal{L}_{0}&amp;
- -\left[\frac{1}{2}\sum_{i,j}\left\langle \partial_{i}h(\theta)|\partial_{j}h(\theta)\right\rangle _{0}\Delta\theta_{i}\Delta\theta_{j}\right] \\
-&amp;
--\left[\frac{1}{2}\sum_{i,j,k}\left\langle \partial_{i}h(\theta)|\partial_{j}\partial_{k}h(\theta)\right\rangle _{0}\Delta\theta^{ijk}
-+\frac{1}{8}\sum_{i,j,k,l}\left\langle \partial_{i}\partial_{j}h(\theta)|\partial_{k}\partial_{l}h(\theta)\right\rangle _{0}\Delta\theta^{ijkl}\right] \\
-&amp;
-        -\left[\frac{1}{6}\sum_{i,\cdots, l}\left\langle \partial_{i}h|\partial_{j}\partial_{k}\partial_{l}h\right\rangle \Delta\theta^{ijkl}
-        +\frac{1}{12}\sum_{i,\cdots, m}\left\langle \partial_{i}\partial_{j}h|\partial_{k}\partial_{l}\partial_{m}h\right\rangle \Delta\theta^{ijklm} \right.\\
-&amp; \left.
-        +\frac{1}{72}\sum_{i,\cdots, n}\left\langle \partial_{i}\partial_{j}\partial_{k}h|\partial_{l}\partial_{m}\partial_{n}h\right\rangle \Delta\theta^{ijklmn}
-        \right] \\
-&amp; +\mathcal{O}(\partial^{4})\end{split}\]</div>
+          <section id="citation">
+<h1>Citation<a class="headerlink" href="#citation" title="Link to this heading">¶</a></h1>
+<p>If using <code class="docutils literal notranslate"><span class="pre">GWDALI</span></code> please cite the release papers bellow</p>
+<section id="release-papers">
+<h2>Release papers<a class="headerlink" href="#release-papers" title="Link to this heading">¶</a></h2>
+<p>Here you find the <span class="math notranslate nohighlight">\({\rm BibT}_{\rm \Large E}{\rm X}\)</span> records of the release papers</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">de2023gwdali</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{GWDALI: Gravitational wave parameter estimation}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{de Souza, Josiel Mendon{\c{c}}a Soares and Sturani, Riccardo}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{Astrophysics Source Code Library}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{ascl--2307}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2023}</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
 </div>
-<p>where the brackets <span class="math notranslate nohighlight">\(\langle \cdot | \cdot\rangle\)</span> denote the scalar product:</p>
-<div class="math-wrapper docutils container">
-<div class="math notranslate nohighlight">
-\[\langle A|B \rangle \equiv \sum_{a=1}^{N_{dets}} 4\Re \left\{ \int_0^{\infty} \frac{\tilde{A}_a^*\tilde{B}_a(f)}{S_{n,a}(f)}df \right\}\]</div>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">de2026use</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{On the use of the Derivative Approximation for Likelihoods for gravitational wave inference}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{de Souza, Josiel Mendon{\c{c}}a Soares and Quartin, Miguel}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{Journal of Cosmology and Astroparticle Physics}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="p">=</span><span class="s">{05}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{101}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">publisher</span><span class="p">=</span><span class="s">{IOP Publishing}</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
 </div>
-<p>and the <span class="math notranslate nohighlight">\(\Delta\theta^{i..n}\)</span> are the products among best-fit parameters displacements:</p>
-<div class="math-wrapper docutils container">
-<div class="math notranslate nohighlight">
-\[\begin{split}\Delta\theta^i =&amp; \theta^i-\theta_0^i  \\
-\Delta\theta^{ij} =&amp; \Delta\theta^i\cdot\Delta\theta^j  \\
-\Delta\theta^{ij..m} =&amp; \Delta\theta^{i}\cdot\Delta\theta^j\cdots\Delta\theta^m\end{split}\]</div>
-</div>
-<p>GWDALI deals with derivatives on two methods:</p>
-<ul class="simple">
-<li><ol class="arabic simple">
-<li><p><strong>numerical derivatives</strong> with <strong>finite differences</strong>, and</p></li>
-</ol>
-</li>
-<li><ol class="arabic simple" start="2">
-<li><p><strong>automatic differentiation</strong> with <a class="reference external" href="https://github.com/google/jax">JAX</a>.</p></li>
-</ol>
-</li>
-</ul>
+</section>
 </section>
 
         </article>
@@ -300,23 +287,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="priors.html">
+          <a class="next-page" href="license.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Priors</div>
+                <div class="title">License</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="api_detector-utils.html">
+          <a class="prev-page" href="papers.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Detector Utilities</div>
+                <div class="title">List of papers using GWDALI</div>
                 
               </div>
             </a>
@@ -338,8 +325,27 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Citation</a><ul>
+<li><a class="reference internal" href="#release-papers">Release papers</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

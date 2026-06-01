@@ -1,0 +1,12 @@
+=================================  
+List of papers using GWDALI
+=================================
+
+* Menote, R., & Marra, V. (2026). **Probing cosmology with bright sirens from the CosmoDC2_BCO LSST synthetic catalog.** `Journal of Cosmology and Astroparticle Physics, 2026(02), 052. <https://iopscience.iop.org/article/10.1088/1475-7516/2026/02/052>`_
+* Menote, R., Marra, V., Sturani, R., Andrade-Oliveira, F., & Bom, C. R. (2026). **Gravitational-wave and electromagnetic detections in the context of the CosmoDC2 LSST synthetic catalog.** `Monthly Notices of the Royal Astronomical Society, stag074. <https://academic.oup.com/mnras/article/547/1/stag074/8425367?login=true>`_
+* de Souza, J. M. S., & Quartin, M. (2026). **On the use of the Derivative Approximation for Likelihoods for gravitational wave inference.** `Journal of Cosmology and Astroparticle Physics, 2026(05), 101. <https://iopscience.iop.org/article/10.1088/1475-7516/2026/05/101>`_
+* Chen, A. (2025). **Measuring the cosmic dipole with golden dark sirens in the era of next-generation ground-based gravitational wave detectors.** `Journal of Cosmology and Astroparticle Physics, 2025(07), 076. <https://iopscience.iop.org/article/10.1088/1475-7516/2025/07/076>`_
+* Abac, A., et al. (2026). **The science of the Einstein telescope.** `Journal of Cosmology and Astroparticle Physics, 2026(03), 081. <https://iopscience.iop.org/article/10.1088/1475-7516/2026/03/081>`_
+* Ferri, J., Tashiro, I. L., Abramo, L. R., Matos, I., Quartin, M., & Sturani, R. (2025). **A robust cosmic standard ruler from the cross-correlations of galaxies and dark sirens.** `Journal of Cosmology and Astroparticle Physics, 2025(04), 008. <https://iopscience.iop.org/article/10.1088/1475-7516/2025/04/008>`_
+* Matos, I., Quartin, M., Amendola, L., Kunz, M., & Sturani, R. (2024). **A model-independent tripartite test of cosmic distance relations.** `Journal of Cosmology and Astroparticle Physics, 2024(08), 007. <https://iopscience.iop.org/article/10.1088/1475-7516/2024/08/007/meta?casa_token=oJOHD9_pxO0AAAAA:u2am4Au5zYExVV3ck0SRTk1-OJzEpfi4G3SgzslH4geo0RKdNBXDZcMqSwbQ9nIr7WYYcRFwbGfGBT-kYkMZXYvR8-0F>`_
+* de Souza, J. M. S., & Sturani, R. (2023). **GWDALI: A Fisher-matrix based software for gravitational wave parameter-estimation beyond Gaussian approximation.** `Astronomy and Computing, 45, 100759. <https://www.sciencedirect.com/science/article/pii/S2213133723000744>`_

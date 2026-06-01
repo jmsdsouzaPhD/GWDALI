@@ -36,6 +36,8 @@ To install the software run the command below:
     gw_sources
     detectors
     examples
+    papers
+    citation
     license
     author
 
