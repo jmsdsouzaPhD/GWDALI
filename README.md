@@ -14,17 +14,61 @@ References: [arXiv:1401.6892](https://arxiv.org/abs/1401.6892) and [arXiv:2203.0
 
 ## Installation
 
-To install the software run the command below (in preparation to PyPI submission):
+To install the software run the command below:
 
 ```
-git clone https://github.com/jmsdsouzaPhD/GWDALI.git
-cd GWDALI/package/
-pip install -e .
+pip install gwdali
 ```
+
+## Requirements
+
+### JAX
+
+The new version of **GWDALI** uses **JAX** to accelerate the computation of waveforms, derivatives, and likelihoods.
+
+We strongly recommend installing **JAX** with *conda* before installing **GWDALI**:
+
+```
+conda install -c conda-forge jax
+```
+
+Please make sure that **JAX** is installed before running:
+
+```
+pip install gwdali
+```
+
+Otherwise, pip will attempt to install **JAX** and its dependencies automatically, which may lead to issues with jaxlib on some systems. For more information, see the official [JAX installation guide](https://docs.jax.dev/en/latest/installation.html).
+
+### lalsuite/lalsimulation
+
+To be able to use **LAL** waveforms to compute GW polarizations/strains install the packages [lalsuite, lalsimulation](https://wiki.ligo.org/Computing/LALSuite). It is recommended to use *conda*.
+
+```
+conda install lalsuite -c conda-forge
+conda install lalsimulation -c conda-forge
+```
+
+## Documentation
+
+Available in [https://gwdali.readthedocs.io/en/latest/](https://gwdali.readthedocs.io/en/latest/)
+    
+## Functionalities
+
+- **get_hphx()**: It returns plus/cross polarizations in the frequency space (SPA);
+- **get_strain()**: It retuns detector strains (signals) in the frequency space;
+- **get_SNR()**: It retuns detector-network signal-to-noise ratios (individuals and net);
+- **draw_detectors()**: It returns a world map showing the chosen detector network configuration;
+- **get_derivatives()**: It returns detector signal derivatives;
+- **get_tensors()**: It returns DALI tensors including Fisher matrix;
+- **Priors()**: Check/Visualize priors to be used in Posterior evaluations;
+- **GWDALI()**: Get MCMC/Fisher-Inversion Samples or Posterior-Grid Arrays;
 
 ## Authors
 
 - **Josiel Mendonça Soares de Souza** (developer)
+- **Riccardo Sturani** (collaborator)
+- **Miguel Quartin** (collaborator)
 
 ## License
 
