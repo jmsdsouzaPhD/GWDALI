@@ -210,8 +210,6 @@
 <li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="papers.html">List of papers using GWDALI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
@@ -267,9 +265,27 @@ Check our papers in <a class="reference external" href="https://arxiv.org/abs/23
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
 <p>To install the software run the command below:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/jmsdsouzaPhD/GWDALI.git</span>
-<span class="go">cd GWDALI/package/</span>
-<span class="go">pip install -e .</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install gwdali</span>
+</pre></div>
+</div>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<section id="jax">
+<h3>JAX<a class="headerlink" href="#jax" title="Link to this heading">¶</a></h3>
+<p>The new version of <strong>GWDALI</strong> uses <a class="reference external" href="https://docs.jax.dev/en/latest/">JAX</a> to accelerate the computation of waveforms and likelihoods as well as to compute derivatives via automatic-differentiation (autodiff).</p>
+<p>We strongly recommend installing <strong>JAX</strong> with <em>conda</em> before installing <strong>GWDALI</strong>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda install -c conda-forge jax</span>
+</pre></div>
+</div>
+<p>Please make sure that <strong>JAX</strong> is installed before running <strong>pip install gwdali</strong></p>
+<p>Otherwise, pip will attempt to install <strong>JAX</strong> and its dependencies automatically, which may lead to issues with jaxlib on some systems. For more information, see the official <a class="reference external" href="https://docs.jax.dev/en/latest/installation.html">JAX installation guide</a>.</p>
+</section>
+<section id="lalsuite-lalsimulation">
+<h3>lalsuite/lalsimulation<a class="headerlink" href="#lalsuite-lalsimulation" title="Link to this heading">¶</a></h3>
+<p>To be able to use <strong>LAL</strong> waveforms to compute GW polarizations/strains install the packages <a class="reference external" href="https://wiki.ligo.org/Computing/LALSuite">lalsuite, lalsimulation</a>. It is recommended to use <em>conda</em>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda install lalsuite -c conda-forge</span>
+<span class="go">conda install lalsimulation -c conda-forge</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
@@ -309,15 +325,11 @@ Check our papers in <a class="reference external" href="https://arxiv.org/abs/23
 <li class="toctree-l2"><a class="reference internal" href="examples.html#top-down-python-codes-py">Top-Down Python Codes (.py)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="papers.html">List of papers using GWDALI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="citation.html#release-papers">Release papers</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
 </div>
+</section>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
@@ -379,6 +391,11 @@ Check our papers in <a class="reference external" href="https://arxiv.org/abs/23
             <ul>
 <li><a class="reference internal" href="#">GWDALI Software (version 1.0)</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#jax">JAX</a></li>
+<li><a class="reference internal" href="#lalsuite-lalsimulation">lalsuite/lalsimulation</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>

@@ -22,9 +22,37 @@ To install the software run the command below:
 
 .. code-block:: console
 
-    git clone https://github.com/jmsdsouzaPhD/GWDALI.git
-    cd GWDALI/package/
-    pip install -e .
+    pip install gwdali
+
+*********************************
+Requirements
+*********************************
+
+JAX
+---
+
+The new version of **GWDALI** uses `JAX <https://docs.jax.dev/en/latest/>`_ to accelerate the computation of waveforms and likelihoods as well as to compute derivatives via automatic-differentiation (autodiff).
+
+We strongly recommend installing **JAX** with *conda* before installing **GWDALI**:
+
+.. code-block:: console
+
+    conda install -c conda-forge jax
+
+Please make sure that **JAX** is installed before running **pip install gwdali**
+
+Otherwise, pip will attempt to install **JAX** and its dependencies automatically, which may lead to issues with jaxlib on some systems. For more information, see the official `JAX installation guide <https://docs.jax.dev/en/latest/installation.html>`_.
+
+lalsuite/lalsimulation
+----------------------
+
+To be able to use **LAL** waveforms to compute GW polarizations/strains install the packages `lalsuite, lalsimulation <https://wiki.ligo.org/Computing/LALSuite>`_. It is recommended to use *conda*.
+
+.. code-block:: console
+
+    conda install lalsuite -c conda-forge
+    conda install lalsimulation -c conda-forge
+
 
 .. toctree::
     :maxdepth: 2
@@ -36,8 +64,6 @@ To install the software run the command below:
     gw_sources
     detectors
     examples
-    papers
-    citation
     license
     author
 
