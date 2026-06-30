@@ -100,3 +100,12 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## Aknowledgements
+
+This work was partialy suported by:
+- Coordenação de Aperfeiçoamente de Pessoal de Ensino Superior (CAPES);
+- Fundação Carlos Chargas Filho de Amparo à Pesquisa do Estado do Rio de Janeiro (FAPERJ);
+- Fundação de Amparo à Pesquisa e Inovação do Espírito Santo (FAPES);
+
+The authors also thank Davi Rodrigues (UFES) for usefull discussions.
