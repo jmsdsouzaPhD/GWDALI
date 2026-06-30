@@ -9,7 +9,7 @@ To setting the properties of a given detector, create a python dictionary with t
    :param str name: Name of detector among ("ET","CE","CE_20km","CE_40km","LIGO","Virgo","KAGRA");
    :param float lon: Longitude;
    :param float lat: Latitude;
-   :param float rot: Orientation anti-clockwise starting in 0° from the detector bissetiz aligned to the Noth-South direction;
+   :param float rot: Counter-clockwise orientation angle (in degrees). For the standard L-shaped interferometer (shape=90°), rot=0° corresponds to one arm pointing South and the other East, so that the detector bisector points South-East. For arbitrary arm opening angles (shape ≠ 90°), the bisector orientation remains fixed while the two arms rotate symmetrically by ±shape/2 around it.
    :param float shape: Openning angle of the interferometer's arms.
 
 **Example**:
@@ -31,5 +31,3 @@ Detectors Sensitivity
    :alt: sensitivity
    :align: center
    :scale: 80%
-
-See `detectors sensitivities files <https://github.com/jmsdsouzaPhD/GWDALI/tree/main/package/GWDALI/Sensitivities>`_.

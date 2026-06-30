@@ -210,8 +210,6 @@
 <li class="toctree-l1"><a class="reference internal" href="gw_sources.html">GW Source Characterization</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Detectors (Position/Orientation/Shape)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="papers.html">List of papers using GWDALI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="author.html">About the Author</a></li>
 </ul>
@@ -264,7 +262,7 @@
 <li><p><strong>name</strong> (<em>str</em>) – Name of detector among (“ET”,”CE”,”CE_20km”,”CE_40km”,”LIGO”,”Virgo”,”KAGRA”);</p></li>
 <li><p><strong>lon</strong> (<em>float</em>) – Longitude;</p></li>
 <li><p><strong>lat</strong> (<em>float</em>) – Latitude;</p></li>
-<li><p><strong>rot</strong> (<em>float</em>) – Orientation anti-clockwise starting in 0° from the detector bissetiz aligned to the Noth-South direction;</p></li>
+<li><p><strong>rot</strong> (<em>float</em>) – Counter-clockwise orientation angle (in degrees). For the standard L-shaped interferometer (shape=90°), rot=0° corresponds to one arm pointing South and the other East, so that the detector bisector points South-East. For arbitrary arm opening angles (shape ≠ 90°), the bisector orientation remains fixed while the two arms rotate symmetrically by ±shape/2 around it.</p></li>
 <li><p><strong>shape</strong> (<em>float</em>) – Openning angle of the interferometer’s arms.</p></li>
 </ul>
 </dd>
@@ -283,7 +281,6 @@
 <figure class="align-center">
 <a class="reference internal image-reference" href="_images/Sensitivity.png"><img alt="sensitivity" src="_images/Sensitivity.png" style="width: 640.0px; height: 480.0px;" /></a>
 </figure>
-<p>See <a class="reference external" href="https://github.com/jmsdsouzaPhD/GWDALI/tree/main/package/GWDALI/Sensitivities">detectors sensitivities files</a>.</p>
 </section>
 </section>
 
