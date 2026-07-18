@@ -1,6 +1,10 @@
 # All notable changes to this project will be documented in this file.
 
-## [1.0] - 2026-05-14
+## [1.0.1] - 2026-07-18
+### Fixed
+- Missing files on PyPI publications (lib/ and files txt, csv and png)
+
+## [1.0] - 2026-06-16
 ### Added
 - Refomulating GWDALI to be JAX friendly
 - Implementation of automatic-differentiation (autodiff)

@@ -14,40 +14,34 @@ References: [arXiv:1401.6892](https://arxiv.org/abs/1401.6892) and [arXiv:2203.0
 
 ## Installation
 
-To install the software run the command below:
+Install GWDALI from PyPI with
 
-```
+```bash
 pip install gwdali
 ```
 
-## Requirements
+This command also installs the required Python dependencies, including JAX.
 
-### JAX
+## Additional Requirements
 
-The new version of **GWDALI** uses **JAX** to accelerate the computation of waveforms, derivatives, and likelihoods.
+GWDALI depends on **JAX** for automatic differentiation, JIT-accelerated likelihood evaluations, and several internal numerical routines.
 
-We strongly recommend installing **JAX** with *conda* before installing **GWDALI**:
+For most systems, `pip install gwdali` installs JAX automatically.
 
-```
+If the JAX installation through `pip` fails (for example on older CPUs without AVX support or on specific hardware platforms), install JAX manually following the official JAX installation instructions or using **conda-forge**, and then install GWDALI.
+
+```bash
 conda install -c conda-forge jax
 ```
 
-Please make sure that **JAX** is installed before running:
+If you intend to use **LAL waveform models**, install **LALSuite** as well:
 
+```bash
+conda install -c conda-forge lalsuite
+conda install -c conda-forge lalsimulation
 ```
-pip install gwdali
-```
 
-Otherwise, pip will attempt to install **JAX** and its dependencies automatically, which may lead to issues with jaxlib on some systems. For more information, see the official [JAX installation guide](https://docs.jax.dev/en/latest/installation.html).
-
-### lalsuite/lalsimulation
-
-To be able to use **LAL** waveforms to compute GW polarizations/strains install the packages [lalsuite, lalsimulation](https://wiki.ligo.org/Computing/LALSuite). It is recommended to use *conda*.
-
-```
-conda install lalsuite -c conda-forge
-conda install lalsimulation -c conda-forge
-```
+The waveform models implemented directly in GWDALI do **not** require LALSuite.
 
 ## Documentation
 
@@ -56,13 +50,29 @@ Available in [https://gwdali.readthedocs.io/en/latest/](https://gwdali.readthedo
 ## Functionalities
 
 - **get_hphx()**: It returns plus/cross polarizations in the frequency space (SPA);
-- **get_strain()**: It retuns detector strains (signals) in the frequency space;
-- **get_SNR()**: It retuns detector-network signal-to-noise ratios (individuals and net);
+- **get_strain()**: It returns detector strains (signals) in the frequency space;
+- **get_SNR()**: It returns detector-network signal-to-noise ratios (individuals and net);
 - **draw_detectors()**: It returns a world map showing the chosen detector network configuration;
 - **get_derivatives()**: It returns detector signal derivatives;
 - **get_tensors()**: It returns DALI tensors including Fisher matrix;
 - **Priors()**: Check/Visualize priors to be used in Posterior evaluations;
-- **GWDALI()**: Get MCMC/Fisher-Inversion Samples or Posterior-Grid Arrays;
+- **GWDALI()**: Returns MCMC samples, Fisher-inversion samples, or posterior grid arrays.
+
+Check [https://gwdali.readthedocs.io/en/latest/examples.html](https://gwdali.readthedocs.io/en/latest/examples.html) for usage examples.
+
+## References
+
+**[1]** de Souza, J. M. S., & Sturani, R. (2023). GWDALI: A Fisher-matrix based software for gravitational wave parameter-estimation beyond Gaussian approximation. Astronomy and Computing, 45, 100759.
+
+**[2]** de Souza, J. M. S., & Quartin, M. (2026). On the use of the Derivative Approximation for Likelihoods for gravitational wave inference. Journal of Cosmology and Astroparticle Physics, 2026(05), 101.
+
+**[3]** Finn, L. S., & Chernoff, D. F. (1993). Observing binary inspiral in gravitational radiation: One interferometer. Physical Review D, 47(6), 2198.
+
+**[4]** de Souza, J. M. S., & Sturani, R. (2023). Luminosity distance uncertainties from gravitational wave detections of binary neutron stars by third generation observatories. Physical Review D, 108(4), 043027.
+
+**[5]** Sellentin, E., Quartin, M., & Amendola, L. (2014). Breaking the spell of Gaussianity: forecasting with higher order Fisher matrices. Monthly Notices of the Royal Astronomical Society, 441(2), 1831-1840.
+
+**[6]** Wang, Z., Liu, C., Zhao, J., & Shao, L. (2022). Extending the Fisher information matrix in gravitational-wave data analysis. The Astrophysical Journal, 932(2), 102.
 
 ## Authors
 
