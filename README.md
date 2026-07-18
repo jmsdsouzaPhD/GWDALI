@@ -113,9 +113,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Aknowledgements
 
-This work was partialy suported by:
-- Coordenação de Aperfeiçoamente de Pessoal de Ensino Superior (CAPES);
-- Fundação Carlos Chargas Filho de Amparo à Pesquisa do Estado do Rio de Janeiro (FAPERJ);
+This work was partialy suported by the Brazilian agencies:
+- Coordenação de Aperfeiçoamento de Pessoal de Nível Superior (CAPES);
+- Fundação Carlos Chagas Filho de Amparo à Pesquisa do Estado do Rio de Janeiro (FAPERJ);
 - Fundação de Amparo à Pesquisa e Inovação do Espírito Santo (FAPES);
 
 The authors also thank Davi Rodrigues (UFES) for usefull discussions.
